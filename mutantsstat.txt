@@ -1,0 +1,66 @@
+** Generating fire-mutations..
+   > Floor 0
+     zone {'x1': 0, 'y1': 0, 'x2': 23, 'y2': 16}
+       RF-
+       AW2WF-
+       AMRF-
+     zone {'x1': 24, 'y1': 0, 'x2': 47, 'y2': 16}
+       RF+ removing 7 fire-tiles in Wave-the-flag_MRF_f0_z24_0
+       AW2WF-
+       AMRF+ adding 6 fire-tiles in Wave-the-flag_MAMRF_f0_z24_0
+     zone {'x1': 48, 'y1': 0, 'x2': 71, 'y2': 16}
+       RF+ removing 5 fire-tiles in Wave-the-flag_MRF_f0_z48_0
+       AW2WF+ adding 6 fire-tiles in Wave-the-flag_MAW2WF_f0_z48_0
+       AMRF-
+     zone {'x1': 72, 'y1': 0, 'x2': 96, 'y2': 16}
+       RF-
+       AW2WF-
+       AMRF-
+     zone {'x1': 0, 'y1': 17, 'x2': 23, 'y2': 33}
+       RF-
+       AW2WF-
+       AMRF-
+     zone {'x1': 24, 'y1': 17, 'x2': 47, 'y2': 33}
+       RF-
+       AW2WF+ adding 6 fire-tiles in Wave-the-flag_MAW2WF_f0_z24_17
+       AMRF-
+     zone {'x1': 48, 'y1': 17, 'x2': 71, 'y2': 33}
+       RF+ removing 2 fire-tiles in Wave-the-flag_MRF_f0_z48_17
+       AW2WF+ adding 6 fire-tiles in Wave-the-flag_MAW2WF_f0_z48_17
+       AMRF-
+     zone {'x1': 72, 'y1': 17, 'x2': 96, 'y2': 33}
+       RF-
+       AW2WF+ adding 6 fire-tiles in Wave-the-flag_MAW2WF_f0_z72_17
+       AMRF-
+     zone {'x1': 0, 'y1': 34, 'x2': 23, 'y2': 50}
+       RF+ removing 1 fire-tiles in Wave-the-flag_MRF_f0_z0_34
+       AW2WF+ adding 6 fire-tiles in Wave-the-flag_MAW2WF_f0_z0_34
+       AMRF-
+     zone {'x1': 24, 'y1': 34, 'x2': 47, 'y2': 50}
+       RF-
+       AW2WF-
+       AMRF-
+     zone {'x1': 48, 'y1': 34, 'x2': 71, 'y2': 50}
+       RF-
+       AW2WF+ adding 6 fire-tiles in Wave-the-flag_MAW2WF_f0_z48_34
+       AMRF-
+     zone {'x1': 72, 'y1': 34, 'x2': 96, 'y2': 50}
+       RF-
+       AW2WF+ adding 6 fire-tiles in Wave-the-flag_MAW2WF_f0_z72_34
+       AMRF-
+     zone {'x1': 0, 'y1': 51, 'x2': 23, 'y2': 69}
+       RF+ removing 7 fire-tiles in Wave-the-flag_MRF_f0_z0_51
+       AW2WF+ adding 6 fire-tiles in Wave-the-flag_MAW2WF_f0_z0_51
+       AMRF+ adding 6 fire-tiles in Wave-the-flag_MAMRF_f0_z0_51
+     zone {'x1': 24, 'y1': 51, 'x2': 47, 'y2': 69}
+       RF-
+       AW2WF+ adding 6 fire-tiles in Wave-the-flag_MAW2WF_f0_z24_51
+       AMRF+ adding 6 fire-tiles in Wave-the-flag_MAMRF_f0_z24_51
+     zone {'x1': 48, 'y1': 51, 'x2': 71, 'y2': 69}
+       RF-
+       AW2WF+ adding 6 fire-tiles in Wave-the-flag_MAW2WF_f0_z48_51
+       AMRF-
+     zone {'x1': 72, 'y1': 51, 'x2': 96, 'y2': 69}
+       RF-
+       AW2WF-
+       AMRF-
