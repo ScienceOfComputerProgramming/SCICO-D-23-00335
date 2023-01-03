@@ -46,16 +46,16 @@
       <scope>test</scope>
     </dependency>
     -->
-            <dependency>
+        <dependency>
             <groupId>com.github.iv4xr-project</groupId>
             <artifactId>aplib</artifactId>
             <version>1.4.2</version>
         </dependency>
-<!--         <dependency>
-            <groupId>eu.iv4xr.framework</groupId>
+        <dependency>
+            <groupId>com.github.iv4xr-project</groupId>
             <artifactId>jocc</artifactId>
             <version>1.0</version>
-        </dependency> -->
+        </dependency> 
         <dependency>
          	<groupId>com.github.iv4xr-project</groupId>
     		<artifactId>iv4xrdemo</artifactId>

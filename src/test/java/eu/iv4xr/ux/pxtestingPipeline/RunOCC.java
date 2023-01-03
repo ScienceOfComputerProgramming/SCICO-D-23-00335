@@ -83,16 +83,31 @@ import java.util.*;
  */
  
 // to run this, first you need to create the level model by running MC/SBtest_Generation. 
-public class Model_based_pxtesting {
+public class RunOCC {
 
 	protected EFSM efsm_copy;
+	
+	boolean withGraphics = false ;
 
+	private String autoGetLevelName(String modelFolder) {
+		File[] files = new File(modelFolder).listFiles() ;
+		for (File f : files) {
+			String name = f.getName() ;
+			if (name.endsWith(".csv")) {
+				return name.substring(0, name.length() - 4) ;
+			}
+		}
+		return null;
+	}
+	
+	
 	@Test
     public void runGeneratedTests() throws IOException {
 
 	    String rootFolder = new File(System.getProperty("user.dir")).getParent();
         String testFolder = rootFolder + File.separator + "Combinedtest";
         String modelFolder = testFolder + File.separator + "Model";
+        String traceFolder = rootFolder + File.separator + "traces";
         String labRecruitesExeRootDir = rootFolder + File.separator + "iv4xrDemo";
         
 		//get goal state			
@@ -105,7 +120,6 @@ public class Model_based_pxtesting {
 				goalstate=state_ ;
 			}
 		} ;
-		
 		
         // load tests from file
         Map<String,MBTChromosome> loadedSolution = set.parseTests(testFolder);
@@ -154,12 +168,15 @@ public class Model_based_pxtesting {
 
 		
         // open the server
-        LabRecruitsTestServer testServer = new LabRecruitsTestServer(false,
+        LabRecruitsTestServer testServer = new LabRecruitsTestServer(withGraphics,
                 Platform.PathToLabRecruitsExecutable(labRecruitesExeRootDir));
         // set the configuration of the server 
         // level file name is hard coded in writeModel but can be changed
-        LabRecruitsConfig lrCfg = new LabRecruitsConfig("NWave-the-flag_MAW2WF_f0_z72_34", modelFolder);
-        levelsize lrsize= new levelsize(CSVlevelImport.ImportFromCSV("NWave-the-flag_MAW2WF_f0_z72_34", modelFolder));    
+        //String levelname = "flag_MAW2WF_f0_z72_34" ;
+        String levelname = autoGetLevelName(modelFolder) ;
+        
+        LabRecruitsConfig lrCfg = new LabRecruitsConfig(levelname, modelFolder);
+        levelsize lrsize= new levelsize(CSVlevelImport.ImportFromCSV(levelname, modelFolder));    
         
         // convert test cases in loadedSolution to goal structure: use the test case executor to convert
         LabRecruitsTestSuiteExecutor lrExecutor = new LabRecruitsTestSuiteExecutor(rootFolder, testFolder, modelFolder, null);
@@ -244,7 +261,8 @@ public class Model_based_pxtesting {
                 t++ ;
              }          
             //save triggered emotions in the efsm model.
-            exportToCSV(emodata.csvData_goalQuestIsCompleted, "data_goalQuestCompleted_"+ test.getKey()+".csv");
+            //exportToCSV(emodata.csvData_goalQuestIsCompleted, "data_goalQuestCompleted_"+ test.getKey()+".csv");
+            exportToCSV(emodata.csvData_goalQuestIsCompleted, traceFolder + File.separator + "data_goalQuestCompleted_"+ test.getKey()+".csv");
             //exportToCSV(emodata.csvData_goalGetMuchPoints, "data_goalGetMuchPoints_"+i+".csv");
 
             
