@@ -37,6 +37,28 @@ px-mbt
    * `traces`: if you want to re-run the test suites, the produced emotion traces will be placed in this folder.
    * `iv4xrDemo`: containing the System under Test executable.
 
+## Steps to take in the FASE 2022 VM
+
+This assumes you have the VM already installed. Else, you can get it from here: https://zenodo.org/record/7446277#.Y7Q2Z-zMJTY
+
+1. unzip this artifact in your computer, and share its root folder `px-mbt` to the VM. Mount it e.g. at the location `/home/fase2023/px-mbt` in the VM.
+
+2. We need maven in the VM, so do:
+
+```
+> sudo apt update
+> sudo apt install maven
+```
+
+3. We also need some Python packages:
+
+```
+> python3 -m pip install -U matplotlib
+```
+
+4. That's it, the VM is now ready to run the experiments.
+
+
 ## Building the java classes
 
 They should be pre-built and included in the zip. But just in case you need to rebuild, go to `eplaytesting-pipeline` then just do `mvn clean` followed by `mvn compile`.
