@@ -40,6 +40,17 @@ px-mbt
    * `traces`: if you want to re-run the test suites, the produced emotion traces will be placed in this folder.
    * `iv4xrDemo`: containing the System under Test executable.
 
+## Hardware Requirment
+
+
+Experiments were run on a machine with the following specifiacrtion:
+  * 8th generation Intel Core i7 processor
+  * 32 GB RAM
+  * 1.8 GHz CPU
+We recommend to use at least:
+  * Intel Core i5
+  * 8 GB Ram.
+
 ## Steps to take in the FASE 2022 VM
 
 This assumes you have the VM already installed. Else, you can get it from here: https://zenodo.org/record/7446277#.Y7Q2Z-zMJTY
