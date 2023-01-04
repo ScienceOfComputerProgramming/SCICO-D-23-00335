@@ -21,6 +21,7 @@ px-mbt
  |-MCtest
  |-Combinedtest
  |-traces
+ |-fixedtraces
  |-iv4xrDemo
  |  |-gym
  |-mavenrepo
@@ -45,7 +46,7 @@ This assumes you have the VM already installed. Else, you can get it from here: 
 
 1. unzip this artifact in your computer, and share its root folder `px-mbt` to the VM. Mount it to your home directory in the VM. For example, if your home is `/home/fase2023` then mount the artifact-root folder to the location `/home/fase2023/px-mbt` in the VM.
 
-2. Create an `.m2` folder for Maven, and set it to use a directory in the artifact as its repository. So, go to the folder `px-mbt` and do:
+2. Create an `.m2` folder for Maven, and set it to use a folder in the artifact as its repository; this folder is pre-populated with the needed Java jars for the experiments. So, go to the folder `px-mbt` and do:
 
 ```
 > mkdir ~/.m2
@@ -155,9 +156,21 @@ To run test cases and generate emotion traces the steps:
    > mvn test -Dtest=eu.iv4xr.ux.pxtestingPipeline.RunOCC
    ```
 
+   The test cases will be run on the SUT without graphics. If you want to see the graphics, turn on the flag `withGraphics` in the class `RunOCC` (the one that you run above) to `true`.
+
    The resulting trace-files are placed in `eplaytesting-pipeline`. They are named `data_goalQuestCompleted_xxx.csv`
 
-Note: the above is NOT a JUnit test, we just use its runner for convenience.  
+
+
+Note-1: the above is NOT a JUnit test, we just use its runner for convenience.  
+
+Note-2: the interface to the SUT does not allow a synchronous control over the SUT. Because of this the test agent might get stuck e.g. around a sticking corner. If you suspect this might be an issue, you can run a testcase-run fixer. It will check the trace-files if they look strange. The test-cases whose traces look strange will be re-run. To run the fixer:
+
+```
+mvn test -Dtest=eu.iv4xr.ux.pxtestingPipeline.TestcasesExecRepair
+```
+
+The resulting fixed trace can be found in the folder `fixedtraces`.
 
 ## Step-3: run PX analyses
 

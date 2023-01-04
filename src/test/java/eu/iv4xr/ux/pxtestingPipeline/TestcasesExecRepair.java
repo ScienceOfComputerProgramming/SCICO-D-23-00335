@@ -121,16 +121,20 @@ import static agents.tactics.MyGoalAndTacticLib.* ;
  *  The 2 is the maximum number of retries for the stuck-cases.    
  * 
  */ 
-public class TestcaseExecRepair {
+public class TestcasesExecRepair {
+	
+	boolean withGraphics = false ;
 
 	// locations:
 	String rootFolder   = new File(System.getProperty("user.dir")).getParent();
     String testFolder   = rootFolder + File.separator + "Combinedtest";
-	String emoTraceFolder = new File(System.getProperty("user.dir")).getAbsolutePath() ;
-	String fixedEmoTraceFolder = emoTraceFolder + File.separator + "fixedtraces" ;
-    String save         = testFolder + File.separator + "selectedtest";
+    //String emoTraceFolder = new File(System.getProperty("user.dir")).getAbsolutePath() ;
+	String emoTraceFolder = rootFolder + File.separator + "traces"; ;
+	//String fixedEmoTraceFolder = emoTraceFolder + File.separator + "fixedtraces" ;
+	String fixedEmoTraceFolder = rootFolder + File.separator + "fixedtraces" ;
+    //String save         = testFolder + File.separator + "selectedtest";
     String modelFolder  = testFolder + File.separator + "Model";
-    String UdpateFolder = testFolder + File.separator + "UpdatedModel";
+    //String UdpateFolder = testFolder + File.separator + "UpdatedModel";
     String labRecruitesExeRootDir = rootFolder + File.separator + "iv4xrDemo";
     
     String emoTraceFileNamePrefix = "data_goalQuestCompleted_" ;
@@ -142,7 +146,7 @@ public class TestcaseExecRepair {
     levelsize lrsize ;
 	LabRecruitsTestSuiteExecutor lrExecutor = new LabRecruitsTestSuiteExecutor(rootFolder, testFolder, modelFolder, null);
 	
-	public TestcaseExecRepair() { }
+	public TestcasesExecRepair() { }
 	
 	/**
 	 * The test-fixer needs to know the target Lab-recruit. Set it with this. 
@@ -578,6 +582,12 @@ public class TestcaseExecRepair {
 		testServer.close();
 	}
 	
+	@Test
+	public void runRepair() throws IOException {
+		String levelName = Utils.autoGetLevelName(modelFolder) ;
+		fixTestCasesRuns(withGraphics,levelName,500,500,2000,2);
+	}
+	
 	// Just for testing the APIs:
 	public static void main(String[] args) throws IOException {
 		
@@ -593,7 +603,7 @@ public class TestcaseExecRepair {
 		//new TestcaseExecRepair() . cobaRunOneTest() ;
 		//new TestcaseExecRepair() . prepareOutputDirs();
 		
-		new TestcaseExecRepair()
+		new TestcasesExecRepair()
 		. fixTestCasesRuns(false,"Wave-the-flag_MRF_f0_z0_51",500,500,2000,2);
 		
 	}

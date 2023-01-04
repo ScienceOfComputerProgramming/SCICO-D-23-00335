@@ -88,18 +88,6 @@ public class RunOCC {
 	protected EFSM efsm_copy;
 	
 	boolean withGraphics = false ;
-
-	private String autoGetLevelName(String modelFolder) {
-		File[] files = new File(modelFolder).listFiles() ;
-		for (File f : files) {
-			String name = f.getName() ;
-			if (name.endsWith(".csv")) {
-				return name.substring(0, name.length() - 4) ;
-			}
-		}
-		return null;
-	}
-	
 	
 	@Test
     public void runGeneratedTests() throws IOException {
@@ -173,7 +161,7 @@ public class RunOCC {
         // set the configuration of the server 
         // level file name is hard coded in writeModel but can be changed
         //String levelname = "flag_MAW2WF_f0_z72_34" ;
-        String levelname = autoGetLevelName(modelFolder) ;
+        String levelname = Utils.autoGetLevelName(modelFolder) ;
         
         LabRecruitsConfig lrCfg = new LabRecruitsConfig(levelname, modelFolder);
         levelsize lrsize= new levelsize(CSVlevelImport.ImportFromCSV(levelname, modelFolder));    
