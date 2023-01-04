@@ -47,6 +47,7 @@ Experiments were run on a machine with the following specifiacrtion:
   * 8th generation Intel Core i7 processor
   * 32 GB RAM
   * 1.8 GHz CPU
+
 We recommend to use at least:
   * Intel Core i5
   * 8 GB Ram.
