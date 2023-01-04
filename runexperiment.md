@@ -23,6 +23,8 @@ px-mbt
  |-traces
  |-iv4xrDemo
  |  |-gym
+ |-mavenrepo
+ |-otherNeededSoftware
 ```
 
    * `eplaytesting-pipeline` This contains the Java-project implementing the method  in the paper Ansari et al. It also contains scripts to re-run the experiments in the paper.
@@ -41,23 +43,40 @@ px-mbt
 
 This assumes you have the VM already installed. Else, you can get it from here: https://zenodo.org/record/7446277#.Y7Q2Z-zMJTY
 
-1. unzip this artifact in your computer, and share its root folder `px-mbt` to the VM. Mount it e.g. at the location `/home/fase2023/px-mbt` in the VM.
+1. unzip this artifact in your computer, and share its root folder `px-mbt` to the VM. Mount it to your home directory in the VM. For example, if your home is `/home/fase2023` then mount the artifact-root folder to the location `/home/fase2023/px-mbt` in the VM.
 
-2. We need maven in the VM, so do:
-
-```
-> sudo apt update
-> sudo apt install maven
-```
-
-3. We also need some Python packages:
+2. Create an `.m2` folder for Maven, and set it to use a directory in the artifact as its repository. So, go to the folder `px-mbt` and do:
 
 ```
-> python3 -m pip install -U matplotlib
+> mkdir ~/.m2
+> cp mavenrepo/settings.xml ~/.m2/
 ```
 
-4. That's it, the VM is now ready to run the experiments.
+3. Install maven. The needed package is provided in the artifact. Go to the folder `px-mbt` and do:
 
+```
+> cd ./otherNeededSoftware/maven
+> sudo dpkg -i maven_3.6.3-5_all.deb
+```
+
+Note: if that complains, try to do `sudo apt --fix-broken install`; you  may need to turn on Internet for this.
+
+
+4. We also need some Python packages. Go to the folder `px-mbt` and do:
+
+```
+> cd ./otherNeededSoftware/python
+> pip3 install matplotlib
+```
+
+4. That's it, the VM is now ready to run the experiments. To check if the setup work, Go to the folder `px-mbt` then:
+
+```
+> cd ./eplaytesting-pipeline
+> mvn compile
+```
+
+If this complains, you can turn Internet on, then do `mvn compile` again. Then you can turn off Internet again.
 
 ## Building the java classes
 
@@ -118,7 +137,7 @@ To do player experience analyses we first need to run test cases on the SUT. The
 
 To run test cases and generate emotion traces the steps:
 
-   1. Well, you need test cases. **Select** some or all the test cases from `SBTTest` or/and `MCtest` and **copy** those to the folder `Combinedtest`. **Keep in mind that running them all will take quite some time**; you can perhaps start with just selecting two or three test cases.
+   1. Well, you need test cases. **Select** some or all the test cases from `SBTTest` or/and `MCtest` and **copy** those to the folder `Combinedtest`. **Keep in mind that running them all will take quite some time** (hours!); you can perhaps start with just selecting two or three test cases.
 
    You can run a subset of STB-suite and a subset of MC-suite separately (we did that in the original experiment) if you wonder if they would give different results, or just make a mixed selection.
 
