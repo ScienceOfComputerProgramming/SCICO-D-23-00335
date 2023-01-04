@@ -53,11 +53,13 @@ This assumes you have the VM already installed. Else, you can get it from here: 
 > cp mavenrepo/settings.xml ~/.m2/
 ```
 
+Note: if you are prevented to go into `px-mbt` due to permission denied, try this: `sudo adduser $USER vboxsf`. Reset the VM and then try again.
+
 3. Install maven. The needed package is provided in the artifact. Go to the folder `px-mbt` and do:
 
 ```
 > cd ./otherNeededSoftware/maven
-> sudo dpkg -i maven_3.6.3-5_all.deb
+> sudo dpkg -i *.deb
 ```
 
 Note: if that complains, try to do `sudo apt --fix-broken install`; you  may need to turn on Internet for this.
@@ -67,7 +69,7 @@ Note: if that complains, try to do `sudo apt --fix-broken install`; you  may nee
 
 ```
 > cd ./otherNeededSoftware/python
-> pip3 install matplotlib
+> pip3 install *.whl
 ```
 
 4. That's it, the VM is now ready to run the experiments. To check if the setup work, Go to the folder `px-mbt` then:
@@ -100,7 +102,7 @@ Generally the workflow is as follows:
    * _Step 1:_ generate test suites from an EFSM model of a Lab Recruits level. For reference, the used model and level can be found/viewed in this folder: `eplaytesting-pipeline\Data-Wave the flag level\Level- level EFSM model`. This process is offline (does not require runs on the SUT).
    * _Step 2:_ run (selected) test cases on the SUT. This uses the iv4xr agent Framework along with the OCC Computational Model of Emotion. Running test cases produce emotion traces, showing the intensity of various emotions through the runs, as calculated by the OCC model.
    * _Step 2b:_ apply trace-fixing.
-   * _Step 3:_ apply Player Experience (PX) analyses on the resulting emotion traces (from step-2). Two analyses are provided in this artifact: (a) producing emotion heatmaps, as in Figure 4 in the paper, and (b) checking if the expected presence or absence of emotion patterns, as in Table 3 in the paper.
+   * _Step 3:_ apply Player Experience (PX) analyses on the resulting emotion traces (from step-2). Two analyses are provided in this artifact: (a) producing emotion heatmaps, as in Figure 4 and 5 in the paper, and (b) checking if the expected presence or absence of emotion patterns, as in Table 3 in the paper.
 
    You can do these analyses **on prepared traces (from the original experiments)** that are also packaged in this artifact (in the folder `eplaytesting-pipeline\Data-Wave the flag level\Sec5.2-Experiment Result- Emotion traces for the original level`), **or on traces you generate yourself** from step-2 above.
 
@@ -178,7 +180,7 @@ The analyses work on the emotion traces produced in Step-2 above. They should be
 
 ### Emotion heatmaps
 
-To produce emotion heatmaps from the traces (as in Figure 5 in the paper), Go to `eplaytesting-pipeline`, then do:
+To produce emotion heatmaps from the traces (as in Figure 4 and 5 in the paper), Go to `eplaytesting-pipeline`, then do:
 
 ```
 > python3 ./mkHeatmaps.py
