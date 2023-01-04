@@ -50,7 +50,7 @@ Experiments were run on a machine with the following specifiacrtion:
 
 We recommend to use at least:
   * Intel Core i5
-  * 8 GB Ram.
+  * 8 GB RAM.
 
 ## Steps to take in the FASE 2022 VM
 
