@@ -13,6 +13,7 @@ echo "** Running the test cases..."
 mvn test -Dtest=eu.iv4xr.ux.pxtestingPipeline.RunOCC
 echo "** Applying trace-fixing..."
 mvn test -Dtest=eu.iv4xr.ux.pxtestingPipeline.TestcasesExecRepair
+cp ../fixedtraces/fixed/*.csv ../traces/
 echo "** Producing heatmaps..."
 python3 ./mkHeatmaps.py
 echo "** Checking produced emotion traces against PX-requirements..."

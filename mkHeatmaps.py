@@ -29,7 +29,8 @@ makeIndividualMaps = False
 
 colorscheme = "white"
 
-emoGraphLib.mkAggregateHeatMap(dir,width,height,colorscheme=colorscheme)
+#emoGraphLib.mkAggregateHeatMap(dir,width,height,colorscheme=colorscheme)
+emoGraphLib.mkAggregateHeatMap(dir,width,height)
 
 if makeIndividualMaps:
     for filename in os.listdir(dir):

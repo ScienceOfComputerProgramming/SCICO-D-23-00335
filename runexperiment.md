@@ -110,7 +110,7 @@ Check the following:
 
 Running the full set of experiments takes a very long time (xxx hours), so we will first give the instructions for just running a subset of them. Also keep in mind that the original experiments were ran on the Windows version of the SUT. Its Linux version is not guaranteed to have exactly the same behavior.
 
-### 5a. Limited Replication of Experiments in Section 5.2 (about xxx hours)
+### 5a. Limited Replication of Experiments in Section 5.2 (about 5-6 hours)
 
 This only uses the LTL model checker to generate a test suite. The model checker is deterministic so it will always produce the same test suite. From the generated test suite we will produce emotion heatmaps and we will check a set of emotion requirements.
 
@@ -121,7 +121,7 @@ Go to the folder `playtesting-pipeline` and do:
 >  ./fase23RunMC.sh
 ```
 
-* You can compare the produced heatmaps in `../traces` to the results shown in Figure 4 and Figure 5 (the MC heatmaps only) in Section 5.2.
+* You can compare the produced heatmaps in `../traces` to the results shown in Figure 4 and Figure 5 (the MC heatmaps only) in Section 5.2. You need to flip the images vertically first.
 * The last step of the runs checks which of the Player Experience (PX) requirements in Table 3 in Section 5.2 are confirmed by the tests. The results are printed to the console, and should be among the last printed. Note that a VALID verdict implies SAT. Also note that some requirements expect UNSAT as verdict. Only compare the TS_MC part of the table.
 
 ### 5b. Full Replication of Experiments in Section 5.2 (additional xxx hours)
@@ -143,7 +143,7 @@ Then you can choose between one of these.
 
 After this, and assuming you already did the "Limited Replication" in 5a, you now only need to validate:
 
-* You can compare the produced heatmaps in `../traces` to the results reported in Figure 4 and Figure 5 (the SBT heatmaps) in Section 5.2.
+* You can compare the produced heatmaps in `../traces` to the results reported in Figure 4 and Figure 5 (the SBT heatmaps) in Section 5.2. You need to flip the images vertically first.
 
 * The last step of the runs check which of the Player Experience (PX) requirements in Table 3 in Section 5.2 are confirmed by the tests. The results are printed to the console, and should be among the last printed. Note that a VALID verdict implies SAT. Also note that some requirements expect UNSAT as verdict. Only compare the TS_SB part of the table.
 

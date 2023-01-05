@@ -16,6 +16,7 @@ echo "** Running the test cases..."
 mvn test -Dtest=eu.iv4xr.ux.pxtestingPipeline.RunOCC
 echo "** Applying trace-fixing..."
 mvn test -Dtest=eu.iv4xr.ux.pxtestingPipeline.TestcasesExecRepair
+cp ../fixedtraces/fixed/*.csv ../traces/
 echo "** Checking produced emotion traces against PX-requirements..."
 mvn test -Dtest=eu.iv4xr.ux.pxtestingPipeline.CheckPXProperties
 echo "** Done"
