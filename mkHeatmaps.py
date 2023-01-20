@@ -1,7 +1,7 @@
 import sys
 import os
 from pathlib import Path
-import emoGraphLib 
+import emoGraphLib
 
 #
 # Main: to produce aggregate ands all-individual heatmaps. This produce
@@ -16,11 +16,12 @@ import emoGraphLib
 #dir    = sys.argv[1]
 #width  = int(sys.argv[2])
 #height = int(sys.argv[3])
-#sdir    = 'C:/Users/Gholi002/Documents/Utrecht/iv4XR Research/Implementation/ecoverage/data/CSVs/MC'  
+#sdir    = 'C:/Users/Gholi002/Documents/Utrecht/iv4XR Research/Implementation/ecoverage/data/CSVs/MC'
 #dir    = 'C:/Users/Gholi002/Documents/Utrecht/iv4XR Research/Implementation/ecoverage/data//CSVs/SBT'
 #dir    = 'C:/Users/Gholi002/Documents/Utrecht/iv4XR Research/Implementation/ecoverage/data/Shortestdisappointment'
 #dir    = 'C:/Users/Gholi002/Documents/Utrecht/iv4XR Research/Implementation/ecoverage/data//CSVs/SBT-Sample'
-dir    = 'C:/Users/Gholi002/Documents/Utrecht/iv4XR Research/Implementation/ecoverage/data//CSVs/Sample'
+#dir    = 'C:/Users/Gholi002/Documents/Utrecht/iv4XR Research/Implementation/ecoverage/data//CSVs/Sample'
+dir    = '../traces'
 
 width  =100
 height = 70
@@ -28,7 +29,8 @@ makeIndividualMaps = False
 
 colorscheme = "white"
 
-emoGraphLib.mkAggregateHeatMap(dir,width,height,colorscheme=colorscheme)    
+#emoGraphLib.mkAggregateHeatMap(dir,width,height,colorscheme=colorscheme)
+emoGraphLib.mkAggregateHeatMap(dir,width,height)
 
 if makeIndividualMaps:
     for filename in os.listdir(dir):
