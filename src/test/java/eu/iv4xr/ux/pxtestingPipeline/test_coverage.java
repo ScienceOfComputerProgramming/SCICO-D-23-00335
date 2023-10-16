@@ -50,7 +50,7 @@ import eu.iv4xr.framework.extensions.ltl.IExplorableState;
 import eu.iv4xr.framework.extensions.ltl.ITransition;
 import eu.iv4xr.framework.extensions.ltl.LTL;
 import eu.iv4xr.framework.extensions.ltl.BasicModelChecker.Path;
-import eu.iv4xr.ux.pxtestingPipeline.Distance;
+import eu.iv4xr.ux.pxmbt.Distance;
 import eu.iv4xr.framework.extensions.ltl.*;
 import nl.uu.cs.aplib.utils.Pair;
 import eu.fbk.iv4xr.mbt.Main;

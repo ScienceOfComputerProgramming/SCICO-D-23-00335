@@ -42,7 +42,7 @@ import eu.iv4xr.framework.extensions.ltl.BuchiModelChecker;
 import eu.iv4xr.framework.extensions.ltl.IExplorableState;
 import eu.iv4xr.framework.extensions.ltl.ITransition;
 import eu.iv4xr.framework.extensions.ltl.BasicModelChecker.Path;
-import eu.iv4xr.ux.pxtestingPipeline.Distance;
+import eu.iv4xr.ux.pxmbt.Distance;
 import info.debatty.java.stringsimilarity.Jaccard;
 import info.debatty.java.stringsimilarity.JaroWinkler;
 import nl.uu.cs.aplib.utils.Pair;

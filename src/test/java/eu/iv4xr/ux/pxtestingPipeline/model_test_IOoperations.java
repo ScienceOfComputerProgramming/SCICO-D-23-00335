@@ -21,6 +21,7 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 import org.apache.commons.io.FileUtils;
+import org.evosuite.shaded.org.apache.commons.lang3.SerializationUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -97,7 +98,12 @@ public class model_test_IOoperations {
 		EFSM efsm = EFSMFactory.getInstance().getEFSM();
 		try {
 
-			FileUtils.writeByteArrayToFile(new File(modelFileName), EFSMFactory.getInstance().getOriginalEFSM());
+			FileUtils.writeByteArrayToFile(new File(modelFileName), 
+					// old MBT 1.1.0b code, upgrading it; it should return a byte-code
+					// serialization of the current EFSM:
+					// EFSMFactory.getInstance().getOriginalEFSM()
+					SerializationUtils.serialize(EFSMFactory.getInstance().getEFSM())
+					);
 			FileUtils.writeStringToFile(dotFile, efsm.getDotString(), Charset.defaultCharset());
 			// if csv is available
 			if (efsm.getEFSMString() != "") {

@@ -217,7 +217,12 @@ public class Test_Appraisal_over_MBT {
 		EFSM efsm = EFSMFactory.getInstance().getEFSM();
 		try {
 
-			FileUtils.writeByteArrayToFile(new File(modelFileName), EFSMFactory.getInstance().getOriginalEFSM());
+			FileUtils.writeByteArrayToFile(new File(modelFileName), 
+					// old MBT 1.1.0b code, upgrading it; it should return a byte-code
+					// serialization of the current EFSM:
+					// EFSMFactory.getInstance().getOriginalEFSM()
+					SerializationUtils.serialize(EFSMFactory.getInstance().getEFSM())
+					);
 			FileUtils.writeStringToFile(dotFile, efsm.getDotString(), Charset.defaultCharset());
 			// if csv is available
 			if (efsm.getEFSMString() != "") {

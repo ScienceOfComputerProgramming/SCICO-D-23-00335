@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtestingPipeline;
+package eu.iv4xr.ux.pxmbt;
 
 import static eu.iv4xr.framework.extensions.ltl.LTL.*;
 import static eu.iv4xr.framework.extensions.ltl.LTL2Buchi.getBuchi;
@@ -47,7 +47,6 @@ import eu.iv4xr.framework.extensions.ltl.IExplorableState;
 import eu.iv4xr.framework.extensions.ltl.ITransition;
 import eu.iv4xr.framework.extensions.ltl.LTL;
 import eu.iv4xr.framework.extensions.ltl.BasicModelChecker.Path;
-import eu.iv4xr.ux.pxmbt.Distance;
 import eu.iv4xr.framework.extensions.ltl.*;
 import nl.uu.cs.aplib.utils.Pair;
 import eu.fbk.iv4xr.mbt.Main;
@@ -71,7 +70,7 @@ import java.util.HashMap;
 /**
  * @author sansari
  */
-public class MCtest_Generation {
+public class MCtest_Generationxxx {
 
 	// use a logger to save output execution information
 	protected static final Logger logger = LoggerFactory.getLogger(Main.class);	
@@ -109,7 +108,7 @@ public class MCtest_Generation {
 	//run a test for test generation using MC developed by Wishnu
 	//Saba: right now it is written for one single goal but later on can be upgraded 
 	//since I already included list of goalstates and absTestsuite --->just path_ needs to be replaced by list of path.
-	@Test
+	//@Test
 	public void runMCGenerationTest() {
 	
 		// set the parameters for the generation
@@ -150,7 +149,7 @@ public class MCtest_Generation {
 		
 		// Measure Similarity btw test cases in a suite.
 		
-		  List<AbstractTestSequence>  absTestsuite_Rand= RandomSampling(absTestsuite, 10	);
+		  List<AbstractTestSequence>  absTestsuite_Rand= eu.iv4xr.ux.pxmbt.RandomSampling.RandomSampling(absTestsuite, 10	);
 		  List<AbstractTestSequence> absTestsuite_Subset=  AdaptiveRandomSampling(absTestsuite, 10  );
 		  
 		  
@@ -190,7 +189,7 @@ public class MCtest_Generation {
 		io.writeModel(modelFolder);
 	}
 	
-	@AfterEach 
+	//@AfterEach 
 	public void test_transitioncoverage() throws IOException
 	{
 		List<String> notcoveredtr=new ArrayList();
@@ -396,19 +395,6 @@ public class MCtest_Generation {
 		return abstestsuite;
 	}
 	
-	static List<AbstractTestSequence> RandomSampling(List<AbstractTestSequence> Testsuite, int size) {
-		
-		Random r = new Random();
-		List<AbstractTestSequence> Testsuite_New= new ArrayList<AbstractTestSequence>();
-
-		int[] unique = r.ints(0, Testsuite.size()-1).distinct().limit(size).toArray();
-		for(var u: unique)
-		{
-			Testsuite_New.add(Testsuite.get(u));
-		}	
-		return Testsuite_New;
-		
-	}
 	static List<AbstractTestSequence> AdaptiveRandomSampling(List<AbstractTestSequence> Testsuite, int size) {
 		
 		Random r = new Random();

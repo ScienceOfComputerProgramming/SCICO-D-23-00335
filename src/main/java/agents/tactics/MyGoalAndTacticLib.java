@@ -20,7 +20,8 @@ import static agents.tactics.GoalLib.* ;
 import static nl.uu.cs.aplib.mainConcepts.GoalTacticUtils.* ;
 
 /**
- * Some custom goals and tactics.
+ * Some LabRecruit custom goals and tactics. Only applicable for
+ * the LabRecruits case study.
  */
 public class MyGoalAndTacticLib {
 
