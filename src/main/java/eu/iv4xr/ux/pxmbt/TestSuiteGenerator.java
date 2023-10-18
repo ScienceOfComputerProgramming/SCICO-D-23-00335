@@ -23,11 +23,22 @@ public class TestSuiteGenerator {
 	
 	/**
 	 * Id of the final-state, if any. If this is specified, then all test-cases
-	 * must end in this state.
+	 * must end in this state. 
 	 */
 	public String idFinalState = null ;
 	
 	public Integer maxTestCaseLength = null ;
+	
+	/**
+	 * Note: when {@link #idFinalState} is specified, EvoMBT currently does not
+	 * support state-coverage in combination with a final-state constraint, so we
+	 * will default to transition-coverage with final-state constraint. The model
+	 * checker has no such issue.
+	 */
+	public static final String STATE_COV = "STATE_COV" ;
+	public static final String TRANSITION_COV = "TRANSITION_COV" ;
+	
+	public String aimedCoverage = TRANSITION_COV ;
 	
 	/**
 	 * Specify the fully-qualified name of the class that acts as the efsm-provider (it
@@ -45,10 +56,15 @@ public class TestSuiteGenerator {
 		
 		if (idFinalState != null) {
 			MBTProperties.STATE_TARGET = idFinalState ;
+			// defaulting to transition-cov with final state constraint:
 			MBTProperties.MODELCRITERION = new ModelCriterion[] { ModelCriterion.TRANSITION_FIX_END_STATE } ;
 		}
 		else {	
-			MBTProperties.MODELCRITERION = new ModelCriterion[] { ModelCriterion.TRANSITION };			
+			if (aimedCoverage.equals(TRANSITION_COV))
+				MBTProperties.MODELCRITERION = new ModelCriterion[] { ModelCriterion.TRANSITION };	
+			else {
+				MBTProperties.MODELCRITERION = new ModelCriterion[] { ModelCriterion.STATE };	
+			}
 		}
 		// which algorithm to use:
 		MBTProperties.ALGORITHM = Algorithm.MOSA;
@@ -91,8 +107,7 @@ public class TestSuiteGenerator {
 		sbt.idFinalState = "b3" ;
 		sbt.configureEvoMBT(60);
 		var suite = sbt.generate() ;
-		System.out.println(">>> #suite=" + suite.size()) ;
-		System.out.println(">>> suite=" + suite) ;
+		AbstractTestUtils.printStats(suite);
 
 	}
 	
