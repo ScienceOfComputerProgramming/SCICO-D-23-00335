@@ -16,7 +16,11 @@ import eu.fbk.iv4xr.mbt.testcase.MBTChromosome;
 import eu.fbk.iv4xr.mbt.testsuite.SuiteChromosome;
 
 /**
- * Generate an abstract test suite from an EFSM.
+ * Generate an abstract test suite from an EFSM. The generator keeps the test suite
+ * generated so far. Each time the generate-method is invoked, the produced suite is
+ * added to the one currently kept by the generator. We can use either a search-based
+ * algorithm or a model checking algorithm to generate the suite. Random sampling 
+ * id also available to reduce the test suite to a subset of it.
  */
 public class TestSuiteGenerator {
 	
