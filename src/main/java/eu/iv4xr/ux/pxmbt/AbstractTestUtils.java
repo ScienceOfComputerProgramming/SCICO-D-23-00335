@@ -87,6 +87,7 @@ public class AbstractTestUtils {
 		
 		System.out.println("** Test suite, #= " + stats.getN()) ;
 		System.out.println("**   len-min    = " + stats.getMin()) ;
+		System.out.println("**   len-max    = " + stats.getMax()) ;
 		System.out.println("**   len-avrg   = " + stats.getMean()) ;
 		System.out.println("**   len-stdev  = " + stats.getStandardDeviation()) ;
 		System.out.println("**   tcs-distance-avrg  = " + stats2.getMean()) ;
