@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtesting.mbttest;
+package eu.iv4xr.ux.pxtesting.study.labrecruits;
 
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -94,11 +94,20 @@ import eu.fbk.iv4xr.mbt.Main;
  * 
  */
 // Original version when all MBT_model_test_generation, EmotionData and TestOperation are in the same class.
-public class Test_Appraisal_over_MBT {
+public class OrigModel_based_pxtesting {
 
 	// use a logger to save output execution information
 	protected static final Logger logger = LoggerFactory.getLogger(Main.class);
 	protected List <EFSMState> desired_states_tocover = new ArrayList<EFSMState>();
+	protected EFSM efsm_copy;
+    // context variables
+	public Var<Integer> hope = new Var<Integer>("Hope", 0);
+	public Var<Integer> fear = new Var<Integer>("Fear", 0);
+	public Var<Integer> joy = new Var<Integer>("Joy", 0);
+	public Var<Integer> distress = new Var<Integer>("Distress", 0);
+	public Var<Integer> satisfaction = new Var<Integer>("Satisfaction", 0);
+	public Var<Integer> disappointment = new Var<Integer>("Disappointment", 0);
+	public HashMap<Long,HashSet<Emotion>> map=new HashMap<Long,HashSet<Emotion>>();
 	
 	public void setPropertiesMBT() {
 		// to control level creation, there are few parameters
@@ -132,10 +141,6 @@ public class Test_Appraisal_over_MBT {
 		// "labrecruits.random_simple", "labrecruits.random_medium",
 		// "labrecruits.random_large"
 
-//		desired_states_tocover.add(new EFSMState("b2"));
-//		desired_states_tocover.add(new EFSMState("b3"));
-//		desired_states_tocover.add(new EFSMState("d3p"));
-		//desired_states_tocover.add(new EFSMState("TR"));
 	}
 
 	/**
@@ -144,6 +149,7 @@ public class Test_Appraisal_over_MBT {
 	public boolean existsLabRecruitLevel() {
 		String efsmString = EFSMFactory.getInstance().getEFSM().getEFSMString();
 		boolean out = !efsmString.equalsIgnoreCase("");
+	     efsm_copy = EFSMFactory.getInstance().getEFSM();
 		return out;
 	}
 	
@@ -233,6 +239,18 @@ public class Test_Appraisal_over_MBT {
 			e.printStackTrace();
 		}
 	}
+
+	public void loadModel(String modelFolderName) {
+		File modelFolder = new File(modelFolderName);
+		modelFolder.mkdirs();
+		String modelFileName = modelFolderName + File.separator + "EFSM_model.ser";
+		try {
+			efsm_copy= TestSerializationUtils.loadEFSM(modelFileName);
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Load serialized tests into a SuiteChromosome object
@@ -298,6 +316,7 @@ public class Test_Appraisal_over_MBT {
         String testFolder = rootFolder + File.separator + "MBTtest";
         String modelFolder = testFolder + File.separator + "Model";
         String labRecruitesExeRootDir = rootFolder + File.separator + "iv4xrDemo";
+        loadModel(modelFolder);
 
         // load tests from file
         SuiteChromosome loadedSolution = parseTests(testFolder);
@@ -331,10 +350,13 @@ public class Test_Appraisal_over_MBT {
             LabRecruitsTestAgent testAgent = new LabRecruitsTestAgent("Agent1") ; 
             testAgent.attachState(new BeliefState())
                      .setTestDataCollector(dataCollector)
-                     .attachEnvironment(labRecruitsEnvironment) 
-            .attachSyntheticEventsProducer(new EventsProducer());
+                     .attachEnvironment(labRecruitsEnvironment)
+                     .attachSyntheticEventsProducer(new EventsProducer());
+            		 
 
             List<GoalStructure> goals = lrExecutor.convertTestCaseToGoalStructure(testAgent, testcase);
+            // Add instrumentation here:
+            goals = instrumentTestCase(testAgent,testcase,goals) ;
             GoalStructure g =SEQ(goals.toArray(new GoalStructure[goals.size()]));
             
             System.out.println(">> Testing task: " + i + ", #=" + goals.size()) ;
@@ -343,7 +365,8 @@ public class Test_Appraisal_over_MBT {
             testAgent.setGoal(g) ;
             
             // add an event-producer to the test agent so that it produce events for
-            // emotion appraisals:            	
+            // emotion appraisals:
+            	
             // Create an emotion appraiser, and hook it to the agent:
             EmotionAppraisalSystem eas = new EmotionAppraisalSystem(testAgent.getId());
             eas.attachEmotionBeliefBase(new EmotionBeliefBase().attachFunctionalState(testAgent.getState()))
@@ -366,13 +389,16 @@ public class Test_Appraisal_over_MBT {
             	 Vec3 position = testAgent.getState().worldmodel.position;
                  System.out.println("*** " + t + ", " + testAgent.getState().id + " @" + position);
                  
-                 //eventsProducer.generateCurrentEvents();
                  if (testAgent.getSyntheticEventsProducer().currentEvents.isEmpty()) {
                      eas.update(new Tick(), t);
                  }
                  else {
-                     for (Message m : testAgent.getSyntheticEventsProducer().currentEvents) {
+                     for (Message m :testAgent.getSyntheticEventsProducer().currentEvents) {
                          eas.update( new LREvent(m.getMsgName()), t);
+                         if(!eas.newEmotions.isEmpty())
+                         {
+                         map.put(testAgent.getState().worldmodel.timestamp, eas.newEmotions);
+                         }
                      }
                  }
 
@@ -421,7 +447,9 @@ public class Test_Appraisal_over_MBT {
                 t++ ;
              }
             
-                        
+            
+            update_EFSMmodel(map,testAgent);
+            
             exportToCSV(csvData_goalQuestIsCompleted, "data_goalQuestCompleted_"+i+".csv");
             exportToCSV(csvData_goalGetMuchPoints, "data_goalGetMuchPoints_"+i+".csv");
             
@@ -451,5 +479,165 @@ public class Test_Appraisal_over_MBT {
         System.out.println("" + results) ;
         testServer.close();
         
+	}
+
+	GoalStructure transitionMarker(TestAgent agent, EFSMTransition tr, String marker) {
+		String tr_id = "" + tr.getId() + "_" + tr.toString() ;
+		return goal("Start of MBT transition " + tr_id)
+				.toSolve(doesNotMatter -> true) // will be immediately solved
+				.withTactic(action("bla")
+					.do1((BeliefState S) -> {
+					   agent.getTestDataCollector().registerEvent(
+							   agent.getId(), 
+							   new TimeStampedObservationEvent(
+									   "MBT-transition-" + marker,
+									   tr_id + ":" + S.worldmodel.timestamp 
+									   )) ;
+					   
+					   return true ;
+				      })
+					.lift())
+				.lift() ;
+	}
+	
+	List<GoalStructure> instrumentTestCase(TestAgent agent, AbstractTestSequence tc, List<GoalStructure> tcgoals) {
+		Path path = tc.getPath();
+		List<EFSMTransition> transitions = path.getTransitions();
+		List<GoalStructure> intrumentedTcGoals = new LinkedList<>() ;
+		int k = 0 ;
+		for(var tr : transitions) {
+			var G = tcgoals.get(k) ;
+			String trId = tr.getId() ;
+			intrumentedTcGoals.add(SEQ(
+					transitionMarker(agent,tr,"START"),
+					G,
+					transitionMarker(agent,tr,"END")
+					)) ;
+			k++ ;
+		}
+		return intrumentedTcGoals ;
+	}
+	
+	  
+	private void update_EFSMmodel(HashMap<Long, HashSet<Emotion>> activated_emotions, TestAgent agent) throws IOException {
+
+		HashMap<String,Long[]> tr_timestamp=new HashMap<String,Long[]>();
+		for(var e : agent.getTestDataCollector().getTestAgentTrace(agent.getId()))
+		{
+			
+			if(e.getFamilyName().startsWith("MBT-transition") &&e.getFamilyName().contains("START"))
+			{
+				ArrayList<String> info = 
+						new  ArrayList<String>(Arrays.asList(e.getInfo().split(":")));
+				
+				//find the the time that the same transition ends and return the timestamp.
+				String t_end=agent.getTestDataCollector().getTestAgentTrace(agent.getId()).stream()
+															.filter(t->(t.getInfo().contains(info.get(0))&&t.getFamilyName().contains("END")))
+															.map(t-> t.getInfo().substring(t.getInfo().lastIndexOf(":")+1))
+															.findFirst().orElse(null);
+																										
+				// add to have all transition names (tr_id+ t.string) with their start & ending time.
+				if(t_end!=null)
+				{
+					tr_timestamp.put(info.get(0), new Long[] {Long.parseLong(info.get(1)),Long.parseLong(t_end)});	
+				}
+			}
+		}
+		
+		Assign<Boolean> assign=null;	
+		for (Long key : activated_emotions.keySet()) {		
+		    String transition_name=null;
+			HashSet<Emotion> value = activated_emotions.get(key);
+			
+		    //check the time the emotion is triggered is in range for any transition 
+		    transition_name=tr_timestamp.entrySet().stream().filter(p->p.getValue()[0]<=key&& key<=p.getValue()[1])
+		    												.map(k->k.getKey())
+		    												.findFirst().orElse(null);		    
+		    if(transition_name!=null)
+		    {
+			    EFSMTransition tr=null;
+		    	boolean hope_match =value.stream().anyMatch(x ->x.etype==EmotionType.Hope);
+			    if(hope_match)
+			    {
+			    	assign = new Assign(hope , new IntSum(hope,new Const(1)));
+			    	tr=efsm_copy.getTransition(transition_name.substring(0, transition_name.lastIndexOf("_")));
+			    	if(tr.getOp()==null)
+			    	{
+			    		EFSMOperation x  = new EFSMOperation(assign);
+			    		tr.setOp(x);
+			    	}else {
+			    		tr.getOp().getAssignments().put(assign);
+		            }
+			    	
+			    }
+			    boolean fear_match=value.stream().anyMatch(x ->x.etype==EmotionType.Fear);
+			    if(fear_match)
+			    {
+			    	assign = new Assign(fear , new IntSum(fear,new Const(1)));
+			    	tr=efsm_copy.getTransition(transition_name.substring(0, transition_name.lastIndexOf("_")));
+			    	if(tr.getOp()==null)
+			    	{
+			    		EFSMOperation x  = new EFSMOperation(assign);
+			    		tr.setOp(x);
+			    	}else {
+			    		tr.getOp().getAssignments().put(assign);
+		            }
+			    }
+			    boolean joy_match=value.stream().anyMatch(x ->x.etype==EmotionType.Joy);
+			    if(joy_match)
+			    {
+			    	assign = new Assign(joy , new IntSum(joy,new Const(1)));
+			    	tr=efsm_copy.getTransition(transition_name.substring(0, transition_name.lastIndexOf("_")));
+			    	if(tr.getOp()==null)
+			    	{
+			    		EFSMOperation x  = new EFSMOperation(assign);
+			    		tr.setOp(x);
+			    	}else {
+			    		tr.getOp().getAssignments().put(assign);
+		            }
+			    }
+			    boolean distress_match=value.stream().anyMatch(x ->x.etype==EmotionType.Distress);
+			    if(distress_match)
+			    {
+			    	assign = new Assign(distress , new IntSum(distress,new Const(1)));
+			    	tr=efsm_copy.getTransition(transition_name.substring(0, transition_name.lastIndexOf("_")));
+			    	if(tr.getOp()==null)
+			    	{
+			    		EFSMOperation x  = new EFSMOperation(assign);
+			    		tr.setOp(x);
+			    	}else {
+			    		tr.getOp().getAssignments().put(assign);
+		            }
+			    }
+			    boolean satf_match=value.stream().anyMatch(x ->x.etype==EmotionType.Satisfaction);
+			    if(satf_match)
+			    {
+			    	assign = new Assign(satisfaction , new IntSum(satisfaction,new Const(1)));
+			    	tr=efsm_copy.getTransition(transition_name.substring(0, transition_name.lastIndexOf("_")));
+			    	if(tr.getOp()==null)
+			    	{
+			    		EFSMOperation x  = new EFSMOperation(assign);
+			    		tr.setOp(x);
+			    	}else {
+			    		tr.getOp().getAssignments().put(assign);
+		            }
+			    }
+			    boolean disap_match=value.stream().anyMatch(x ->x.etype==EmotionType.Disappointment);
+			    if(disap_match)
+			    {
+			    	assign = new Assign(disappointment , new IntSum(disappointment,new Const(1)));
+			    	tr=efsm_copy.getTransition(transition_name.substring(0, transition_name.lastIndexOf("_")));
+			    	if(tr.getOp()==null)
+			    	{
+			    		EFSMOperation x  = new EFSMOperation(assign);
+			    		tr.setOp(x);
+			    	}else {
+			    		tr.getOp().getAssignments().put(assign);
+		            }
+			    }
+
+		    }
+	    
+		}
 	}
 }
