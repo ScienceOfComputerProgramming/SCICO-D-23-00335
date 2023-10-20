@@ -83,10 +83,24 @@ public class PXTestAgentRunner {
 	
 	
 	
-	/**
+	/*
 	 * Configure a test-agent to be a PX-test-agent. We need a agent that is already
 	 * equipped with a state and a reference to an instance of {@link nl.uu.cs.aplib.mainConcepts.Environment}
 	 * (which is an interface to the game-under-test).
+	 */ 
+	
+	/**
+	 * 
+	 * @param agentConstructor a function that can construct a test agent. It should
+	 * construct an agent that is already equipped with a state and a reference 
+	 * to an instance of {@link nl.uu.cs.aplib.mainConcepts.Environment}
+	 * (which is an interface to the game-under-test).
+	 * 
+	 * @param playerCharacterization
+	 * @param eventsProducer
+	 * @param concretizationFunction
+	 * @param customStateInstrumenter
+	 * @param goals
 	 */
 	public PXTestAgentRunner(Function<Void,EmotiveTestAgent> agentConstructor,
 			XUserCharacterization playerCharacterization,
@@ -194,7 +208,22 @@ public class PXTestAgentRunner {
 		
 	}
 	
-	
+	/**
+	 * Run a bunch of abstract test-cases. When a test-case is run, a trace
+	 * will be collected containing the emotional-state of the agent at
+	 * every update-cycle. If a saveDir is specified, the traces will be
+	 * saved in the directory as csv-files. 
+	 * 
+	 * <p>You can specify a custom state-instrumenter (see {@link #customStateInstrumenter},
+	 * which can be set of this class' constructor, if you want to have
+	 * other state information along side with the emotion to be traced as well.
+	 * 
+	 * @param suite
+	 * @param saveDir
+	 * @param budgetPerTesCase
+	 * @param delayBetweenAgentUpdateCycles
+	 * @throws Exception
+	 */
 	public void run_(List<AbstractTestSequence> suite, 
 			String saveDir,
 			int budgetPerTesCase,
@@ -209,6 +238,10 @@ public class PXTestAgentRunner {
 		run(S,saveDir,budgetPerTesCase,delayBetweenAgentUpdateCycles) ;	
 	}
 	
+	/**
+	 * Similar to {@link #run_(List, String, int, int)}, but the test-cases
+	 * to run are loaded from the specified testsuiteDir.
+	 */
 	public void run(String testsuiteDir, 
 			String saveDir,
 			int budgetPerTesCase,
@@ -217,6 +250,10 @@ public class PXTestAgentRunner {
 		run(suite,saveDir,budgetPerTesCase,delayBetweenAgentUpdateCycles) ;
 	}
 	
+	/**
+	 * Similar to {@link #run_(List, String, int, int)}, but we give a list 
+	 * of pairs (name,tc) of test-cases and their names.
+	 */
 	public void run(List<Pair<String,AbstractTestSequence>> suite, 
 			String saveDir,
 			int budgetPerTesCase,
