@@ -91,7 +91,7 @@ public class AbstractTestUtils {
 		System.out.println("**   len-avrg   = " + stats.getMean()) ;
 		System.out.println("**   len-stdev  = " + stats.getStandardDeviation()) ;
 		System.out.println("**   tcs-distance-avrg  = " + stats2.getMean()) ;
-		System.out.println("**   tcs-distance-stdev  = " + stats2.getStandardDeviation()) ;
+		System.out.println("**   tcs-distance-stdev = " + stats2.getStandardDeviation()) ;
 		
 		
 	}

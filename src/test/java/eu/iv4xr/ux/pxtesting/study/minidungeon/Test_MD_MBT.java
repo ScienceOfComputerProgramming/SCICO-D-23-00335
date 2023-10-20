@@ -14,8 +14,9 @@ public class Test_MD_MBT {
 		
 		//gen.aimedCoverage = TestSuiteGenerator.STATE_COV ;
 		//gen.idFinalState = "SI9" ;
+		gen.idFinalState = "SI4" ;
 		
-		gen.idFinalState = "SS4" ;
+		//gen.idFinalState = "SS4" ;
 		gen.generateWithSBT(120,null) ;
 		gen.printStats();
 		gen.generateWithMC(false, true, false, 80);
