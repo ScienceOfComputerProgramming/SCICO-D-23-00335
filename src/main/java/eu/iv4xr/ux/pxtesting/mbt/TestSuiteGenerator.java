@@ -5,6 +5,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import eu.fbk.iv4xr.mbt.MBTProperties;
 import eu.fbk.iv4xr.mbt.MBTProperties.Algorithm;
@@ -15,6 +16,7 @@ import eu.fbk.iv4xr.mbt.strategy.SearchBasedStrategy;
 import eu.fbk.iv4xr.mbt.testcase.AbstractTestSequence;
 import eu.fbk.iv4xr.mbt.testcase.MBTChromosome;
 import eu.fbk.iv4xr.mbt.testsuite.SuiteChromosome;
+import nl.uu.cs.aplib.utils.Pair;
 
 /**
  * Generate an abstract test suite from an EFSM. The generator keeps the test suite
@@ -29,6 +31,8 @@ public class TestSuiteGenerator {
 	 * The name of the class that acts as the efsm-provider.
 	 */	
 	public String efsmProvider ;
+	
+	EFSM efsm ;
 	
 	/**
 	 * Id of the final-state, if any. If this is specified, then all test-cases
@@ -52,15 +56,41 @@ public class TestSuiteGenerator {
 	 */
 	List<AbstractTestSequence> testSuite = new LinkedList<>() ;
 	
+	/**
+	 * The ids of all states in the target EFSM.
+	 */
+	List<String> states  ;
+	
+	
+	/**
+	 * The transitions in the target EFSM. Each is stored as a pair (s,d)
+	 * of the ids of the source and destination node/state.
+	 */
+	List<Pair<String,String>> transitions ;
 	
 	/**
 	 * Specify the fully-qualified name of the class that acts as the efsm-provider (it
 	 * implements the interface {@link EFSMProvider}.
 	 * @param efsmLoader
 	 */
-	public TestSuiteGenerator(String efsmProvider) {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public TestSuiteGenerator(String efsmProvider) throws Exception {
 		this.efsmProvider = efsmProvider ;
 		MBTProperties.SUT_EFSM = efsmProvider;
+		
+		// we will also load the EFSM, which is convenient (EvoMBT will still
+		// load through the efsmProvider though)
+		Class efmLoaderClass = Class.forName(efsmProvider) ;
+		Constructor cz = efmLoaderClass.getConstructor() ;
+		var loader = (EFSMProvider) cz.newInstance() ;
+		efsm = loader.getModel() ;
+		
+		states =  efsm.getStates().stream()
+				.map(st -> st.getId()).collect(Collectors.toList()) ;
+		
+		transitions = efsm.getTransitons().stream()
+				.map(tr -> new Pair<String,String>(tr.getSrc().getId(), tr.getTgt().getId()))
+				.collect(Collectors.toList()) ;
 	}
 	
 	/**
@@ -89,6 +119,7 @@ public class TestSuiteGenerator {
 			MBTProperties.STATE_TARGET = idFinalState ;
 			// defaulting to transition-cov with final state constraint:
 			MBTProperties.MODELCRITERION = new ModelCriterion[] { ModelCriterion.TRANSITION_FIX_END_STATE } ;
+			MBTProperties.TEST_FACTORY = MBTProperties.TestFactory.RANDOM_LENGTH_FIX_TARGET;
 		}
 		else {	
 			if (aimedCoverage.equals(TRANSITION_COV))
@@ -96,6 +127,7 @@ public class TestSuiteGenerator {
 			else {
 				MBTProperties.MODELCRITERION = new ModelCriterion[] { ModelCriterion.STATE };	
 			}
+			MBTProperties.TEST_FACTORY = MBTProperties.TestFactory.RANDOM_LENGTH ;
 		}
 		// which algorithm to use:
 		MBTProperties.ALGORITHM = Algorithm.MOSA;
@@ -104,7 +136,7 @@ public class TestSuiteGenerator {
 		MBTProperties.SHOW_PROGRESS = true;
 		
 		
-		MBTProperties.TEST_FACTORY = MBTProperties.TestFactory.RANDOM_LENGTH_FIX_TARGET;
+		//MBTProperties.TEST_FACTORY = MBTProperties.TestFactory.RANDOM_LENGTH_FIX_TARGET;
 		if (maxTestCaseLength != null && maxTestCaseLength > 0) {
 			MBTProperties.MAX_LENGTH = maxTestCaseLength ; 	
 		}
@@ -128,6 +160,7 @@ public class TestSuiteGenerator {
 	 * @param searchBudget
 	 * @param maxTestCaseLength
 	 */
+	@SuppressWarnings("rawtypes")
 	public void generateWithSBT(int searchBudget, Integer maxTestCaseLength) {
 		
 		configureEvoMBT(searchBudget,maxTestCaseLength) ;
@@ -155,12 +188,7 @@ public class TestSuiteGenerator {
 			boolean useBitHashingMode,
 			boolean minimizeLength,
 			int maxDepth
-			) throws Exception {
-		
-		Class efmLoaderClass = Class.forName(efsmProvider) ;
-		Constructor cz = efmLoaderClass.getConstructor() ;
-		var loader = (EFSMProvider) cz.newInstance() ;
-		EFSM efsm = loader.getModel() ;
+			){
 		
 		var mcgen = new MCtestGenerator() ;
 		List<AbstractTestSequence> suite = null ;
@@ -201,6 +229,38 @@ public class TestSuiteGenerator {
 	 */
 	public void printStats() {
 		AbstractTestUtils.printStats(testSuite) ;
+		int nState = states.size() ;
+		int covState = states.size() - getUncoveredStates().size() ;
+		float coverageState = (float) covState / (float) nState ;
+		int nTrans = transitions.size() ;
+		int covTrans = nTrans - getUncoveredTransitions().size() ;
+		float coverageTrans = (float) covTrans / (float) nTrans ;
+		System.out.println("**   covered-state     = " + covState + " (" + coverageState + ")") ;
+		System.out.println("**   covered-trans     = " + covTrans + " (" + coverageTrans + ")") ;
+		if (idFinalState != null)
+			System.out.println("**   #tc passing final = " + countTestCasesThatCoverFinalState()) ;
+	}
+	
+	public List<String> getUncoveredStates() {
+		List<String> notCovered = states.stream()
+				.filter(st -> testSuite.stream().allMatch(tc -> ! MCtestGenerator.coverState(tc,st)))
+				.collect(Collectors.toList()) ;
+		return notCovered ;
+	}
+	
+	public List<Pair<String,String>> getUncoveredTransitions() {
+		List<Pair<String,String>> notCovered = transitions.stream()
+				.filter(tr -> testSuite.stream().allMatch(tc -> ! MCtestGenerator.coverTransition(tc,tr.fst,tr.snd)))
+				.collect(Collectors.toList()) ;
+		return notCovered ;
+	}
+	
+	public int countTestCasesThatCoverFinalState() {
+		if (idFinalState == null) {
+			return testSuite.size() ;
+		}
+		int n = (int) testSuite.stream().filter(tc -> MCtestGenerator.coverState(tc,idFinalState)).count() ;
+		return n ;
 	}
 	
 	public void save(String dir, String basefileName) throws IOException {
@@ -208,12 +268,12 @@ public class TestSuiteGenerator {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		var sbt = new TestSuiteGenerator("eu.iv4xr.ux.pxmbt.EFSMSimple0") ;
-		sbt.idFinalState = "b3" ;
-		sbt.generateWithSBT(60,null) ;
-		sbt.printStats();
-		sbt.generateWithMC(false, false, false, 20);
-		sbt.printStats();
+		var gen = new TestSuiteGenerator("eu.iv4xr.ux.pxmbt.EFSMSimple0") ;
+		gen.idFinalState = "b3" ;
+		gen.generateWithSBT(60,null) ;
+		gen.printStats();
+		gen.generateWithMC(false, false, false, 20);
+		gen.printStats();
 	}
 	
 }

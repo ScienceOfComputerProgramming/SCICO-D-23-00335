@@ -1,0 +1,249 @@
+digraph MiniDungeon{
+  subgraph cluster_Teleport_5_6 {
+    label = "Zone Teleport_5_6" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    SS6_Teleport_5_6[shape=Square];
+    SM5_Teleport_5_6[shape=Square,fillcolor=lightgrey];
+  }
+  subgraph cluster_Teleport_4_5 {
+    label = "Zone Teleport_4_5" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    SS5_Teleport_4_5[shape=Square];
+    SM4_Teleport_4_5[shape=Square,fillcolor=lightgrey];
+  }
+  subgraph cluster_Teleport_3_4 {
+    label = "Zone Teleport_3_4" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    SS4_Teleport_3_4[shape=Square];
+    SM3_Teleport_3_4[shape=Square,fillcolor=lightgrey];
+  }
+  subgraph cluster_Teleport_2_3 {
+    label = "Zone Teleport_2_3" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    SS3_Teleport_2_3[shape=Square];
+    SM2_Teleport_2_3[shape=Square,fillcolor=lightgrey];
+  }
+  subgraph cluster_9 {
+    label = "Zone 9" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    S9_0;
+    SI9;
+    SS9_9[shape=Square];
+    SOMEWHERE_9;
+    S9_1;
+    S9_2;
+  }
+  subgraph cluster_8 {
+    label = "Zone 8" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    S8_0;
+    S8_1;
+    SOMEWHERE_8;
+    SS8_8[shape=Square];
+    S8_2;
+    SM8_8[shape=Square,fillcolor=lightgrey];
+  }
+  subgraph cluster_Teleport_8_9 {
+    label = "Zone Teleport_8_9" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    SS9_Teleport_8_9[shape=Square];
+    SM8_Teleport_8_9[shape=Square,fillcolor=lightgrey];
+  }
+  subgraph cluster_7 {
+    label = "Zone 7" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    S7_1;
+    S7_2;
+    S7_0;
+    SS7_7[shape=Square];
+    SM7_7[shape=Square,fillcolor=lightgrey];
+    SOMEWHERE_7;
+  }
+  subgraph cluster_6 {
+    label = "Zone 6" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    S6_2;
+    S6_0;
+    S6_1;
+    SS6_6[shape=Square];
+    SM6_6[shape=Square,fillcolor=lightgrey];
+    SOMEWHERE_6;
+  }
+  subgraph cluster_5 {
+    label = "Zone 5" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    S5_1;
+    S5_2;
+    SS5_5[shape=Square];
+    S5_0;
+    SM5_5[shape=Square,fillcolor=lightgrey];
+    SOMEWHERE_5;
+  }
+  subgraph cluster_4 {
+    label = "Zone 4" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    S4_2;
+    S4_0;
+    SS4_4[shape=Square];
+    S4_1;
+    SM4_4[shape=Square,fillcolor=lightgrey];
+    SOMEWHERE_4;
+  }
+  subgraph cluster_3 {
+    label = "Zone 3" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    SS3_3[shape=Square];
+    SOMEWHERE_3;
+    S3_1;
+    S3_2;
+    S3_0;
+    SM3_3[shape=Square,fillcolor=lightgrey];
+  }
+  subgraph cluster_Teleport_6_7 {
+    label = "Zone Teleport_6_7" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    SS7_Teleport_6_7[shape=Square];
+    SM6_Teleport_6_7[shape=Square,fillcolor=lightgrey];
+  }
+  subgraph cluster_2 {
+    label = "Zone 2" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    SOMEWHERE_2;
+    SS2_2[shape=Square];
+    S2_2;
+    S2_0;
+    S2_1;
+    SM2_2[shape=Square,fillcolor=lightgrey];
+  }
+  subgraph cluster_Teleport_7_8 {
+    label = "Zone Teleport_7_8" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    SS8_Teleport_7_8[shape=Square];
+    SM7_Teleport_7_8[shape=Square,fillcolor=lightgrey];
+  }
+  subgraph cluster_1 {
+    label = "Zone 1" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    SS1_1[shape=Square];
+    SOMEWHERE_1;
+    S1_1;
+    SM1_1[shape=Square,fillcolor=lightgrey];
+    S1_2;
+    S1_0;
+  }
+  subgraph cluster_0 {
+    label = "Zone 0" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    S0_2;
+    SM0_0[shape=Square,fillcolor=lightgrey];
+    S0_0;
+    S0_1;
+    STARTFrodo;
+  }
+  subgraph cluster_Teleport_0_1 {
+    label = "Zone Teleport_0_1" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    SS1_Teleport_0_1[shape=Square];
+    SM0_Teleport_0_1[shape=Square,fillcolor=lightgrey];
+  }
+  subgraph cluster_Teleport_1_2 {
+    label = "Zone Teleport_1_2" ;
+    style=filled;
+    color=lightblue;
+    node [style=filled,fillcolor=white];
+    SS2_Teleport_1_2[shape=Square];
+    SM1_Teleport_1_2[shape=Square,fillcolor=lightgrey];
+  }
+  SS1_1 -> SS1_Teleport_0_1[dir=both,color=blue];
+  SS3_Teleport_2_3 -> SS3_3[dir=both,color=blue];
+  SS2_2 -> SS2_Teleport_1_2[dir=both,color=blue];
+  SS5_Teleport_4_5 -> SS5_5[dir=both,color=blue];
+  SS4_Teleport_3_4 -> SS4_4[dir=both,color=blue];
+  SM1_1 -> SM1_Teleport_1_2[dir=both,color=blue];
+  SS7_7 -> SS7_Teleport_6_7[dir=both,color=blue];
+  SM0_0 -> SM0_Teleport_0_1[dir=both,color=blue];
+  SS6_Teleport_5_6 -> SS6_6[dir=both,color=blue];
+  SM3_Teleport_3_4 -> SM3_3[dir=both,color=blue];
+  SS9_9 -> SS9_Teleport_8_9[dir=both,color=blue];
+  SM2_Teleport_2_3 -> SM2_2[dir=both,color=blue];
+  SS8_8 -> SS8_Teleport_7_8[dir=both,color=blue];
+  SM5_Teleport_5_6 -> SM5_5[dir=both,color=blue];
+  SM4_Teleport_4_5 -> SM4_4[dir=both,color=blue];
+  SM7_7 -> SM7_Teleport_7_8[dir=both,color=blue];
+  SM6_6 -> SM6_Teleport_6_7[dir=both,color=blue];
+  SM8_8 -> SM8_Teleport_8_9[dir=both,color=blue];
+  SI9 -> S9_2[arrowhead=box,color=red];
+  S0_1 -> SM0_0[arrowhead=box,color=red];
+  S0_1 -> SM0_Teleport_0_1[arrowhead=box,color=red];
+  S1_0 -> SM1_1[arrowhead=box,color=red];
+  S1_0 -> SM1_Teleport_1_2[arrowhead=box,color=red];
+  S6_2 -> SM6_6[arrowhead=box,color=red];
+  S6_2 -> SM6_Teleport_6_7[arrowhead=box,color=red];
+  S7_0 -> SM7_7[arrowhead=box,color=red];
+  S7_0 -> SM7_Teleport_7_8[arrowhead=box,color=red];
+  S2_2 -> SM2_Teleport_2_3[arrowhead=box,color=red];
+  S2_2 -> SM2_2[arrowhead=box,color=red];
+  S3_2 -> SM3_Teleport_3_4[arrowhead=box,color=red];
+  S3_2 -> SM3_3[arrowhead=box,color=red];
+  S4_1 -> SM4_Teleport_4_5[arrowhead=box,color=red];
+  S4_1 -> SM4_4[arrowhead=box,color=red];
+  S5_0 -> SM5_Teleport_5_6[arrowhead=box,color=red];
+  S5_0 -> SM5_5[arrowhead=box,color=red];
+  SM1_1 -> S1_0[arrowhead=box,color=red];
+  SM1_Teleport_1_2 -> S1_0[arrowhead=box,color=red];
+  SM0_0 -> S0_1[arrowhead=box,color=red];
+  SM0_Teleport_0_1 -> S0_1[arrowhead=box,color=red];
+  SM3_Teleport_3_4 -> S3_2[arrowhead=box,color=red];
+  SM3_3 -> S3_2[arrowhead=box,color=red];
+  SM2_Teleport_2_3 -> S2_2[arrowhead=box,color=red];
+  SM2_2 -> S2_2[arrowhead=box,color=red];
+  SM5_Teleport_5_6 -> S5_0[arrowhead=box,color=red];
+  SM5_5 -> S5_0[arrowhead=box,color=red];
+  SM4_Teleport_4_5 -> S4_1[arrowhead=box,color=red];
+  SM4_4 -> S4_1[arrowhead=box,color=red];
+  SM7_7 -> S7_0[arrowhead=box,color=red];
+  SM7_Teleport_7_8 -> S7_0[arrowhead=box,color=red];
+  SM6_6 -> S6_2[arrowhead=box,color=red];
+  SM6_Teleport_6_7 -> S6_2[arrowhead=box,color=red];
+  S8_2 -> SM8_8[arrowhead=box,color=red];
+  S8_2 -> SM8_Teleport_8_9[arrowhead=box,color=red];
+  SM8_8 -> S8_2[arrowhead=box,color=red];
+  SM8_Teleport_8_9 -> S8_2[arrowhead=box,color=red];
+  S9_2 -> SI9[arrowhead=box,color=red];
+}

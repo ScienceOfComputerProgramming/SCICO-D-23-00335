@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import eu.iv4xr.framework.extensions.ltl.LTL;
 import static eu.iv4xr.framework.extensions.ltl.LTL.* ;
 
-import eu.iv4xr.framework.extensions.occ.EmotionAppraisalSystem;
 import eu.iv4xr.framework.extensions.occ.Iv4xrOCCEngine;
 import eu.iv4xr.framework.mainConcepts.EmotiveTestAgent;
 import eu.iv4xr.framework.mainConcepts.TestAgent;
@@ -28,6 +27,12 @@ import static eu.iv4xr.ux.pxtesting.study.minidungeon.MiniDungeonPlayerCharacter
 
 
 
+/**
+ * A demo that runs a goal structure on an instance of the MD-game using an emotive-agent,
+ * and getting OCC-data from the run.
+ *
+ * @author Wish
+ */
 public class TestDemoPX {
 	
 	DungeonApp deployApp() throws Exception {

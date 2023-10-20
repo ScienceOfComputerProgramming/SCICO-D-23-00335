@@ -148,7 +148,7 @@ public class MCtestGenerator {
 			abstestsuite.add(tc) ;
 			
 			// remove target-states that are accidentally covered:
-			transitions.removeIf(aState -> coverTransition(tc,st0,st1)) ;	
+			transitions.removeIf(tr2 -> coverTransition(tc,tr2.fst,tr2.snd)) ;	
 		}
 		// check again which states are left uncovered:
 		
@@ -171,11 +171,11 @@ public class MCtestGenerator {
 		System.out.println("** #abs-transitions in efsm: " + N) ;
 		System.out.println("** #covered transitions  : " + covered.size()) ;
 		System.out.println("** #uncovered transitions: " + uncovered.size()) ;
-		if (uncovered.size()>0) {
-			for (var tr : uncovered) {
-				System.out.println("      " + tr) ;
-			}
-		}
+		//if (uncovered.size()>0) {
+		//	for (var tr : uncovered) {
+		//		System.out.println("      " + tr) ;
+		//	}
+		//}
 		System.out.println(">>> runtime(s): " + duration) ;	
 		return abstestsuite;	
 	}

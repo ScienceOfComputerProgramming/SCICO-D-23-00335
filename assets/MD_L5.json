@@ -1,0 +1,536 @@
+{
+  "name": "MiniDungeon",
+  "initialAgentLocation": "STARTFrodo",
+  "objects": [
+    {
+      "id": "Frodo",
+      "type": "FRODO",
+      "position": null,
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {
+        "bagslot1": "xxx",
+        "bagslot2": "xxx"
+      }
+    },
+    {
+      "id": "S0_0",
+      "type": "SCROLL",
+      "position": {
+        "x": 3.0,
+        "y": 0.0,
+        "z": 6.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {}
+    },
+    {
+      "id": "S0_1",
+      "type": "SCROLL",
+      "position": {
+        "x": 8.0,
+        "y": 0.0,
+        "z": 5.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {}
+    },
+    {
+      "id": "S1_0",
+      "type": "SCROLL",
+      "position": {
+        "x": 7.0,
+        "y": 0.0,
+        "z": 16.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {}
+    },
+    {
+      "id": "SS1",
+      "type": "SHRINE",
+      "position": {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {
+        "isOpen": true,
+        "shrinetype": "SunShrine"
+      }
+    },
+    {
+      "id": "SS3",
+      "type": "SHRINE",
+      "position": {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {
+        "isOpen": true,
+        "shrinetype": "SunShrine"
+      }
+    },
+    {
+      "id": "S4_2",
+      "type": "SCROLL",
+      "position": {
+        "x": 2.0,
+        "y": 0.0,
+        "z": 11.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {}
+    },
+    {
+      "id": "SS2",
+      "type": "SHRINE",
+      "position": {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {
+        "isOpen": true,
+        "shrinetype": "SunShrine"
+      }
+    },
+    {
+      "id": "S2_2",
+      "type": "SCROLL",
+      "position": {
+        "x": 12.0,
+        "y": 0.0,
+        "z": 15.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {}
+    },
+    {
+      "id": "S3_1",
+      "type": "SCROLL",
+      "position": {
+        "x": 17.0,
+        "y": 0.0,
+        "z": 15.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {}
+    },
+    {
+      "id": "S4_0",
+      "type": "SCROLL",
+      "position": {
+        "x": 8.0,
+        "y": 0.0,
+        "z": 15.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {}
+    },
+    {
+      "id": "S3_2",
+      "type": "SCROLL",
+      "position": {
+        "x": 12.0,
+        "y": 0.0,
+        "z": 4.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {}
+    },
+    {
+      "id": "SS4",
+      "type": "SHRINE",
+      "position": {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {
+        "isOpen": true,
+        "shrinetype": "SunShrine"
+      }
+    },
+    {
+      "id": "S4_1",
+      "type": "SCROLL",
+      "position": {
+        "x": 8.0,
+        "y": 0.0,
+        "z": 10.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {}
+    },
+    {
+      "id": "S0_2",
+      "type": "SCROLL",
+      "position": {
+        "x": 12.0,
+        "y": 0.0,
+        "z": 5.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {}
+    },
+    {
+      "id": "S1_1",
+      "type": "SCROLL",
+      "position": {
+        "x": 12.0,
+        "y": 0.0,
+        "z": 17.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {}
+    },
+    {
+      "id": "SM1",
+      "type": "SHRINE",
+      "position": {
+        "x": 18.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {
+        "cleansed": false,
+        "isOpen": false,
+        "shrinetype": "MoonShrine"
+      }
+    },
+    {
+      "id": "S2_0",
+      "type": "SCROLL",
+      "position": {
+        "x": 13.0,
+        "y": 0.0,
+        "z": 11.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {}
+    },
+    {
+      "id": "SM0",
+      "type": "SHRINE",
+      "position": {
+        "x": 18.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {
+        "cleansed": false,
+        "isOpen": false,
+        "shrinetype": "MoonShrine"
+      }
+    },
+    {
+      "id": "S1_2",
+      "type": "SCROLL",
+      "position": {
+        "x": 12.0,
+        "y": 0.0,
+        "z": 16.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {}
+    },
+    {
+      "id": "S2_1",
+      "type": "SCROLL",
+      "position": {
+        "x": 12.0,
+        "y": 0.0,
+        "z": 2.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {}
+    },
+    {
+      "id": "S3_0",
+      "type": "SCROLL",
+      "position": {
+        "x": 3.0,
+        "y": 0.0,
+        "z": 13.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {}
+    },
+    {
+      "id": "SM3",
+      "type": "SHRINE",
+      "position": {
+        "x": 18.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {
+        "cleansed": false,
+        "isOpen": false,
+        "shrinetype": "MoonShrine"
+      }
+    },
+    {
+      "id": "SM2",
+      "type": "SHRINE",
+      "position": {
+        "x": 18.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {
+        "cleansed": false,
+        "isOpen": false,
+        "shrinetype": "MoonShrine"
+      }
+    },
+    {
+      "id": "STARTFrodo",
+      "type": "STARTLOC",
+      "position": {
+        "x": 9.0,
+        "y": 0.0,
+        "z": 9.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": true,
+      "properties": {}
+    },
+    {
+      "id": "SI4",
+      "type": "SHRINE",
+      "position": {
+        "x": 18.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "extent": null,
+      "velocity": null,
+      "destroyed": false,
+      "properties": {
+        "cleansed": false,
+        "shrinetype": "ShrineOfImmortals"
+      }
+    },
+    {
+      "id": "SOMEWHERE_1",
+      "type": "DUMMY",
+      "position": null,
+      "extent": null,
+      "velocity": null,
+      "destroyed": true,
+      "properties": {}
+    },
+    {
+      "id": "SOMEWHERE_2",
+      "type": "DUMMY",
+      "position": null,
+      "extent": null,
+      "velocity": null,
+      "destroyed": true,
+      "properties": {}
+    },
+    {
+      "id": "SOMEWHERE_3",
+      "type": "DUMMY",
+      "position": null,
+      "extent": null,
+      "velocity": null,
+      "destroyed": true,
+      "properties": {}
+    },
+    {
+      "id": "SOMEWHERE_4",
+      "type": "DUMMY",
+      "position": null,
+      "extent": null,
+      "velocity": null,
+      "destroyed": true,
+      "properties": {}
+    }
+  ],
+  "blockers": [
+    "SS1",
+    "SS3",
+    "SS2",
+    "SS4",
+    "SM1",
+    "SM0",
+    "SM3",
+    "SM2"
+  ],
+  "zones": [
+    {
+      "id": "1",
+      "members": [
+        "SS1",
+        "SOMEWHERE_1",
+        "S1_1",
+        "SM1",
+        "S1_2",
+        "S1_0"
+      ]
+    },
+    {
+      "id": "0",
+      "members": [
+        "S0_2",
+        "SM0",
+        "S0_0",
+        "S0_1",
+        "STARTFrodo"
+      ]
+    },
+    {
+      "id": "Teleport_0_1",
+      "members": [
+        "SS1",
+        "SM0"
+      ]
+    },
+    {
+      "id": "Teleport_3_4",
+      "members": [
+        "SS4",
+        "SM3"
+      ]
+    },
+    {
+      "id": "Teleport_1_2",
+      "members": [
+        "SS2",
+        "SM1"
+      ]
+    },
+    {
+      "id": "Teleport_2_3",
+      "members": [
+        "SS3",
+        "SM2"
+      ]
+    },
+    {
+      "id": "4",
+      "members": [
+        "S4_2",
+        "S4_0",
+        "SS4",
+        "S4_1",
+        "SOMEWHERE_4",
+        "SI4"
+      ]
+    },
+    {
+      "id": "3",
+      "members": [
+        "SS3",
+        "SOMEWHERE_3",
+        "S3_1",
+        "S3_2",
+        "S3_0",
+        "SM3"
+      ]
+    },
+    {
+      "id": "2",
+      "members": [
+        "SOMEWHERE_2",
+        "SS2",
+        "S2_2",
+        "S2_0",
+        "S2_1",
+        "SM2"
+      ]
+    }
+  ],
+  "objectlinks": {
+    "S2_2": [
+      "SM2"
+    ],
+    "S3_2": [
+      "SM3"
+    ],
+    "S4_1": [
+      "SI4"
+    ],
+    "SM1": [
+      "S1_0"
+    ],
+    "SM0": [
+      "S0_1"
+    ],
+    "SM3": [
+      "S3_2"
+    ],
+    "S0_1": [
+      "SM0"
+    ],
+    "S1_0": [
+      "SM1"
+    ],
+    "SM2": [
+      "S2_2"
+    ],
+    "SI4": [
+      "S4_1"
+    ]
+  }
+}
