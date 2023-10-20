@@ -34,16 +34,14 @@ public class Test_MD_MBT {
 		//gen.aimedCoverage = TestSuiteGenerator.STATE_COV ;
 		//gen.idFinalState = "SI9" ;
 		gen.idFinalState = "SI4" ;
-		
 		//gen.idFinalState = "SS4" ;
 		gen.generateWithSBT(120,null) ;
 		gen.printStats();
 		gen.generateWithMC(false, true, false, 80);
 		gen.printStats();
-		//var tc = gen.getTestSuite().get(0) ;
-		//System.out.println(">>> " + tc) ;
 		gen.applySampling(8,20);
 		gen.printStats();
+		gen.save("./tmp","tc");
 	}
 	
 	DungeonApp deployApp() throws Exception {
@@ -73,7 +71,7 @@ public class Test_MD_MBT {
 		
 	}
 	
-	@Test
+	//@Test
 	public void test2() throws Exception {
 		var gen = new TestSuiteGenerator("eu.iv4xr.ux.pxtesting.study.minidungeon.EFSM_MD_L5") ;
 		gen.idFinalState = "SI4" ;
@@ -96,16 +94,25 @@ public class Test_MD_MBT {
 				mentalGoal_clanseShrine
 				) ;
 		
-		List<Pair<String,AbstractTestSequence>> suite_ = new LinkedList<>();
-		int k=0 ;
-		for (var tc : suite) {
-			suite_.add(new Pair<>("tc" + k, tc)) ;
-			k++ ;
-		}
-		
-		runner.run(suite_, "./tmp", 1000, 0);
+		runner.run_(suite, "./tmp", 1000, 0);
 		
 	}
 	
+	
+	@Test
+	public void test3() throws Exception {
+		
+		var gwmodel = (new EFSM_MD_L5()).loadGameWorldModel();
+
+		Pair<Goal, Integer> mentalGoal_clanseShrine = new Pair<>(MiniDungeonPlayerCharacterization.shrineCleansed, 50);
+
+		PXTestAgentRunner runner = new PXTestAgentRunner(dummy -> deployTestAgent(),
+				new MiniDungeonPlayerCharacterization(), new MiniDungeonEventsProducer(),
+				agent -> tc -> MD_FBK_EFSM_Utils.abstractTestSeqToGoalStructure(agent, tc, gwmodel), null,
+				mentalGoal_clanseShrine);
+
+		runner.run("./tmp/suite", "./tmp", 1000, 0);
+
+	}
 
 }

@@ -17,6 +17,7 @@ import com.google.common.primitives.Ints;
 
 import eu.fbk.iv4xr.mbt.testcase.AbstractTestSequence;
 import eu.fbk.iv4xr.mbt.utils.TestSerializationUtils;
+import nl.uu.cs.aplib.utils.Pair;
 
 public class AbstractTestUtils {
 	
@@ -65,12 +66,17 @@ public class AbstractTestUtils {
 	 * Parse a bunch of serialized test-cases from a directory.
 	 * @throws IOException 
 	 */
-	public static List<AbstractTestSequence> parseAbstrastTestSuite(String dir) throws IOException {
-		List<AbstractTestSequence> suite = new LinkedList<>() ;
+	public static List<Pair<String,AbstractTestSequence>> parseAbstrastTestSuite(String dir) throws IOException {
+		List<Pair<String,AbstractTestSequence>> suite = new LinkedList<>() ;
 		List<File> files = org.apache.maven.shared.utils.io.FileUtils.getFiles(new File(dir), "*.ser", "");
 		for (File file : files) {
+			
+			String fname = file.getName() ;
+			// dropping the extension .ser
+			fname = fname.substring(0, fname.length() - 4) ;
+			
 			AbstractTestSequence test = TestSerializationUtils.loadTestSequence(file.getAbsolutePath());
-			suite.add(test) ;
+			suite.add(new Pair<>(fname,test)) ;
 		}
 		return suite;
 	}

@@ -267,6 +267,9 @@ public class TestSuiteGenerator {
 		AbstractTestUtils.save(dir, basefileName, testSuite);
 	}
 	
+	/**
+	 * Just for some quick testing ...
+	 */
 	public static void main(String[] args) throws Exception {
 		var gen = new TestSuiteGenerator("eu.iv4xr.ux.pxmbt.EFSMSimple0") ;
 		gen.idFinalState = "b3" ;

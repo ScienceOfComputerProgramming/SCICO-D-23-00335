@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,6 +21,7 @@ import eu.iv4xr.framework.mainConcepts.EmotiveTestAgent;
 import eu.iv4xr.framework.mainConcepts.Iv4xrAgentState;
 import eu.iv4xr.framework.mainConcepts.SyntheticEventsProducer;
 import eu.iv4xr.framework.mainConcepts.TestDataCollector;
+import eu.iv4xr.ux.pxtesting.mbt.AbstractTestUtils;
 import eu.iv4xr.ux.pxtesting.occ.OCCState;
 import eu.iv4xr.ux.pxtesting.occ.XUserCharacterization;
 import nl.uu.cs.aplib.Logging;
@@ -190,6 +192,29 @@ public class PXTestAgentRunner {
 			currentAgent.withScalarInstrumenter(S -> simplestStateInstrumenter(S)) ;
 		}
 		
+	}
+	
+	
+	public void run_(List<AbstractTestSequence> suite, 
+			String saveDir,
+			int budgetPerTesCase,
+			int delayBetweenAgentUpdateCycles) throws Exception {
+		
+		List<Pair<String,AbstractTestSequence>> S = new LinkedList<>() ;
+		int k = 0 ;
+		for (var tc : suite) {
+			S.add(new Pair<>("tc" + k, tc)) ;
+			k++ ;
+		}
+		run(S,saveDir,budgetPerTesCase,delayBetweenAgentUpdateCycles) ;	
+	}
+	
+	public void run(String testsuiteDir, 
+			String saveDir,
+			int budgetPerTesCase,
+			int delayBetweenAgentUpdateCycles) throws Exception {
+		var suite = AbstractTestUtils.parseAbstrastTestSuite(testsuiteDir) ;
+		run(suite,saveDir,budgetPerTesCase,delayBetweenAgentUpdateCycles) ;
 	}
 	
 	public void run(List<Pair<String,AbstractTestSequence>> suite, 
