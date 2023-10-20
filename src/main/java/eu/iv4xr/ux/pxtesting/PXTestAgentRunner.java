@@ -2,7 +2,9 @@ package eu.iv4xr.ux.pxtesting;
 
 import static eu.iv4xr.ux.pxtesting.study.minidungeon.MiniDungeonPlayerCharacterization.shrineCleansed;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.logging.Level;
@@ -24,24 +26,33 @@ import nl.uu.cs.aplib.exampleUsages.miniDungeon.testAgent.MyAgentEnv;
 import nl.uu.cs.aplib.exampleUsages.miniDungeon.testAgent.MyAgentState;
 import nl.uu.cs.aplib.exampleUsages.miniDungeon.testAgent.Utils;
 import nl.uu.cs.aplib.mainConcepts.GoalStructure;
+import nl.uu.cs.aplib.mainConcepts.ProgressStatus;
 import nl.uu.cs.aplib.mainConcepts.SimpleState;
 //import nl.uu.cs.aplib.mainConcepts.Environment;
 import nl.uu.cs.aplib.utils.Pair;
 
-public class PXAgent {
+/**
+ * A runner for executing abstract testsuite coming from MBT on an actual
+ * game-under-test, via an aplib test-agent.
+ */
+public class PXTestAgentRunner {
 	
 	/**
-	 * The test agent that will execute the test cases.
+	 * A function that can construct a test-agent. Each time this runner must
+	 * run a test-case, it will invoke this function to get an instance of
+	 * test-agent to run the test-case. This test-agent should already come
+	 * with a state and a reference to the Environment (so, agent.state() and
+	 * agent.env() should not return null).
 	 */
-	public EmotiveTestAgent agent ;
-	public Iv4xrOCCEngine occ ;
+	Function<Void,EmotiveTestAgent> agentConstructor ;
+
 	
 	/**
 	 * Function to convert a given abstract test-case to an instance
 	 * of {@link GoalStructure}, which would then be executable by
-	 * the test {@link PXAgent#agent}.
+	 * the test {@link PXTestAgentRunner#agent}.
 	 */
-	Function<AbstractTestSequence,GoalStructure> concretizationFunction ;
+	Function<EmotiveTestAgent,Function<AbstractTestSequence,GoalStructure>> concretizationFunction ;
 	
 	/**
 	 * This function is called at every agent update-cycle to sample the 
@@ -54,81 +65,52 @@ public class PXAgent {
 	 * default instrumenter will also record time stamps and the agent's
 	 * xyz positions.
 	 */
-	Function<SimpleState,Pair<String,Number>[]> stateInstrumenter ;
+	Function<EmotiveTestAgent,Function<SimpleState,Pair<String,Number>[]>> customStateInstrumenter ;
 	
 	Pair<Goal,Integer>[] goals ;
 	XUserCharacterization playerCharacterization ;
+	SyntheticEventsProducer eventsProducer ;
 	
-	void resetEmotionState() {
-		// setting of OCC-extension:
-		occ = new Iv4xrOCCEngine(agent.getId()) 
-						. attachToEmotiveTestAgent(agent) 
-						. withUserModel(playerCharacterization) ;
-				
-		for(var g : goals) {
-			// add every goal and its initial likelihood
-			occ.addGoal(g.fst, g.snd) ;
-		}
-				
-		// generate initial emotion:
-		occ.addInitialEmotions();
-	}
+	/**
+	 * The agent prepped to execute the next test-case.
+	 */
+	EmotiveTestAgent currentAgent ;
+	
+	/**
+	 * The occ-module hooked to {@link #currentAgent}.
+	 */
+	Iv4xrOCCEngine currentOcc ;
+	
+	
 	
 	/**
 	 * Configure a test-agent to be a PX-test-agent. We need a agent that is already
 	 * equipped with a state and a reference to an instance of {@link nl.uu.cs.aplib.mainConcepts.Environment}
 	 * (which is an interface to the game-under-test).
 	 */
-	public PXAgent(EmotiveTestAgent agent,
+	public PXTestAgentRunner(Function<Void,EmotiveTestAgent> agentConstructor,
 			XUserCharacterization playerCharacterization,
 			SyntheticEventsProducer eventsProducer,
-			Function<AbstractTestSequence,GoalStructure> concretizationFunction,
-			Function<SimpleState,Pair<String,Number>[]> customStateInstrumenter,
+			Function<EmotiveTestAgent,Function<AbstractTestSequence,GoalStructure>> concretizationFunction,
+			Function<EmotiveTestAgent,Function<SimpleState,Pair<String,Number>[]>> customStateInstrumenter,
 			Pair<Goal,Integer> ... goals
 			) {
-		
-		if (agent.state() == null) {
-			throw new IllegalArgumentException("agent.state() is null. Need an agent that has a state.") ;
-		}
-		if (agent.env() == null) {
-			throw new IllegalArgumentException("agent.env() is null. Need an agent that has a reference to an Environment.") ;
-			
-		}
-		if (! (agent.state() instanceof Iv4xrAgentState)) {
-			Logging.getAPLIBlogger().log(Level.WARNING, "The state of the emotive agent " 
-					+ agent.getId() 
-					+ " is not an instance of Iv4xrAgentState. You may need to use a custom instrumenter.") ;
-		}
-		
-		// setting-up events-producer:
-		agent.attachSyntheticEventsProducer(eventsProducer) ;
-		
-		// setting-up a state instrumenter:
-		if (customStateInstrumenter != null) {
-			stateInstrumenter = customStateInstrumenter ;
-		}
-		else {
-			if ((agent.state() instanceof Iv4xrAgentState)) {
-				stateInstrumenter = S -> minimalStateInstrumenter((Iv4xrAgentState) S) ;
-			}
-			else {
-				stateInstrumenter = S -> simplestStateInstrumenter(S) ;
-			}
-		}
-
+		this.agentConstructor = agentConstructor ;
 		this.playerCharacterization = playerCharacterization ;
-		this.goals = goals ;
+		this.eventsProducer = eventsProducer ;
 		this.concretizationFunction = concretizationFunction ;
-			
+		this.customStateInstrumenter = customStateInstrumenter ;
+		this.goals = goals ;			
 	}
 	
 	Set<String> getOCCgoals() {
-		return occ.beliefbase.getGoalsStatus().statuses.keySet() ;
+		return currentOcc.beliefbase.getGoalsStatus().statuses.keySet() ;
 	}
 	
 	@SuppressWarnings("unchecked")
 	Pair<String,Number>[] simplestStateInstrumenter(SimpleState S) {
-		var E = (OCCState) agent.getEmotionState() ;
+		
+		var E = (OCCState) currentAgent.getEmotionState() ;
 		var goals = getOCCgoals() ;
 		int NumGoals = goals.size() ;
 		Pair<String,Number>[] emotions = new Pair[6*NumGoals] ;
@@ -164,6 +146,52 @@ public class PXAgent {
 	
 	public boolean printRunDebug = false ;
 
+	private boolean Iv4xrAgentStateWarningGiven = false ;
+	
+	private void prepareTheTestAgent() {
+		
+		// get an executing agent:
+		currentAgent = agentConstructor.apply(null) ;
+		
+		// check if the agent has a state and a reference to an Environment:
+		if (currentAgent.state() == null) {
+			throw new IllegalArgumentException("agent.state() is null. Need an agent that has a state.") ;
+		}
+		if (currentAgent.env() == null) {
+			throw new IllegalArgumentException("agent.env() is null. Need an agent that has a reference to an Environment.") ;	
+		}
+		if (!Iv4xrAgentStateWarningGiven && !(currentAgent.state() instanceof Iv4xrAgentState)) {
+			Logging.getAPLIBlogger().log(Level.WARNING, "The state of the emotive agent " 
+					+ currentAgent.getId() 
+					+ " is not an instance of Iv4xrAgentState. You may need to use a custom state-instrumenter.") ;
+			Iv4xrAgentStateWarningGiven = true ;
+		}
+		
+		// Prepare the agent:
+		currentAgent.attachSyntheticEventsProducer(eventsProducer) ;
+		currentAgent.setTestDataCollector(new TestDataCollector()) ;
+
+		currentOcc = new Iv4xrOCCEngine(currentAgent.getId()) 
+				 . attachToEmotiveTestAgent(currentAgent) 
+				 . withUserModel(playerCharacterization) ;
+		
+		for (var mentalGoal : goals) {
+			int initialLikelihood = mentalGoal.snd ; // force-clone the int
+			currentOcc.addGoal(mentalGoal.fst, initialLikelihood) ;
+		}	
+		currentOcc.addInitialEmotions();
+
+		if (customStateInstrumenter != null) {
+			currentAgent.withScalarInstrumenter(customStateInstrumenter.apply(currentAgent)) ;
+		}
+		else if(currentAgent.state() instanceof Iv4xrAgentState) {
+			currentAgent.withScalarInstrumenter(S -> minimalStateInstrumenter((Iv4xrAgentState) S)) ;
+		}
+		else {
+			currentAgent.withScalarInstrumenter(S -> simplestStateInstrumenter(S)) ;
+		}
+		
+	}
 	
 	public void run(List<Pair<String,AbstractTestSequence>> suite, 
 			String saveDir,
@@ -171,21 +199,27 @@ public class PXAgent {
 			int delayBetweenAgentUpdateCycles) throws InterruptedException {
 
 		System.out.println("** About to execute a test-suite #=" + suite.size());
-
-		agent.setTestDataCollector(new TestDataCollector()) ;
-		agent.withScalarInstrumenter(stateInstrumenter) ;
+		Map<String,ProgressStatus> tcsStatus = new HashMap<>() ;
+		Map<String,Long> runtime = new HashMap<>() ;
 		
 		// iterate over every test-case in the suite:
 		int tcCount = 0 ;
 		for (var tc : suite) {
+			
+			prepareTheTestAgent() ;
 			String tc_name = tc.fst ;
-			GoalStructure tcG = concretizationFunction.apply(tc.snd) ;
-			this.resetEmotionState(); 
+			GoalStructure tcG = concretizationFunction
+					.apply(currentAgent)
+					.apply(tc.snd) ;
+			
+			currentAgent.setGoal(tcG) ;
+
 			// run the test-case tc:
 			System.out.println("** Start executing tc " + tc_name + " (" + tcCount + ")");
+			long time = System.currentTimeMillis() ;
 			int k = 0;
 			while (tcG.getStatus().inProgress()) {
-				agent.update();
+				currentAgent.update();
 				k++ ;
 				if (printRunDebug) {
 					String info = ">> [" + k + "]"  ;
@@ -200,10 +234,32 @@ public class PXAgent {
 					break ;
 				}
 			}
+			long duration = (System.currentTimeMillis() - time) ;
+			tcsStatus.put(tc_name, tcG.getStatus()) ;
+			runtime.put(tc_name, duration) ;
 			System.out.println(">> goal-status at the end: " + tcG.getStatus()) ;
 			tcCount++ ;
 		}
-		
+		int numberOfSuccess = 0 ;
+		int numberOfFail = 0 ;
+		int numberOfTimeOut = 0 ;
+		long totTime = 0 ;
+		for (var tc : suite) {
+			String tc_name = tc.fst ;
+			long time = runtime.get(tc_name) ;
+			ProgressStatus st = tcsStatus.get(tc_name) ;
+			if (st.success()) numberOfSuccess++ ;
+			if (st.failed()) numberOfFail++ ;
+			if (st.inProgress()) numberOfTimeOut++ ;
+			System.out.println("** tc " + tc_name +": "
+					+ st + ", "
+					+ time + "ms" ) ;
+			totTime += time ;
+		}
+		System.out.println("** #success: " + numberOfSuccess) ;
+		System.out.println("** #fail   : " + numberOfFail) ;
+		System.out.println("** #timeout: " + numberOfTimeOut) ;
+		System.out.println("** tot-time: " + totTime) ;
 	}
 
 }
