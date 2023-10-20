@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.IntSummaryStatistics;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
@@ -31,9 +31,9 @@ public class AbstractTestUtils {
 			AbstractTestSequence seq) throws IOException {
 
 		String base = basefileName ;
-		if (dir != null)
-			base = dir + File.separator + basefileName;
-
+		if (dir != null) {
+			base = Paths.get(dir,basefileName).toString() ;
+		}
 		FileUtils.writeStringToFile(new File(base + ".dot"), seq.toDot(), Charset.defaultCharset());
 		FileUtils.writeStringToFile(new File(base + ".txt"), seq.toString(), Charset.defaultCharset());
 		TestSerializationUtils.saveTestSequence(seq, base + ".ser");
@@ -55,7 +55,7 @@ public class AbstractTestUtils {
 	 */
 	public static AbstractTestSequence parseAbstractTestSeq(String dir, String fname) throws FileNotFoundException {
 		if (dir != null) {
-			fname = dir + File.separator + fname ;
+			fname = Paths.get(dir,fname).toString() ;
 		}
 		AbstractTestSequence seq = TestSerializationUtils.loadTestSequence(fname);
 		return seq ;

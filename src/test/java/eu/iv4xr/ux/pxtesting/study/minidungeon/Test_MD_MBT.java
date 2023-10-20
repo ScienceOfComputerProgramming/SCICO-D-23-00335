@@ -103,7 +103,7 @@ public class Test_MD_MBT {
 			k++ ;
 		}
 		
-		runner.run(suite_, "tmp", 1000, 0);
+		runner.run(suite_, "./tmp", 1000, 0);
 		
 	}
 	

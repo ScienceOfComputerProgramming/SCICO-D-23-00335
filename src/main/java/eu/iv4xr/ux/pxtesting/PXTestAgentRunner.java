@@ -2,6 +2,10 @@ package eu.iv4xr.ux.pxtesting;
 
 import static eu.iv4xr.ux.pxtesting.study.minidungeon.MiniDungeonPlayerCharacterization.shrineCleansed;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +14,6 @@ import java.util.function.Function;
 import java.util.logging.Level;
 
 import eu.fbk.iv4xr.mbt.testcase.AbstractTestSequence;
-import eu.iv4xr.framework.extensions.ltl.LTL;
 import eu.iv4xr.framework.extensions.occ.Goal;
 import eu.iv4xr.framework.extensions.occ.Iv4xrOCCEngine;
 import eu.iv4xr.framework.mainConcepts.EmotiveTestAgent;
@@ -19,12 +22,7 @@ import eu.iv4xr.framework.mainConcepts.SyntheticEventsProducer;
 import eu.iv4xr.framework.mainConcepts.TestDataCollector;
 import eu.iv4xr.ux.pxtesting.occ.OCCState;
 import eu.iv4xr.ux.pxtesting.occ.XUserCharacterization;
-import eu.iv4xr.ux.pxtesting.study.minidungeon.MiniDungeonEventsProducer;
-import eu.iv4xr.ux.pxtesting.study.minidungeon.MiniDungeonPlayerCharacterization;
 import nl.uu.cs.aplib.Logging;
-import nl.uu.cs.aplib.exampleUsages.miniDungeon.testAgent.MyAgentEnv;
-import nl.uu.cs.aplib.exampleUsages.miniDungeon.testAgent.MyAgentState;
-import nl.uu.cs.aplib.exampleUsages.miniDungeon.testAgent.Utils;
 import nl.uu.cs.aplib.mainConcepts.GoalStructure;
 import nl.uu.cs.aplib.mainConcepts.ProgressStatus;
 import nl.uu.cs.aplib.mainConcepts.SimpleState;
@@ -93,7 +91,7 @@ public class PXTestAgentRunner {
 			SyntheticEventsProducer eventsProducer,
 			Function<EmotiveTestAgent,Function<AbstractTestSequence,GoalStructure>> concretizationFunction,
 			Function<EmotiveTestAgent,Function<SimpleState,Pair<String,Number>[]>> customStateInstrumenter,
-			Pair<Goal,Integer> ... goals
+			@SuppressWarnings("unchecked") Pair<Goal,Integer> ... goals
 			) {
 		this.agentConstructor = agentConstructor ;
 		this.playerCharacterization = playerCharacterization ;
@@ -148,6 +146,7 @@ public class PXTestAgentRunner {
 
 	private boolean Iv4xrAgentStateWarningGiven = false ;
 	
+	@SuppressWarnings("rawtypes")
 	private void prepareTheTestAgent() {
 		
 		// get an executing agent:
@@ -196,7 +195,7 @@ public class PXTestAgentRunner {
 	public void run(List<Pair<String,AbstractTestSequence>> suite, 
 			String saveDir,
 			int budgetPerTesCase,
-			int delayBetweenAgentUpdateCycles) throws InterruptedException {
+			int delayBetweenAgentUpdateCycles) throws Exception {
 
 		System.out.println("** About to execute a test-suite #=" + suite.size());
 		Map<String,ProgressStatus> tcsStatus = new HashMap<>() ;
@@ -238,6 +237,13 @@ public class PXTestAgentRunner {
 			tcsStatus.put(tc_name, tcG.getStatus()) ;
 			runtime.put(tc_name, duration) ;
 			System.out.println(">> goal-status at the end: " + tcG.getStatus()) ;
+			if (saveDir != null) {
+				String saveFileName = Paths.get(saveDir,tc_name + ".csv").toString() ;
+				currentAgent
+				    .getTestDataCollector()
+				    .saveTestAgentScalarsTraceAsCSV(currentAgent.getId(), saveFileName);
+				System.out.println(">> Trace is saved to " + saveFileName) ;
+			}
 			tcCount++ ;
 		}
 		int numberOfSuccess = 0 ;
@@ -260,6 +266,18 @@ public class PXTestAgentRunner {
 		System.out.println("** #fail   : " + numberOfFail) ;
 		System.out.println("** #timeout: " + numberOfTimeOut) ;
 		System.out.println("** tot-time: " + totTime) ;
+		if (saveDir != null) {
+			String summaryFileName = Paths.get(saveDir,"runsummary.txt").toString() ;
+			BufferedWriter writer = new BufferedWriter(new FileWriter(summaryFileName));
+			var buf = new StringBuffer() ;
+			buf.append("** #suite:" + suite.size()) ;
+			buf.append("\n** #success:" + numberOfSuccess) ;
+			buf.append("\n** #fail: " + numberOfFail) ;
+			buf.append("\n** #timeout: " + numberOfTimeOut) ;
+			buf.append("\n** tot-time: " + totTime) ;
+	        writer.write(buf.toString());
+	        writer.close();
+		}
 	}
 
 }
