@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtesting.study.labrecruits;
+package eu.iv4xr.ux.pxtestingPipeline;
 
 import java.io.File;
 

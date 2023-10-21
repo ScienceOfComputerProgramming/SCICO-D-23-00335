@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtesting.study.labrecruits;
+package eu.iv4xr.ux.pxtestingPipeline;
 
 //import static eu.iv4xr.ux.pxtesting.TestSettings.USE_GRAPHICS;
 //import static eu.iv4xr.ux.pxtesting.TestSettings.USE_SERVER_FOR_TEST;

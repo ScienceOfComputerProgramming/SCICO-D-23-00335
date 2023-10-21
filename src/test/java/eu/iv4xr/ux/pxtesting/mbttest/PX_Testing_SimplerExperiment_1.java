@@ -11,7 +11,7 @@ import agents.EventsProducer;
 import agents.LabRecruitsTestAgent;
 import eu.iv4xr.ux.pxtesting.study.labrecruits.LREvent;
 import eu.iv4xr.ux.pxtesting.study.labrecruits.PlayerOneCharacterization;
-import eu.iv4xr.ux.pxtesting.study.labrecruits.TestSettings;
+import eu.iv4xr.ux.pxtestingPipeline.TestSettings;
 import agents.tactics.GoalLib;
 import agents.tactics.TacticLib;
 import environments.LabRecruitsConfig;
@@ -46,7 +46,7 @@ import world.BeliefState;
 
 import static eu.iv4xr.ux.pxtesting.study.labrecruits.CSVExport.*;
 import static eu.iv4xr.ux.pxtesting.study.labrecruits.PlayerOneCharacterization.*;
-import static eu.iv4xr.ux.pxtesting.study.labrecruits.TestSettings.*;
+import static eu.iv4xr.ux.pxtestingPipeline.TestSettings.*;
 import static nl.uu.cs.aplib.AplibEDSL.*;
 import java.nio.file.Paths;
 import java.util.List;

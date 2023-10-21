@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtesting.study.PCG;
+package eu.iv4xr.ux.pxtesting.mbttest;
 
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -61,12 +61,12 @@ import eu.iv4xr.ux.pxtesting.mbt.Distance;
 import eu.iv4xr.ux.pxtesting.study.PCG.PCGCharacterization;
 import eu.iv4xr.ux.pxtesting.study.PCG.PCGEvent;
 import eu.iv4xr.ux.pxtesting.study.labrecruits.CSVlevelImport;
-import eu.iv4xr.ux.pxtesting.study.labrecruits.EmotionData;
 import eu.iv4xr.ux.pxtesting.study.labrecruits.LREvent;
 import eu.iv4xr.ux.pxtesting.study.labrecruits.PlayerOneCharacterization;
 import eu.iv4xr.ux.pxtesting.study.labrecruits.levelsize;
-import eu.iv4xr.ux.pxtesting.study.labrecruits.model_test_IOoperations;
 import eu.iv4xr.ux.pxtesting.study.labrecruits.PlayerOneCharacterization.EmotionBeliefBase;
+import eu.iv4xr.ux.pxtestingPipeline.EmotionData;
+import eu.iv4xr.ux.pxtestingPipeline.model_test_IOoperations;
 import game.LabRecruitsTestServer;
 import game.Platform;
 import eu.fbk.iv4xr.mbt.execution.labrecruits.LabRecruitsTestSuiteExecutor;

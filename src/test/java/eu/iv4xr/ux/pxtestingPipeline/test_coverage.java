@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtesting.study.labrecruits;
+package eu.iv4xr.ux.pxtestingPipeline;
 import static eu.iv4xr.framework.extensions.ltl.LTL.*;
 import static eu.iv4xr.framework.extensions.ltl.LTL2Buchi.getBuchi;
 import static org.junit.Assert.assertTrue;

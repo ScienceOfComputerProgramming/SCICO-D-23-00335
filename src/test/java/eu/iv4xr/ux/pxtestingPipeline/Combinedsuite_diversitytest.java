@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtesting.study.labrecruits;
+package eu.iv4xr.ux.pxtestingPipeline;
 
 import static eu.iv4xr.framework.extensions.ltl.LTL.ltlAnd;
 import static eu.iv4xr.framework.extensions.ltl.LTL.ltlNot;

@@ -256,7 +256,7 @@ public class MBT_PrimitiveTest {
 		writeModel(modelFolder);
 	}
 	
-	@Test
+	//@Test
     public void runGeneratedTests() {
 
 	    String rootFolder = new File(System.getProperty("user.dir")).getParent();

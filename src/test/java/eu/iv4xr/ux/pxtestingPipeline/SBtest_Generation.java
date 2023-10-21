@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtesting.study.labrecruits;
+package eu.iv4xr.ux.pxtestingPipeline;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -55,7 +55,7 @@ import eu.fbk.iv4xr.mbt.Main;
  * @author prandi
  * 
  */
-public class SBtest_Generation_newlevels {
+public class SBtest_Generation {
 
 	// use a logger to save output execution information
 	protected static final Logger logger = LoggerFactory.getLogger(Main.class);	
@@ -63,43 +63,33 @@ public class SBtest_Generation_newlevels {
 	protected List<AbstractTestSequence> absTestsuite;
 	public String targetState;
 	public int notcovered=159;
-	protected EFSM loaded_efsm;
-
 	public void setPropertiesMBT() {
 		
-//		MBTProperties.LR_generation_mode = LR_random_mode.N_BUTTONS_DEPENDENT;
-//		MBTProperties.SEARCH_BUDGET = 300;
-//		MBTProperties.MODELCRITERION = new ModelCriterion[] { ModelCriterion.TRANSITION_FIX_END_STATE }; 
-//		MBTProperties.TEST_FACTORY =  MBTProperties.TestFactory.RANDOM_LENGTH_FIX_TARGET;
-//
-//		  targetState = "gf2"; 
-//		  MBTProperties.STATE_TARGET =targetState; 
-//		  MBTProperties.MAX_LENGTH=1000;
+		MBTProperties.LR_generation_mode = LR_random_mode.N_BUTTONS_DEPENDENT;
+		MBTProperties.SEARCH_BUDGET = 60;
+		MBTProperties.SUT_EFSM = "labrecruits.random_extreme";
+		// there are some predefined configuration to pass to MBTProperties.SUT_EFSM
+		// "labrecruits.random_simple", "labrecruits.random_medium",
+		// "labrecruits.random_large"
+
+		
+		MBTProperties.LR_mean_buttons = 0.5;
+		MBTProperties.LR_n_buttons = 40;
+		MBTProperties.LR_n_doors = 28;
+		MBTProperties.LR_seed = 3257439;
+		MBTProperties.LR_n_rooms=8;
+		MBTProperties.LR_n_goalFlags = 2 ;
+
+		
+		  // Set criterion
+		   MBTProperties.MODELCRITERION = new ModelCriterion[] {
+		  ModelCriterion.TRANSITION_FIX_END_STATE }; MBTProperties.TEST_FACTORY =
+		  MBTProperties.TestFactory.RANDOM_LENGTH_FIX_TARGET;
 		  
-			MBTProperties.LR_generation_mode = LR_random_mode.N_BUTTONS_DEPENDENT;
-			MBTProperties.SEARCH_BUDGET = 300;
-			MBTProperties.SUT_EFSM = "labrecruits.random_default";
-			// there are some predefined configuration to pass to MBTProperties.SUT_EFSM
-			// "labrecruits.random_simple", "labrecruits.random_medium",
-			// "labrecruits.random_large"
-
-			
-			MBTProperties.LR_mean_buttons = 0.5;
-			MBTProperties.LR_n_buttons = 50;
-			MBTProperties.LR_n_doors = 40;
-			MBTProperties.LR_seed = 2142877334;
-			
-			MBTProperties.LR_n_goalFlags = 16 ;
-
-			//MBTProperties.LR_n_fires=5;
-			  // Set criterion
-			   MBTProperties.MODELCRITERION = new ModelCriterion[] {
-			  ModelCriterion.TRANSITION_FIX_END_STATE }; MBTProperties.TEST_FACTORY =
-			  MBTProperties.TestFactory.RANDOM_LENGTH_FIX_TARGET;
-			  
-			  // Set Target state
-			  targetState = "gf9"; 
-			  MBTProperties.STATE_TARGET =targetState; MBTProperties.MAX_LENGTH=500;
+		  // Set Target state
+		  targetState = "gf0"; 
+		  MBTProperties.STATE_TARGET =targetState; MBTProperties.MAX_LENGTH=100; //used to be 35 which is min toget some path // Search budget in seconds MBTProperties.SEARCH_BUDGET = 250;
+		 
 	}
 
 	/**
@@ -171,27 +161,21 @@ public class SBtest_Generation_newlevels {
 	public void SBTestGeneration_FBKtrancoverage() throws Exception{
 		absTestsuite = new ArrayList<AbstractTestSequence>() ;
 		setPropertiesMBT();
-	    String rootFolder = new File(System.getProperty("user.dir")).getParent();
-        String testFolder = rootFolder + File.separator + "MOSA levels"+
-        								  File.separator+ "MOSA"+ 
-        								  File.separator+"1649939356263";
-        String modelFolder= testFolder + File.separator+ "Model2";
-
-        model_test_IOoperations set=new model_test_IOoperations();
-        set.writeModel(modelFolder);
-        
 			if (!existsLabRecruitLevel()) {
 				fail();
 			}
+			// Optionally set output folder
+			// MBTProperties.OUTPUT_DIR = "outdir";
 			
 			// check that target state exists
 			EFSM efsm = EFSMFactory.getInstance().getEFSM();
 			assertTrue(efsm.getStates().contains(new EFSMState(targetState)));
-			//assertTrue(loaded_efsm.getStates().contains(new EFSMState(targetState)));
 			// Generate result
 			GenerationStrategy generationStrategy = new SearchBasedStrategy<MBTChromosome>();
 			SuiteChromosome solution = generationStrategy.generateTests();
 			
+			String testFolder = new File(System.getProperty("user.dir")).getParent() + File.separator + "SBTtest";
+
 			int count = 1;
 			for (MBTChromosome testCase : solution.getTestChromosomes()) {
 				AbstractTestSequence testSequence = (AbstractTestSequence)testCase.getTestcase();
@@ -217,11 +201,13 @@ public class SBtest_Generation_newlevels {
 			System.out.println("total Distance: "+totaldistance);
 			
 
-			  List<AbstractTestSequence> absTestsuite_Subset= eu.iv4xr.ux.pxtesting.study.labrecruits
+			  List<AbstractTestSequence> absTestsuite_Subset= eu.iv4xr.ux.pxtestingPipeline
 					  .MCtest_Generation.RandomSampling(absTestsuite, 30 );
 
 			// output folders
-			//String selectedtestFolder = testFolder+File.separator + "selectedtest";
+			String rootFolder = new File(System.getProperty("user.dir")).getParent();
+			String modelFolder = testFolder + File.separator + "Model";
+			String selectedtestFolder = testFolder+File.separator + "selectedtest";
 
 			// save generated tests
 			File testFolderFile = new File(testFolder);
@@ -234,7 +220,7 @@ public class SBtest_Generation_newlevels {
 			}
 			model_test_IOoperations io=new model_test_IOoperations();
 			io.writeTests(absTestsuite, testFolder, "SBTtest");
-			//io.writeTests(absTestsuite_Subset, selectedtestFolder,"SBTtest");
+			io.writeTests(absTestsuite_Subset, selectedtestFolder,"SBTtest");
 
 			io.writeModel(modelFolder); 
 
@@ -292,7 +278,7 @@ public class SBtest_Generation_newlevels {
 		
 		// output folders
 		String rootFolder = new File(System.getProperty("user.dir")).getParent();
-		String testFolder = rootFolder + File.separator + "MBTtest";
+		String testFolder = rootFolder + File.separator + "SBTTtest";
 		String modelFolder = testFolder + File.separator + "Model";
 		
 		// save generated tests
@@ -333,15 +319,15 @@ public class SBtest_Generation_newlevels {
 	        		notcovered++;
 	        	}
 			}
-	        System.out.println("# not covered transitions: "+notcovered+ "from : "+ efsm.getTransitons().size());
-	        File txtFile = new File( testFolder + File.separator + "SBTnotcovered_transitions" + ".txt");
-			try {
-			
-				FileUtils.writeStringToFile(txtFile, notcoveredtr.toString(), Charset.defaultCharset());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	        System.out.println("number of not covered transitions in the generated test suite : "+notcovered+ "from : "+ efsm.getTransitons().size());
+	       // File txtFile = new File( testFolder + File.separator + "SBTnotcovered_transitions" + ".txt");
+//			try {
+//			
+//				FileUtils.writeStringToFile(txtFile, notcoveredtr.toString(), Charset.defaultCharset());
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+			//}
 	}
 
 }

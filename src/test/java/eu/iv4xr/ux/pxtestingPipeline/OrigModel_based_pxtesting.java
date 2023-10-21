@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtesting.study.labrecruits;
+package eu.iv4xr.ux.pxtestingPipeline;
 
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertFalse;
