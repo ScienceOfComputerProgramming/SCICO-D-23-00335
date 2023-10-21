@@ -1,8 +1,6 @@
 **/.DS_Store
 **/__pycache__
 **/*.log
-tmp/*
-labrecruits/*
 /target/
 .project
 .classpath
