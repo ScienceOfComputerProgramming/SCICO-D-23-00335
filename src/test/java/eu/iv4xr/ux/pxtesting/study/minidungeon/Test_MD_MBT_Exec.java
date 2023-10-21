@@ -24,26 +24,24 @@ import nl.uu.cs.aplib.mainConcepts.GoalStructure;
 import nl.uu.cs.aplib.mainConcepts.SimpleState;
 import nl.uu.cs.aplib.utils.Pair;
 
-public class Test_MD_MBT {
+/**
+ * An example of how abstract test cases generated from a model
+ * can be executed on the game under test (GUT). Test cases generated 
+ * from a model are abstract. They can't be directly executed
+ * on the GUT. To execute a test case, it is first translated to
+ * a goal-structure for a test agent. The latter executes the
+ * goal-structure by translating it to primitive interactions
+ * with the GUT. The translation from abstract test cases
+ * to goal-structures for a test agent is GUT-specific. For the
+ * game MiniDungeon (which is used in this demo), the translation
+ * is implemented in the method {@link MD_FBK_EFSM_Utils#abstractTestSeqToGoalStructure(eu.iv4xr.framework.mainConcepts.TestAgent, AbstractTestSequence, eu.iv4xr.framework.extensions.ltl.gameworldmodel.GameWorldModel)}.
+ * 
+ */
+public class Test_MD_MBT_Exec {
 	
-
-	//@Test
-	public void test1() throws Exception {
-		var gen = new TestSuiteGenerator("eu.iv4xr.ux.pxtesting.study.minidungeon.EFSM_MD_L5") ;
-		
-		//gen.aimedCoverage = TestSuiteGenerator.STATE_COV ;
-		//gen.idFinalState = "SI9" ;
-		gen.idFinalState = "SI4" ;
-		//gen.idFinalState = "SS4" ;
-		gen.generateWithSBT(120,null) ;
-		gen.printStats();
-		gen.generateWithMC(false, true, false, 80);
-		gen.printStats();
-		gen.applySampling(8,20);
-		gen.printStats();
-		gen.save("./tmp","tc");
-	}
-	
+	/**
+	 * A helper method to launch the game MiniDungeon.
+	 */
 	DungeonApp deployApp() throws Exception {
 		MiniDungeonConfig config = new EFSM_MD_L5().getConfig_MD_L5() ;
 		System.out.println(">>> Configuration:\n" + config);
@@ -53,6 +51,10 @@ public class Test_MD_MBT {
 		return app ;
 	}
 	
+	/**
+	 * A helper method to create a test agent, and to connect it to
+	 * a running instance of MiniDungeon.
+	 */
 	EmotiveTestAgent deployTestAgent() {
 		try {
 			DungeonApp app = deployApp() ;
@@ -71,20 +73,27 @@ public class Test_MD_MBT {
 		
 	}
 	
-	//@Test
-	public void test2() throws Exception {
+	/**
+	 * An example of generating test cases from a model, and directly
+	 * executing them.
+	 */
+	@Test
+	public void test_generate_and_exec() throws Exception {
 		var gen = new TestSuiteGenerator("eu.iv4xr.ux.pxtesting.study.minidungeon.EFSM_MD_L5") ;
 		gen.idFinalState = "SI4" ;
+		// use model-checker to generate the test suite:
 		gen.generateWithMC(false, true, false, 80);
 		gen.printStats();
 		gen.applySampling(6,10);
 		gen.printStats();
+		// the produced test suite:
 		var suite = gen.getTestSuite() ;
 		
 		var gwmodel = (new EFSM_MD_L5()).loadGameWorldModel() ;
 		
 		Pair<Goal,Integer> mentalGoal_clanseShrine = new Pair<>(MiniDungeonPlayerCharacterization.shrineCleansed,50) ;
 		
+		// create a test-runner:
 		PXTestAgentRunner runner = new PXTestAgentRunner(
 				dummy -> deployTestAgent(),
 				new MiniDungeonPlayerCharacterization(),
@@ -94,12 +103,13 @@ public class Test_MD_MBT {
 				mentalGoal_clanseShrine
 				) ;
 		
+		// run the suite using the runner:
 		runner.run_(suite, "./tmp", 1000, 0);
 		
 	}
 	
 	
-	@Test
+	//@Test
 	public void test3() throws Exception {
 		
 		var gwmodel = (new EFSM_MD_L5()).loadGameWorldModel();
