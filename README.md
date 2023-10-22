@@ -49,7 +49,7 @@ PX-MBT is written in Java. It requires Java-11 or higher. The project is Maven-b
 #### Documentation
 
    * [Modelling a game with an EFSM, and model-based testing.](./docs/efsm.md)
-   * Building the 'plugin' to connect PX-MBT to your own computer game.
+   * [Building the 'plugin' to connect PX-MBT to your own computer game](./docs/plugin.md).
    * Concretization layer
    * Preparing PX testing
    * Producing emotion traces
@@ -66,7 +66,7 @@ This is a study conducted to assess the feasibility and performance of PX-MBT ap
 
 #### Papers
 
-* Saba Gholizadeh Ansari, I. S. W. B. Prasetya, Davide Prandi, Fitsum Meshesha Kifetew, Frank Dignum, Mehdi Dastani, Gabriele Keller, _Model-based Player Experience Testing with Emotion Pattern Verification_, in the 26th International Conference on Fundamental Approaches to Software Engineering (FASE), 2023.
+* Saba Gholizadeh Ansari, I. S. W. B. Prasetya, Davide Prandi, Fitsum Meshesha Kifetew, Frank Dignum, Mehdi Dastani, Gabriele Keller, [_Model-based Player Experience Testing with Emotion Pattern Verification_](https://link-springer-com.proxy.library.uu.nl/chapter/10.1007/978-3-031-30826-0_9), in the 26th International Conference on Fundamental Approaches to Software Engineering (FASE), 2023.
 
 ##### License: Apache 2.0
 
