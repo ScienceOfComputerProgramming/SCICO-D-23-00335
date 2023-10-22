@@ -61,6 +61,7 @@ PX-MBT is written in Java. It requires Java-11 or higher. The project is Maven-b
 This is a study conducted to assess the feasibility and performance of PX-MBT approach an a 3D game called [Lab Recruits](https://github.com/iv4xr-project/labrecruits). The artifact of this study is available, containing its dataset and a replication package:
 
    * [PX-MBT FASE-23 experiment replication-package and dataset](https://zenodo.org/records/7506758).
+   * [Instructions](FASE23-README.md)
    * [The paper describing the experiments: _Model-based Player Experience Testing with Emotion Pattern Verification_](https://link-springer-com.proxy.library.uu.nl/chapter/10.1007/978-3-031-30826-0_9)
 
 #### Papers
