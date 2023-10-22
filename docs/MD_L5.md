@@ -39,7 +39,7 @@ gen.printStats();
 gen.save("./tmp","tc");
 ```
 
-Full source code of the method `test1()`: [Test_MD_MBT_Gen](./src/test/java/eu/iv4xr/ux/pxtesting/study/minidungeon/Test_MD_MBT_Gen.java)
+Full source code of the method `test1()`: [Test_MD_MBT_Gen](../src/test/java/eu/iv4xr/ux/pxtesting/study/minidungeon/Test_MD_MBT_Gen.java)
 
 #### Executing test cases
 
@@ -75,4 +75,4 @@ run(testsuite) {
 }
 ```
 
-Full source code of the method `test_generate_and_exec()`: [Test_MD_MBT_Exec](./src/test/java/eu/iv4xr/ux/pxtesting/study/minidungeon/Test_MD_MBT_Exec.java). You can also check the method `test_load_and_exec()` that loads a previously generated test cases from files and execute them.
+Full source code of the method `test_generate_and_exec()`: [Test_MD_MBT_Exec](../src/test/java/eu/iv4xr/ux/pxtesting/study/minidungeon/Test_MD_MBT_Exec.java). You can also check the method `test_load_and_exec()` that loads a previously generated test cases from files and execute them.

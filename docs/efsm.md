@@ -20,7 +20,7 @@ The transitions between b0m and b0p is guarded a condition that the variable _do
 
 ##### Constructing a model
 
-Currently we do not have a graphical tool for constructing a model. However, programmatically constructing a model is supported. See the class [EFSMSimple0](./src/main/java/eu/iv4xr/ux/pxmbt/EFSMSimple0.java), which shows how we programmatically constructed the EFSM of the above example. A constructed EFSM can be visualized via a DOT visualizer though.
+Currently we do not have a graphical tool for constructing a model. However, programmatically constructing a model is supported. See the class [EFSMSimple0](../src/main/java/eu/iv4xr/ux/pxmbt/EFSMSimple0.java), which shows how we programmatically constructed the EFSM of the above example. A constructed EFSM can be visualized via a DOT visualizer though.
 
 #### Generating test cases from a model
 

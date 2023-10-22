@@ -52,6 +52,8 @@ PX-MBT is written in Java. It requires Java-11 or higher. The project is Maven-b
    * Connecting PX-MBT to your own computer game.
    * Concretization layer
    * Producing emotion traces
+   * Emotions patterns BIG TODO
+   * Other analyses
 
 #### FASE-23 Study
 
