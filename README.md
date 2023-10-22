@@ -49,8 +49,9 @@ PX-MBT is written in Java. It requires Java-11 or higher. The project is Maven-b
 #### Documentation
 
    * [Modelling a game with an EFSM, and model-based testing.](./docs/efsm.md)
-   * Connecting PX-MBT to your own computer game.
+   * Building the 'plugin' to connect PX-MBT to your own computer game.
    * Concretization layer
+   * Preparing PX testing
    * Producing emotion traces
    * Emotions patterns BIG TODO
    * Other analyses
