@@ -31,37 +31,38 @@ PX-MBT offers the following main functionalities:
    * **Data Export.** The framework exports a range of artifacts. Test cases are exported in various forms: as text, graphically through dot syntax, in serialized binary format, and in custom CSV formats. Emotion trace files are exported in CSV format, while heat-maps and timeline graphs are saved in PNG format.
 
 
-#### How to build, how to run (maven)
+#### How to build
 
 PX-MBT is written in Java. It requires Java-11 or higher. The project is Maven-based.
 
-   * To build just do `mvn compile` from the project's root.
+   * To build just do `mvn compile` from the project's root. This will automatically download all its dependencies and then compile the project.
    * If you want to install the project into your local Maven repository, do `mvn install -DskipTests` (skip the tests, as some of them are actually experiments rather than pure-tests).
 
 #### Examples
 
-  * [A quick example:  TODO MD example](blabla)
-
-```
-mvn test -Dtest="eu.iv4xr.ux.pxtesting.study.minidungeon.Test_MD_MBT_Gen#test1"
-```
-
-The source of the test can be found in [Test_MD_MBT_Gen](./src/test/java/eu/iv4xr/ux/pxtesting/study/minidungeon/Test_MD_MBT_Gen.java)
-
+  * [A quick example](./docs/MD_L5.md)
   * [A simple example LR TODO](blabla)
 
 
+
+
+#### Documentation
+
+   * [Modelling a game with an EFSM, and model-based testing.](./docs/efsm.md)
+   * Connecting PX-MBT to your own computer game.
+   * Concretization layer
+   * Producing emotion traces
+
 #### FASE-23 Study
 
-[FASE-23 study, paper and reproduction VM](blabla)
+This is a study conducted to assess the feasibility and performance of PX-MBT approach an a 3D game called [Lab Recruits](https://github.com/iv4xr-project/labrecruits). The artifact of this study is available, containing its dataset and a replication package:
 
-#### More documentation
-
-   * Modelling a game with an EFSM
-   * Connecting PX-MBT to your own computer game.
-   * ...
+   * [PX-MBT FASE-23 experiment replication-package and dataset](https://zenodo.org/records/7506758).
+   * [The paper describing the experiments: _Model-based Player Experience Testing with Emotion Pattern Verification_](https://link-springer-com.proxy.library.uu.nl/chapter/10.1007/978-3-031-30826-0_9)
 
 #### Papers
+
+* Saba Gholizadeh Ansari, I. S. W. B. Prasetya, Davide Prandi, Fitsum Meshesha Kifetew, Frank Dignum, Mehdi Dastani, Gabriele Keller, _Model-based Player Experience Testing with Emotion Pattern Verification_, in the 26th International Conference on Fundamental Approaches to Software Engineering (FASE), 2023.
 
 ##### License: Apache 2.0
 

@@ -104,13 +104,13 @@ public class Test_MD_MBT_Exec {
 				) ;
 		
 		// run the suite using the runner:
-		runner.run_(suite, "./tmp", 1000, 0);
+		runner.run_(suite, "./tmp", 8000, 0);
 		
 	}
 	
 	
-	//@Test
-	public void test3() throws Exception {
+	@Test
+	public void test_load_and_exec() throws Exception {
 		
 		var gwmodel = (new EFSM_MD_L5()).loadGameWorldModel();
 
@@ -121,7 +121,7 @@ public class Test_MD_MBT_Exec {
 				agent -> tc -> MD_FBK_EFSM_Utils.abstractTestSeqToGoalStructure(agent, tc, gwmodel), null,
 				mentalGoal_clanseShrine);
 
-		runner.run("./tmp/suite", "./tmp", 1000, 0);
+		runner.run("./tmp/suite", "./tmp", 8000, 0);
 
 	}
 

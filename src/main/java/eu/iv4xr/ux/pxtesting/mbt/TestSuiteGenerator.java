@@ -49,6 +49,10 @@ public class TestSuiteGenerator {
 	public static final String STATE_COV = "STATE_COV" ;
 	public static final String TRANSITION_COV = "TRANSITION_COV" ;
 	
+	/**
+	 * Specify the aimed coverage. Currently only state and transition
+	 * coverage is supported. The default is transition-coverage.
+	 */
 	public String aimedCoverage = TRANSITION_COV ;
 	
 	/***
