@@ -20,7 +20,7 @@ The transitions between b0m and b0p is guarded a condition that the variable _do
 
 ##### Constructing a model
 
-Currently we do not have a graphical tool for constructing a model. However, programmatically constructing a model is supported. See the class [EFSMSimple0](../src/main/java/eu/iv4xr/ux/pxmbt/EFSMSimple0.java), which shows how we programmatically constructed the EFSM of the above example. A constructed EFSM can be visualized via a DOT visualizer though.
+Currently we do not have a graphical tool for constructing a model. However, programmatically constructing a model is supported. See the class [EFSMSimple0](../src/main/java/eu/iv4xr/ux/pxtesting/mbt/EFSMSimple0.java), which shows how we programmatically constructed the EFSM of the above example. A constructed EFSM can be visualized via a DOT visualizer though.
 
 #### Generating test cases from a model
 
@@ -30,7 +30,7 @@ Two main algorithms are provided for generating test cases: _search-based algori
 
 ##### API
 
-The API for generating test cases from a model is in the class [TestSuiteGenerator](./src/test/java/eu/iv4xr/ux/pxtesting/mbt/TestSuiteGenerator.java). The generator can be configured to aim for state or transition (default) coverage. You can also specify if all test-cases are required to end in a certain state. Main methods:
+The API for generating test cases from a model is in the class [TestSuiteGenerator](../src/main/java/eu/iv4xr/ux/pxtesting/mbt/TestSuiteGenerator.java). The generator can be configured to aim for state or transition (default) coverage. You can also specify if all test-cases are required to end in a certain state. Main methods:
 
   * `generateWithSBT()`: generate a test suite using a search-based algorithm (currently MOSA is used).
   * `generateWithMC()`: generate a test suite using an LTL model checking algorithm.
