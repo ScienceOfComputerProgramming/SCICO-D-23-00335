@@ -11,7 +11,8 @@ The picture below shows the general architecture of PX-MBT. There are four main 
 the **Model-based Testing** component for generating tests using [EvoMBT](https://github.com/iv4xr-project/iv4xr-mbt),  the **Model of Emotions** component implements the [computational model of emotions](https://github.com/iv4xr-project/jocc),
 an  [aplib](https://github.com/iv4xr-project/aplib)
 **basic test agent** for controlling the in-game player-character, and a set of APIs and scripts labelled as the **PX Testing Tool** as an interface for a game designer towards the framework.
-The designer needs to provide these inputs, see ① in the picture:
+
+PX-MBT requires some inputs that the game designers/developers need to provide inputs; these are ① in the picture.
 
 | px-mbt architecture |
 |---|
