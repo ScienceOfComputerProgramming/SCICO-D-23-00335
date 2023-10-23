@@ -1,6 +1,14 @@
 ## Quick Example
 
-We will use a game called [MiniDungeon](https://github.com/iv4xr-project/MiniDungeon). It is a simple game where the player has to go through a number of mazes to get to the 'final shrine' located in the final maze. To get there, the player has to figure out how to open the access from a maze to the next one. Along the way, of course there will be monsters that will try to hurt the player.
+Run the method `test_generate_and_exec`. This will generate test cases from a model and execute them on a game under test. The generated test cases, and the resulting emotion traces are placen in `./tmp` :
+
+```
+mvn test -Dtest="eu.iv4xr.ux.pxtesting.study.minidungeon.Test_MD_MBT_Exec#test_generate_and_exec"
+```
+
+## So, what did we just do....?
+
+The game under test is a game called [MiniDungeon](https://github.com/iv4xr-project/MiniDungeon). It is a simple game where the player has to go through a number of mazes to get to the 'final shrine' located in the final maze. To get there, the player has to figure out how to open the access from a maze to the next one. Along the way, of course there will be monsters that will try to hurt the player.
 
 A model of a five-level instance of MiniDungeon is included. A visualization of the model is shown below.
 
@@ -76,3 +84,7 @@ run(testsuite) {
 ```
 
 Full source code of the method `test_generate_and_exec()`: [Test_MD_MBT_Exec](../src/test/java/eu/iv4xr/ux/pxtesting/study/minidungeon/Test_MD_MBT_Exec.java). You can also check the method `test_load_and_exec()` that loads a previously generated test cases from files and execute them.
+
+#### Emotion traces
+
+In the above runs, the test agent was equipped with an emotion module, so the runs produced emotion traces. Each trace is a sequence of emotion state of the agent, sampled at each update cycle of the agent. The produces traces were put in `./tmp`.

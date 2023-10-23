@@ -14,7 +14,7 @@ If you choose to extend `Iv4xrEnvironment`, observations are expected to be give
 
    * `interacted(e)` : we can imagine this to be a goal that is solved when the entity `e` is interacted. The tactic to solve this goal would have to guide the agent in performing the interaction. In most cases this can be done with a single interaction with the GUT.
 
-Basic goals like `at(e)` and `interacted(e)` are the building blocks for the concretization function we mentioned before, which is needed to convert abstract test cases from the model to actual executions.
+Basic goals like `at(e)` and `interacted(e)` are the building blocks for the _concretization function_ we mentioned before, which is needed to convert abstract test cases from the model to actual executions.
 
 Implementing Environment is usually not difficult. However, providing basic goals and tactics, such as the aforementioned `at(e)` and `interacted(e)` can take quite some effort. However, it is a one off investment. Once we have them, we can keep using them.
 
@@ -22,6 +22,7 @@ Implementing Environment is usually not difficult. However, providing basic goal
 
 * General documentation on aplib [can be found in its Github](https://github.com/iv4xr-project/aplib). From there you can also find the paper that describes aplib's programming approach.
 * [Minimalistic example of defining Environment and goals](https://github.com/iv4xr-project/aplib/blob/master/docs/iv4xr/testagent_tutorial_2.md). This doc is available in aplib.
+
 
 ##### Some examples of plugin projects
 
