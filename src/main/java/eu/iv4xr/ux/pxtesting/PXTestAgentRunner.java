@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import eu.fbk.iv4xr.mbt.testcase.AbstractTestSequence;
 import eu.iv4xr.framework.extensions.occ.Goal;
 import eu.iv4xr.framework.extensions.occ.Iv4xrOCCEngine;
+import eu.iv4xr.framework.extensions.occ.Emotion.EmotionType;
 import eu.iv4xr.framework.mainConcepts.EmotiveTestAgent;
 import eu.iv4xr.framework.mainConcepts.Iv4xrAgentState;
 import eu.iv4xr.framework.mainConcepts.SyntheticEventsProducer;
@@ -133,12 +134,12 @@ public class PXTestAgentRunner {
 		int k = 0 ;
 		for(var g : goals) {
 			int j = k*NumGoals ;
-			emotions[j] = new Pair<String,Number>("hope_" + g, E.hope(g)) ;
-			emotions[j+1] = new Pair<String,Number>("joy_" + g, E.joy(g)) ;
-			emotions[j+2] = new Pair<String,Number>("satisfaction_" + g , E.satisfaction(g)) ;
-			emotions[j+3] = new Pair<String,Number>("fear_" + g, E.fear(g)) ;
-			emotions[j+4] = new Pair<String,Number>("distress_" + g, E.distress(g)) ;
-			emotions[j+5] = new Pair<String,Number>("disappointment_" + g, E.disappointment(g)) ;
+			emotions[j] = new Pair<String,Number>("" + EmotionType.Hope + "_" + g, E.hope(g)) ;
+			emotions[j+1] = new Pair<String,Number>("" + EmotionType.Joy + "_" + g, E.joy(g)) ;
+			emotions[j+2] = new Pair<String,Number>("" + EmotionType.Satisfaction + "_" + g , E.satisfaction(g)) ;
+			emotions[j+3] = new Pair<String,Number>("" + EmotionType.Fear + "_" + g, E.fear(g)) ;
+			emotions[j+4] = new Pair<String,Number>("" + EmotionType.Distress + "_" + g, E.distress(g)) ;
+			emotions[j+5] = new Pair<String,Number>("" + EmotionType.Disappointment + "_" + g, E.disappointment(g)) ;
 			k++ ;
 		}
 		return emotions ;
