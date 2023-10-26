@@ -53,5 +53,10 @@ public class OCCEmotion implements IEmotion {
 	public Long getActivationTime() {
 		return (long) em.t0 ;
 	}
+	
+	@Override
+	public String toString() {
+		return "" + em.etype + ":" + getIntensity() ;
+	}
 
 }

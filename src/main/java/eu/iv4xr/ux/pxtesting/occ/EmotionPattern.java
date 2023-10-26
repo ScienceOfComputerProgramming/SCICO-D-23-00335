@@ -44,6 +44,9 @@ public class EmotionPattern {
 				return false ;
 			float current = getEmotionIntensity(etype,null,state.fst) ;
 			float prev = getEmotionIntensity(etype,null,state.snd) ;
+			//if (etype == EmotionType.Joy && current > 0) {
+			//	System.out.println(">>> Joy: " + current + ", prev:" + prev) ;
+			//}
 			return current - prev > threshold ;
 		} ;
 	}
@@ -152,6 +155,12 @@ public class EmotionPattern {
     	return ltl.sat(trace) ;
     }
     
+    public static SATVerdict checkOne(String pattern, Character separator, String fname) throws IOException {
+    	var trace = TraceReader.getEmotionTrace(separator,fname) ;
+    	//System.out.println(">>> #tr=" + trace.size()) ;
+    	return checkOne(trace,pattern) ;
+    }
+    
     public static class CheckingResult {
     	public List<List<Pair<Set<OCCEmotion>, Set<OCCEmotion>>>> traces ;
     	public List<Integer> sat = new LinkedList<>() ;
@@ -171,6 +180,29 @@ public class EmotionPattern {
     	}
     	public boolean inconclusive() {
     		return unknown.size() == traces.size() ;
+    	}
+    	@Override
+    	public String toString() {
+    		String z = "** N=" + traces.size() ;
+    		if (valid()) {
+        		z += ", VALID" ;    			
+    		}
+    		else if (unsat()) {
+    			z += ", UNSAT" ;
+    		}
+    		else if (sat()) {
+    			z += ", SAT, but not VALID" ;
+    		}
+    		else if (inconclusive()) {
+    			z += ", inconclusive" ;
+    		}
+    		else {
+    			throw new IllegalArgumentException("Problem with verdict calculation! This should not happen.") ;
+    		}
+    		z += "\n** #sat    =" + sat.size() ;
+    		z += "\n** #unsat  =" + violating.size() ;
+    		z += "\n** #unknown=" + unknown.size() ;   
+        	return z ;
     	}
     }
     
@@ -196,6 +228,19 @@ public class EmotionPattern {
     		throws IOException {
     	var traces = TraceReader.getAllEmotionTrace(separator,tracesDir,prefixName) ;
     	return checkAll(traces,pattern) ;
+    }
+    
+    // just a test...
+    public static void main(String[] args) throws IOException {
+    	
+    	System.out.println(">>> " + checkOne("H",',',"./tmp/test0.csv")) ;
+    	System.out.println(">>> " + checkOne("F",',',"./tmp/test0.csv")) ;
+    	System.out.println(">>> " + checkOne("NH;F",',',"./tmp/test0.csv")) ;
+    	System.out.println(">>> " + checkOne("J",',',"./tmp/test0.csv")) ;
+    	System.out.println(">>> " + checkOne("H;J;S",',',"./tmp/test0.csv")) ;
+    	System.out.println(">>> " + checkOne("NJ;S",',',"./tmp/test0.csv")) ;
+     	System.out.println(">>> " + checkOne("J;NJ;S",',',"./tmp/test0.csv")) ;
+      
     }
     
 }

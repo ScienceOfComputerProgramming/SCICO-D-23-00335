@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import eu.fbk.iv4xr.mbt.testcase.AbstractTestSequence;
-import eu.fbk.iv4xr.mbt.utils.TestSerializationUtils;
 import eu.iv4xr.framework.extensions.occ.Emotion;
 import eu.iv4xr.framework.extensions.occ.Emotion.EmotionType;
 import eu.iv4xr.framework.extensions.occ.Goal;
@@ -17,10 +15,11 @@ public class TraceReader {
 	public static List<Map<String,String>> readTraceFile(Character separator, String fname) throws IOException {
 		
 		var rawrows = CSVUtility.readCSV(separator, fname) ;
+		//System.out.println(">>> #raw-raw-rows=" + rawrows.size()) ;
 		
 		List<Map<String,String>> rows = new LinkedList<>() ;
 		
-		if (rows.size()<=1)
+		if (rawrows.size()<=1)
 			return rows ;
 		
 		Map<String,Integer> propertyNames = new HashMap<>() ;
@@ -28,8 +27,15 @@ public class TraceReader {
 		for (int k=0; k<columnNames.length; k++) {
 			propertyNames.put(columnNames[k], k) ;
 		}
+		//System.out.println(">>> names:" + propertyNames) ;
 		
 		for (var R : rawrows) {
+			//System.out.print(">> |R|=" + R.length) ;
+			//for (int j=0; j<R.length; j++ ) {
+			//	System.out.print("  ," + R[j]);
+			//}
+			//System.out.println("") ;
+			//System.out.println(">>> #R=" + R.length) ;
 			Map<String,String> Rmap = new HashMap<>() ;
 			for (var prop : propertyNames.entrySet()) {
 				int k = prop.getValue() ;
@@ -37,10 +43,13 @@ public class TraceReader {
 					Rmap.put(prop.getKey(), R[k]) ;
 				}
 			}
+			//System.out.println(">>> #Rmap=" + Rmap) ;
 			rows.add(Rmap) ;
 		}
 		
+		//System.out.println(">>> #=" + rows.size()) ;		
 		return rows ;
+		
 	}
 	
 	static private String getGoalName(String z) {
@@ -66,7 +75,10 @@ public class TraceReader {
 					|| pname.startsWith(FEAR) || pname.startsWith(DISTRESS) || pname.startsWith(DISAP)) {
 				String gname = getGoalName(pname) ;
 				Goal g = new Goal(gname) ;
-				int intensity = Integer.parseInt(X.getValue()) ;
+				float intensity_ = 0 ;
+				if (X.getValue().length() > 0)
+					intensity_ = Float.parseFloat(X.getValue()) ;
+				int intensity = Math.round(intensity_) ;
 				EmotionType ty = null ;
 				if (pname.startsWith(HOPE)) {
 					ty = EmotionType.Hope ;
@@ -96,10 +108,16 @@ public class TraceReader {
 	
 	public static List<Pair<Set<OCCEmotion>, Set<OCCEmotion>>> getEmotionTrace(Character separator, String fname) throws IOException {
 		var rawrows = readTraceFile(separator,fname) ;
+		//System.out.println(">>> #raw-rows=" + rawrows.size()) ;
 		List<Pair<Set<OCCEmotion>, Set<OCCEmotion>>> etrace = new LinkedList<>() ;
 		Set<OCCEmotion> previous = null ;
 		for (var R : rawrows) {
 			Set<OCCEmotion> current = getEmotionState(R) ;
+			//System.out.println(">> rawrow: " + R);
+			//System.out.println(">> emo   : " + current);
+			//System.out.println(">>> " 
+			//		+ current.size() + ", "
+			//		+ EmotionPattern.getEmotionIntensity(EmotionType.Hope, null, current)) ;
 			Pair<Set<OCCEmotion>,Set<OCCEmotion>> emo = new Pair<>(current,previous) ;
 			etrace.add(emo) ;
 			previous = current ;
