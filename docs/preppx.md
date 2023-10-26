@@ -36,7 +36,7 @@ To write a so-called player characterizaiton you need to implements the abstract
 
    * `eventEffect(event, beliefbase)`
 
-A 'beliefbase' keeps track of the player's (well, represented by the test agent) goals when playing the game. An obvious example is "to win the game" as a goal. For each goal, the beliefbase maintains the current _perceived_ likelihood of achieving the goal. Note that we want to know the likelihood as **preceived** by the player. We don't want to know the actual likelihood, even if know how to calculate the latter.
+A 'beliefbase' keeps track of the player's (well, represented by the test agent) goals when playing the game. An obvious example is "to win the game" as a goal. For each goal, the beliefbase maintains the current _perceived_ likelihood of eventually achieving the goal. Note that we want to know the likelihood as **preceived** by the player. We don't want to know the actual likelihood, even if know how to calculate the latter.
 
 Given an event _e_ that just occur, the method `eventEffect(e,beliefbase)` models how the player responds to that event in his/her feel on the likelihood of achieving each goal in the beliefbase. Ultimately, this perceived likelihood is the information that drives most of the emotion simulation. E.g. when the perceived likelihood of achieving a goal G, the emotion _fear_ (towards G) might be triggered. When the perceived likelihood becomes 100%, the emotion _joy_ is triggered. When the goal is actually achieved (not just perceived as certainty) the emotion _satisfaction_ is triggered.
 

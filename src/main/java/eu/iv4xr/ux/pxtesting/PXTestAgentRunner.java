@@ -102,12 +102,13 @@ public class PXTestAgentRunner {
 	 * @param customStateInstrumenter
 	 * @param goals
 	 */
+	@SuppressWarnings("unchecked") 
 	public PXTestAgentRunner(Function<Void,EmotiveTestAgent> agentConstructor,
 			XUserCharacterization playerCharacterization,
 			SyntheticEventsProducer eventsProducer,
 			Function<EmotiveTestAgent,Function<AbstractTestSequence,GoalStructure>> concretizationFunction,
 			Function<EmotiveTestAgent,Function<SimpleState,Pair<String,Number>[]>> customStateInstrumenter,
-			@SuppressWarnings("unchecked") Pair<Goal,Integer> ... goals
+			Pair<Goal,Integer> ... goals
 			) {
 		this.agentConstructor = agentConstructor ;
 		this.playerCharacterization = playerCharacterization ;
