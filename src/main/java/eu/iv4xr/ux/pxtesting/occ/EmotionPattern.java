@@ -234,12 +234,21 @@ public class EmotionPattern {
     public static void main(String[] args) throws IOException {
     	
     	System.out.println(">>> " + checkOne("H",',',"./tmp/test0.csv")) ;
+    	System.out.println(">>> " + checkOne("P",',',"./tmp/test0.csv")) ;
     	System.out.println(">>> " + checkOne("F",',',"./tmp/test0.csv")) ;
     	System.out.println(">>> " + checkOne("NH;F",',',"./tmp/test0.csv")) ;
     	System.out.println(">>> " + checkOne("J",',',"./tmp/test0.csv")) ;
     	System.out.println(">>> " + checkOne("H;J;S",',',"./tmp/test0.csv")) ;
     	System.out.println(">>> " + checkOne("NJ;S",',',"./tmp/test0.csv")) ;
      	System.out.println(">>> " + checkOne("J;NJ;S",',',"./tmp/test0.csv")) ;
+    	System.out.println(">>> imp: " + checkOne("H->F",',',"./tmp/test0.csv")) ;
+    	System.out.println(">>> imp: " + checkOne("P->F",',',"./tmp/test0.csv")) ;
+    	System.out.println(">>> imp: " + checkOne("H;J;S->F",',',"./tmp/test0.csv")) ;
+    	System.out.println(">>> imp: " + checkOne("H;J;S->P",',',"./tmp/test0.csv")) ;
+
+     	
+     	var R = checkAll("H",',',"./tmp","tc") ;
+     	System.out.println(">>> R+" + R) ;
       
     }
     

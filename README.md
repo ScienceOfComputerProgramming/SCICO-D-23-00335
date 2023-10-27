@@ -54,8 +54,7 @@ PX-MBT is written in Java. It requires Java-11 or higher. The project is Maven-b
    * [Concretization layer](concretization.md)
    * [Preparing PX testing](preppx.md)
    * [Running the test cases (and producing emotion traces)](running.md)
-   * Emotions patterns BIG TODO
-   * Other analyses
+   * [PX verification and other analyses](analyses.md)
 
 #### FASE-23 Study
 
