@@ -10,7 +10,6 @@ import numpy as np
 import math
 import csv
 import os
-import os.path
 from pathlib import Path
 #import pprint
 #import statistics
@@ -28,60 +27,13 @@ def loadCSV(csvfile):
       for row in content: rows.append(row)
       return rows
 
-def toFloat(str):
-   if str=="" : return 0
-   return float(str)
-
-def toInt(str):
-   if str=="" : return 0
-   return int(str)
-
-def mkTimeProgressionGraph(filename:str,
-        selectedProperties,
-        timeLabel:str="time",
-        outputfile:str="tgraph"
-        ):
-    """ A function to draw a time-graph.
-    
-    This plots the values of the properties specified in the selectedProperties over time.
-
-    Parameters
-    --------------
-    filename  : a csv-file containing input data (comma-separated).
-    selectedProperties: a list of property-names (column-names) whole values are to be plotted.
-    timeLabel : the name used to denote time. Default is "time".
-    outputfile: the name of the outputfile.png. Default "tgraph".
-    """
-    # read the data from the file:
-    dataset = loadCSV(filename)
-
-    plt.ylabel('values', fontsize=12)
-    plt.xlabel('time', fontsize=12)
-    plt.grid(b=True, axis='y')
-
-    # plot the values of
-    for propName in selectedProperties:
-       plt.plot([ toInt(r[timeLabel])  for r in dataset ],
-                [ toFloat(r[propName]) for r in dataset ],
-                  label = propName , )
-
-
-    plt.rcParams.update({'font.size': 12})
-    #fig.suptitle("Emotion time progression")
-    #plt.title(f"{propertiesToDisplay} overtime", fontsize=10)
-    plt.title("values overtime", fontsize=10)
-    plt.legend()
-    if saveToFile : plt.savefig(outputfile)
-    else : plt.show()
 
 def mkHeatMapWorker(dataset,
         basename,
         pfun,
-        maxvalue=1,
+        whiteVal=1,
         width=64,
         height=64,
-        xlabel='x',
-        ylabel='y',
         scale=1,
         dir=".",
         graphtitle="heatmap"):
@@ -117,15 +69,15 @@ def mkHeatMapWorker(dataset,
     graphtitle : a text that will be put as the title of the produced map.
     """
     black = 0
-    #white = maxvalue
+    white = whiteVal
     map = np.zeros((scale*height,scale*width))
     for x in range(0,scale*height):
       for y in range(0,scale*width):
           map[x][y] = -1001
 
     for r in dataset:
-        xx = round(scale*toFloat(r[xlabel]))
-        yy = round(scale*toFloat(r[ylabel]))
+        xx = round(scale*float(r['x']))
+        yy = round(scale*float(r['y']))
         # rotate +90 degree
         x = scale*height - yy
         y = xx
@@ -141,12 +93,12 @@ def mkHeatMapWorker(dataset,
     for x in range(0,scale*height):
       for y in range(0,scale*width):
           if map[x][y] < -1000 : map[x][y] = black    
-    #map[scale*height-1][scale*width-1] = white  # for imposing the range to go from black to white
+    map[scale*height-1][scale*width-1] = white  # for imposing the range to go from black to white
        
     ax = plt.gca()
     ax.xaxis.set_visible(False)
     ax.yaxis.set_visible(False)
-    plt.imshow(map, cmap='hot', origin='lower', interpolation='nearest', vmin=0, vmax=maxvalue)
+    plt.imshow(map, cmap='hot', origin='lower', interpolation='nearest')
 
     plt.title(graphtitle)
     #plt.legend()
@@ -159,18 +111,10 @@ def mkHeatMapWorker(dataset,
 #
 rescaling = { 
     "hope" : 1, "joy" : 1, "satisfaction" : 1,
-    "fear" : 1 , "distress" : 1, "disappointment" : 1 
+    "fear" : 1/1.25 , "distress" : 4, "disappointment" : 1 
 }
 
-def getMaxVal(row,propertyPrefixName):
-   max = 0
-   for prop,val in row.items():
-      if prop.lower().startswith(propertyPrefixName):
-         v = toFloat(val)
-         if v>max : max = v
-   return max
-
-def mkHeatMap(dir,filename,width,height,maxvalue=1,xlabel='x',ylabel='y'):
+def mkHeatMap(dir,filename,width,height):
     """ The function to construct a visual heatmap from emotion traces.
 
     This will construct heapmaps for six emotions: hope, joy, satisfaction,
@@ -186,28 +130,24 @@ def mkHeatMap(dir,filename,width,height,maxvalue=1,xlabel='x',ylabel='y'):
 
     height : the height of the produced map.
     """
-    basename = os.path.basename(filename) 
-    basename = os.path.splitext(basename)[0]
-    #file_ = Path(dir + "/" +  filename)
-    dataset = data_set1 = loadCSV(filename)
+    basename = filename.rsplit('.')[0]
+    file_ = Path(dir + "/" +  filename)
+    dataset = data_set1 = loadCSV(file_)
     mkMap = lambda emoType, pfunction: mkHeatMapWorker(dataset=dataset,
-            maxvalue=maxvalue,
             width=width,
             height=height,
-            xlabel=xlabel,
-            ylabel=ylabel,
             pfun = pfunction,
             dir = dir,
             graphtitle = basename + " " + emoType, 
             basename = basename + "_" + emoType)
-    mkMap('hope', lambda r: rescaling['hope']*getMaxVal(r,'hope'))
-    mkMap('joy',  lambda r: rescaling['joy']*getMaxVal(r,'joy'))
-    mkMap('satisfaction', lambda r: rescaling['satisfaction']*getMaxVal(r,'satisfaction'))
-    mkMap('fear',     lambda r: rescaling['fear']*getMaxVal(r,'fear'))
-    mkMap('distress', lambda r: rescaling['distress']*getMaxVal(r,'distress'))
-    mkMap('disappointment', lambda r: rescaling['disappointment']*getMaxVal(r,'disappointment'))
+    mkMap('hope', lambda r: rescaling['hope']*float(r['hope']))
+    mkMap('joy', lambda r: rescaling['joy']*float(r['joy']))
+    mkMap('satisfaction', lambda r: rescaling['satisfaction']*float(r['satisfaction']))
+    mkMap('fear', lambda r: rescaling['fear']*float(r['fear']))
+    mkMap('distress', lambda r: rescaling['distress']*float(r['distress']))
+    mkMap('disappointment', lambda r: rescaling['disappointment']*float(r['disappointment']))
 
-def mkAggregateHeatMap(dir,width,height,maxvalue=1,xlabel='x',ylabel='y'):
+def mkAggregateHeatMap(dir,width,height):
     dataset = []
     for filename in os.listdir(dir):
         if(filename.endswith(".csv")):
@@ -217,32 +157,16 @@ def mkAggregateHeatMap(dir,width,height,maxvalue=1,xlabel='x',ylabel='y'):
             #print(datax)
             dataset.extend(datax)
     mkMap = lambda emoType, pfunction: mkHeatMapWorker(dataset=dataset,
-            maxvalue=maxvalue,
             width=width,
             height=height,
-            xlabel=xlabel,
-            ylabel=ylabel,
             pfun = pfunction,
             dir = dir,
             graphtitle = emoType, 
             basename =  "aggregate_" + emoType)
-    mkMap('hope', lambda r: rescaling['hope']*getMaxVal(r,'hope'))
-    mkMap('joy',  lambda r: rescaling['joy']*getMaxVal(r,'joy'))
-    mkMap('satisfaction', lambda r: rescaling['satisfaction']*getMaxVal(r,'satisfaction'))
-    mkMap('fear',     lambda r: rescaling['fear']*getMaxVal(r,'fear'))       
-    mkMap('distress', lambda r: rescaling['distress']*getMaxVal(r,'distress'))  
-    mkMap('disappointment', lambda r: rescaling['disappointment']*getMaxVal(r,'disappointment'))
+    mkMap('hope', lambda r: rescaling['hope']*float(r['hope']))
+    mkMap('joy', lambda r: rescaling['joy']*float(r['joy']))
+    mkMap('satisfaction', lambda r: rescaling['satisfaction']*float(r['satisfaction']))
+    mkMap('fear', lambda r: rescaling['fear']*float(r['fear']))       # rescaling fear
+    mkMap('distress', lambda r: rescaling['distress']*float(r['distress']))  # rescaling distress
+    mkMap('disappointment', lambda r: rescaling['disappointment']*float(r['disappointment']))
 
-if __name__ == "__main__":
-   print("hello!")
-   # sample call to construct a time-graph:
-   #mkTimeProgressionGraph("../tmp/tc7.csv",
-   #         selectedProperties=["Hope_A shrine is cleansed.","Fear_A shrine is cleansed."],
-   #         timeLabel="time",
-   #         outputfile="test0TimeGraph.png"
-   #         )
-   
-   # sample call to construct a heat map
-   #mkHeatMap("./","../tmp/tc7.csv",19,19,maxvalue=1000,xlabel='x',ylabel='z')
-   mkHeatMap("./","./data_goalQuestCompleted_9.csv",100,70,maxvalue=1,xlabel='x',ylabel='y')
-   #mkAggregateHeatMap("../tmp",19,19,maxvalue=1000,xlabel='x',ylabel='z')
