@@ -51,16 +51,16 @@ PX-MBT is written in Java. It requires Java-11 or higher. The project is Maven-b
 
    * [Modelling a game with an EFSM, and model-based testing.](./docs/efsm.md)
    * [Building the 'plugin' to connect PX-MBT to your own computer game](./docs/plugin.md).
-   * [Concretization layer](concretization.md)
-   * [Preparing PX testing](preppx.md)
-   * [Running the test cases (and producing emotion traces)](running.md)
-   * [PX verification and other analyses](analyses.md)
+   * [Concretization layer](./docs/concretization.md)
+   * [Preparing PX testing](./docs/preppx.md)
+   * [Running the test cases (and producing emotion traces)](./docs/running.md)
+   * [PX verification and other analyses](./docs/analyses.md)
 
 #### FASE-23 Study
 
 This is a study conducted to assess the feasibility and performance of PX-MBT approach an a 3D game called [Lab Recruits](https://github.com/iv4xr-project/labrecruits). The artifact of this study is available, containing its dataset and a replication package:
 
-   * [PX-MBT FASE-23 experiment replication-package and dataset](https://zenodo.org/records/7506758). A copy of the  dataset is provided in this project as well, in `./FASE23Dataset`. 
+   * [PX-MBT FASE-23 experiment replication-package and dataset](https://zenodo.org/records/7506758). A copy of the  dataset is provided in this project as well, in `./FASE23Dataset`.
    * [Instructions](./FASE23Dataset/FASE23-README.md)
    * [The paper describing the experiments: _Model-based Player Experience Testing with Emotion Pattern Verification_](https://link-springer-com.proxy.library.uu.nl/chapter/10.1007/978-3-031-30826-0_9)
 
