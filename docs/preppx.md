@@ -36,12 +36,14 @@ To write a so-called player characterizaiton you need to implements the abstract
 
    * `eventEffect(event, beliefbase)`
 
-A 'beliefbase' keeps track of the player's (well, represented by the test agent) goals when playing the game. An obvious example is "to win the game" as a goal. For each goal, the beliefbase maintains the current _perceived_ likelihood of eventually achieving the goal. Note that we want to know the likelihood as **preceived** by the player. We don't want to know the actual likelihood, even if know how to calculate the latter.
+     A 'beliefbase' keeps track of the player's (well, represented by the test agent) goals when playing the game. An obvious example is "to win the game" as a goal. For each goal, the beliefbase maintains the current _perceived_ likelihood of eventually achieving the goal. Note that we want to know the likelihood as **preceived** by the player. We don't want to know the actual likelihood, even if know how to calculate the latter.
 
-Given an event _e_ that just occur, the method `eventEffect(e,beliefbase)` models how the player responds to that event in his/her feel on the likelihood of achieving each goal in the beliefbase. Ultimately, this perceived likelihood is the information that drives most of the emotion simulation. E.g. when the perceived likelihood of achieving a goal G, the emotion _fear_ (towards G) might be triggered. When the perceived likelihood becomes 100%, the emotion _joy_ is triggered. When the goal is actually achieved (not just perceived as certainty) the emotion _satisfaction_ is triggered.
+     Given an event _e_ that just occur, the method `eventEffect(e,beliefbase)` models how the player responds to that event in his/her feel on the likelihood of achieving each goal in the beliefbase. Ultimately, this perceived likelihood is the information that drives most of the emotion simulation. E.g. when the perceived likelihood of achieving a goal G, the emotion _fear_ (towards G) might be triggered. When the perceived likelihood becomes 100%, the emotion _joy_ is triggered. When the goal is actually achieved (not just perceived as certainty) the emotion _satisfaction_ is triggered.
 
 
-When used in PX-MBT, the beliefbase will be an instance of the class [`OCCBeliefBase`](../src/main/java/eu/iv4xr/ux/pxtesting/occ/OCCBeliefBase.java) which also holds a reference to the agent's state, so you can use that information as well when modelling event-effects.
+     When used in PX-MBT, the beliefbase will be an instance of the class [`OCCBeliefBase`](../src/main/java/eu/iv4xr/ux/pxtesting/occ/OCCBeliefBase.java) which also holds a reference to the agent's state, so you can use that information as well when modelling event-effects.
+
+  * `desirabilityAppraisalRule(goals_status,eventName,goalName)` to specify how desirable an event is towards achieving a goal.
 
 An example of an implementation can be seen in the class [`MiniDungeonPlayerCharacterization`.](../src/main/java/eu/iv4xr/ux/pxtesting/study/minidungeon/MiniDungeonPlayerCharacterization.java)
 
@@ -59,7 +61,7 @@ Function<EmotiveTestAgent,Function<SimpleState,Pair<String,Number>[]>>
 
 Given an agent _a_ and its current state _S_, such a function _f(a,S)_ (or, in actual Java syntax it would be: `f.apply(a).apply(S)`) it produces an array of pairs of _(x,val)_ where _x_ is a property name e.g. "health" and _val_ is its value. These pairs are then written to the trace file.
 
-As an example, below we show here the code of the default tracing function. The important things to note are: (1) how to get to the agent emotion state (through `agent.getEmotionState()`). And (2), the parameter `state` will be bound to the agent functional state, so if you want to trace other information e.g. time stamp you can get it through this `state` (if it does contain time stamp, in this example; it depends of course on your implementation of `state`). 
+As an example, below we show here the code of the default tracing function. The important things to note are: (1) how to get to the agent emotion state (through `agent.getEmotionState()`). And (2), the parameter `state` will be bound to the agent functional state, so if you want to trace other information e.g. time stamp you can get it through this `state` (if it does contain time stamp, in this example; it depends of course on your implementation of `state`).
 
 ```java
 var defaultStateInstrumenter = agent -> state -> {

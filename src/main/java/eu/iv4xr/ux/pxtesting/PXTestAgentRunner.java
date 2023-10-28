@@ -234,7 +234,7 @@ public class PXTestAgentRunner {
 		List<Pair<String,AbstractTestSequence>> S = new LinkedList<>() ;
 		int k = 0 ;
 		for (var tc : suite) {
-			S.add(new Pair<>("tc" + k, tc)) ;
+			S.add(new Pair<>("tc_" + k, tc)) ;
 			k++ ;
 		}
 		run(S,saveDir,budgetPerTesCase,delayBetweenAgentUpdateCycles) ;	

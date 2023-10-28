@@ -56,30 +56,30 @@ public class MiniDungeonEventsProducer extends SyntheticEventsProducer {
 		var mazeId = (Integer) a.properties.get("maze") ;
 		var shrines = wom.elements.values().stream() 
 			   .filter(e -> e.type.equals("SHRINE") && 
-					   mazeId.equals((Integer) e.properties.get("maze")))	
+					   mazeId.equals((Integer) e.properties.get("maze"))
+					   && (ShrineType) e.properties.get("shrinetype") != ShrineType.SunShrine)	
 			   .collect(Collectors.toList()) ;
 		if (! shrines.isEmpty()) {
 			var s0 = shrines.get(0) ;
-			var shrineType = (ShrineType) s0.properties.get("shrinetype") ;
-			if (shrineType != ShrineType.SunShrine) {
-				// see-shrine-event:
-				Pair<String,String> event1id_ = new Pair<>(SEESHRINE,s0.id) ;
-				if (!history.contains(event1id_)) {
-					// one-time event:
-					event = new Message("wom.agentId",0,MsgCastType.BROADCAST,"*",SEESHRINE,s0.id) ;
-					currentEvents.add(event) ;
-					history.add(event1id_) ;
-				}
-				// cleanse-event:
-				var cleansed = (Boolean) s0.properties.get("cleansed") ;
-				Pair<String,String> event2id_ = new Pair<>(CLEANSE,s0.id) ;
-				if (!history.contains(event2id_) && cleansed) {
-					// one-time event:
-					event = new Message("wom.agentId",0,MsgCastType.BROADCAST,"*",CLEANSE,s0.id) ;
-					currentEvents.add(event) ;
-					history.add(event2id_) ;
-				}	
+			// var shrineType = (ShrineType) s0.properties.get("shrinetype") ;
+			// see-shrine-event:
+			Pair<String,String> event1id_ = new Pair<>(SEESHRINE,s0.id) ;
+			if (!history.contains(event1id_)) {
+				// one-time event:
+				event = new Message("wom.agentId",0,MsgCastType.BROADCAST,"*",SEESHRINE,s0.id) ;
+				currentEvents.add(event) ;
+				history.add(event1id_) ;
+			}
+			// cleanse-event:
+			var cleansed = (Boolean) s0.properties.get("cleansed") ;
+			Pair<String,String> event2id_ = new Pair<>(CLEANSE,s0.id) ;
+			if (!history.contains(event2id_) && cleansed) {
+				// one-time event:
+				event = new Message("wom.agentId",0,MsgCastType.BROADCAST,"*",CLEANSE,s0.id) ;
+				currentEvents.add(event) ;
+				history.add(event2id_) ;
 			}	
+				
 		}
 		
 		// events that require comparison with previous state, ouch and heal:

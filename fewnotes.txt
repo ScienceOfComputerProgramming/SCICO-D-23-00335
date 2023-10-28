@@ -1,0 +1,12 @@
+
+* Old python scripts are moved to ./python/old ; they were used for experiments, and do not support general use of px-mbt.
+
+* Earlier experiments are kept in eu.iv4xr.ux.pxtestingPipeline in src/test/java
+
+* FASE23 data set is move one level lower to ./FASE23Dataset/FASE23Dataset. You can rerun FASE23 from this project, but you need to:
+   * copy all scripts in ./FASE23Dataset to the project root 
+   * move the data one level up to ./FASE23Dataset
+   * you can run the scripts as instructed in replication-readme; you need a bash-like
+     shell. You need an executable of Lab Recruits, placed in the right folder,
+     but then you can use Windows exe of Mac exe that will actually show the game
+     (the linux version has no display/it is headless).

@@ -43,6 +43,7 @@ public class MiniDungeonPlayerCharacterization extends XUserCharacterization{
 		
 		GoalStatus status = beliefbase.getGoalsStatus().goalStatus(shrineCleansed.name) ;
 		if(status == null) return ;
+	
 		MyAgentState functionalState = (MyAgentState) ((OCCBeliefBase) beliefbase).functionalstate ;
 		WorldModel wom = functionalState.worldmodel ;
 		WorldEntity a  = wom.elements.get(wom.agentId) ;
@@ -57,15 +58,18 @@ public class MiniDungeonPlayerCharacterization extends XUserCharacterization{
 				status.setAsFailed();
 				status.likelihood = 0 ;
 			}
+			else if (hp <= 3) {
+				status.likelihood = 0 ;
+			}
 			else if (hp <= hpThreshold) {
-				float likelihood = 100f * (float) hp / (float) hpmax ;
+				float likelihood = 0.5f * 100f * (float) hp / (float) hpmax ;
 				status.likelihood = (int) Math.floor(likelihood) ;
 			}
 			return ;
 		}
 		if(e.name.equals(MiniDungeonEventsProducer.HEAL)) {
 			// Heal increases the player's belief on the goal-likelihood:
-			float likelihood = 100f * (float) hp / (float) hpmax ;
+			float likelihood = 0.5f * 100f * (float) hp / (float) hpmax ;
 			status.likelihood = (int) Math.floor(likelihood) ;
 			return ;
 		}
@@ -102,11 +106,19 @@ public class MiniDungeonPlayerCharacterization extends XUserCharacterization{
 	/**
 	 * Specify a factor that controls how fast each emotion type decays. The
 	 * bigger the factor, the faster is the decay.
-	 * TODO: paste here the decay formula.
+	 * 
+	 * <p>Decay: new intensity = w0 * e^(c * decay * (t - t0)), where
+	 * <ol>
+	 *    <li>w0: the intensity when the emotion was triggered.
+	 *    <li>t is current time, t0 is the time when the emotion was triggered.
+	 *    <li>decay is the decay-factor specified here.
+	 *    <li>c is a negative constant, -0.0025
+	 * </ol>
+	 * 
 	 */
 	@Override
 	public int emotionIntensityDecayRule(EmotionType etype) {
-		return 2;
+		return 2 ;
 	}
 
 	/**

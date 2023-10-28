@@ -2,6 +2,8 @@
 
 Recall that running test cases using an emotive agent produce _execution traces_, which by default (unless you use a custom tracing function) contain the emotion state of the agent at every update cycle. The traces are saved as csv-files. Emotions are put in columns named for example `Joy_goalname1`, `Joy_goalname2`, etc. So the name convention is _emotion-name_ followed by _goal-name_, separated by an '_'.
 
+#### Verification
+
 We can formulate specifications and check whether they are valid or satisfied by the tests by evaluating them on the the produced traces.
 
 You can formulate a 'PX-specification' in the form of an _emotion pattern_. Here are some examples:
@@ -26,3 +28,17 @@ To verify patterns on a single trace, or a set of traces, use the class [`Emotio
      * UNSAT: all traces either violate the pattern or result in UNKOWN, and moreover there is at least one trace that violates.
      * SAT: if there is one trace that satisfies the pattern, but there is at least one that violates it.
      * INCONCLUSIVE: if none of the above.  
+
+#### Visual analyses
+
+We can also visualize the emotions recorded in trace files as graphs. Below are some examples. A _time graph_ can show how different emotions evolve during a test run. A _heatmap_ shows recording maximum intensity of emotions in different locations in the game world.
+
+| a time graph of a single test | a heatmap of hope, aggregated over several tests | a heapmap of distress |
+| --- | --- | --- |
+| ![timegraph](./sampletrace1_timeGraph.png) | ![heatmap hope](./aggregate_hope.png) | ![heatmap hope](./aggregate_distress.png) |
+
+To produce such graphs you can use the python functions provided in `./python/emoGraphLib.py`. See the documentation in the file for their usage. There are three demo-files too:
+
+  * [`./python/demoTimegraph.py`](../python/demoTimegraph.py)
+  * [`./python/demoHeatmap.py`](../python/demoHeatmap.py)
+  * [`./python/demoAggrHeatmap.py`](../python/demoAggrHeatmap.py)

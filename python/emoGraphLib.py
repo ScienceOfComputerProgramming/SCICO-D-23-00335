@@ -1,3 +1,12 @@
+#
+# Provide functions to produce time-graph and heatmaps from the trace files.
+# Three main functions are provided:
+#    * mkTimeProgressionGraph(...) to produce a timegraph from a single trace file
+#    * mkHeatMap(...) to produce a heatmap of emotion from a single trace file
+#    * mkAggregateHeatMap(...) to produde an aggregated heatmap of emotion from
+#      all trace files in a given directory.
+#
+#
 saveToFile = True
 
 import sys
@@ -102,8 +111,8 @@ def mkHeatMapWorker(dataset,
     
     dir : the directory where the map will be placed.
     
-    whiteVal : the plotted values in the map will be assumed to range in the interval
-    of [0...whiteVal]. 0 will be mapped to the color black, and whiteVal to the color
+    maxvalue : the plotted values in the map will be assumed to range in the interval
+    of [0...maxvalue]. 0 will be mapped to the color black, and maxvalue to the color
     white.
 
     scale : positions (x,y) such that round(scale*x),round(sclae*y) have the same value
@@ -171,7 +180,7 @@ def getMaxVal(row,propertyPrefixName):
    return max
 
 def mkHeatMap(dir,filename,width,height,maxvalue=1,xlabel='x',ylabel='y'):
-    """ The function to construct a visual heatmap from emotion traces.
+    """ The function to construct visual heatmaps from an emotion trace.
 
     This will construct heapmaps for six emotions: hope, joy, satisfaction,
     fear, distress, and dissapointment.
@@ -185,6 +194,12 @@ def mkHeatMap(dir,filename,width,height,maxvalue=1,xlabel='x',ylabel='y'):
     width : the width of the produced map. 
 
     height : the height of the produced map.
+
+    maxvalue : specify here the maximum value of the emotions. This influences
+               the color range of the produced heatmap.
+
+    xlabel : the name/label of x-position. The default is just 'x'
+    ylabel : the name/label of x-position. The default is just 'y'             
     """
     basename = os.path.basename(filename) 
     basename = os.path.splitext(basename)[0]
@@ -208,6 +223,28 @@ def mkHeatMap(dir,filename,width,height,maxvalue=1,xlabel='x',ylabel='y'):
     mkMap('disappointment', lambda r: rescaling['disappointment']*getMaxVal(r,'disappointment'))
 
 def mkAggregateHeatMap(dir,width,height,maxvalue=1,xlabel='x',ylabel='y'):
+    """ The function to construct aggregate visual heatmaps from emotion traces.
+
+    This will construct heapmaps for six emotions: hope, joy, satisfaction,
+    fear, distress, and dissapointment. The traces will simply be concatenated
+    and treated as one.
+
+    Parameters
+    -------------
+    dir : the directory where traces are located. They are assume to end with
+          .csv (this also means that all csv-files in the dir will be read).
+          The resulting heatmaps will be placed in the same directory.
+          
+    width : the width of the produced map. 
+
+    height : the height of the produced map.
+
+    maxvalue : specify here the maximum value of the emotions. This influences
+               the color range of the produced heatmap.
+
+    xlabel : the name/label of x-position. The default is just 'x'
+    ylabel : the name/label of x-position. The default is just 'y'             
+    """
     dataset = []
     for filename in os.listdir(dir):
         if(filename.endswith(".csv")):
@@ -233,8 +270,8 @@ def mkAggregateHeatMap(dir,width,height,maxvalue=1,xlabel='x',ylabel='y'):
     mkMap('distress', lambda r: rescaling['distress']*getMaxVal(r,'distress'))  
     mkMap('disappointment', lambda r: rescaling['disappointment']*getMaxVal(r,'disappointment'))
 
-if __name__ == "__main__":
-   print("hello!")
+#if __name__ == "__main__":
+   #print("hello!")
    # sample call to construct a time-graph:
    #mkTimeProgressionGraph("../tmp/tc7.csv",
    #         selectedProperties=["Hope_A shrine is cleansed.","Fear_A shrine is cleansed."],
@@ -244,5 +281,6 @@ if __name__ == "__main__":
    
    # sample call to construct a heat map
    #mkHeatMap("./","../tmp/tc7.csv",19,19,maxvalue=1000,xlabel='x',ylabel='z')
-   mkHeatMap("./","./data_goalQuestCompleted_9.csv",100,70,maxvalue=1,xlabel='x',ylabel='y')
+   #mkHeatMap("./","./data_goalQuestCompleted_9.csv",100,70,maxvalue=1,xlabel='x',ylabel='y')
+   #mkAggregateHeatMap("./",100,70,maxvalue=1,xlabel='x',ylabel='y')
    #mkAggregateHeatMap("../tmp",19,19,maxvalue=1000,xlabel='x',ylabel='z')
