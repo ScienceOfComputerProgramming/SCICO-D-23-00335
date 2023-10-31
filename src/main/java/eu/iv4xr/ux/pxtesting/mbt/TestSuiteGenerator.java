@@ -115,7 +115,7 @@ public class TestSuiteGenerator {
 	}
 	
 	
-	void configureEvoMBT(int searchBudget, Integer maxTestCaseLength) {
+	void configureEvoMBT(MBTProperties.Algorithm algorithm, int searchBudget, Integer maxTestCaseLength) {
 
 		MBTProperties.SEARCH_BUDGET = searchBudget ;
 		
@@ -133,8 +133,11 @@ public class TestSuiteGenerator {
 			}
 			MBTProperties.TEST_FACTORY = MBTProperties.TestFactory.RANDOM_LENGTH ;
 		}
+		
+		
 		// which algorithm to use:
-		MBTProperties.ALGORITHM = Algorithm.MOSA;
+		MBTProperties.ALGORITHM = algorithm ;
+		
 		// This needs a later version of MBT:
 		MBTProperties.MINIMIZE_SUITE = true ;
 		MBTProperties.SHOW_PROGRESS = true;
@@ -157,17 +160,32 @@ public class TestSuiteGenerator {
 	}
 	
 	/**
+	 * Generate a test suite using a search-based testing algorithm, more
+	 * specifically MOSA (multi-objective search algorithm). The suite is added to
+	 * the current suite held by this generator. You can obtain the resulting test
+	 * suite using {@link #getTestSuite()}.
+	 * 
+	 * @param searchBudget      (in second)
+	 * @param maxTestCaseLength
+	 */
+	public void generateWithSBT(int searchBudget, Integer maxTestCaseLength) {
+		generateWithSBT(MBTProperties.Algorithm.MOSA, searchBudget, maxTestCaseLength) ;
+	}
+	
+	/**
 	 * Generate a test suite using a search-based testing algorithm. The suite
 	 * is added to the current suite held by this generator. You can obtain the
 	 * resulting test suite using {@link #getTestSuite()}.
 	 * 
-	 * @param searchBudget
+	 * @algorithm specify which search algorithm to use. See {@link MBTProperties.Algorithm} for available
+	 * choices.
+	 * @param searchBudget (in second)
 	 * @param maxTestCaseLength
 	 */
 	@SuppressWarnings("rawtypes")
-	public void generateWithSBT(int searchBudget, Integer maxTestCaseLength) {
+	public void generateWithSBT(MBTProperties.Algorithm algorithm, int searchBudget, Integer maxTestCaseLength) {
 		
-		configureEvoMBT(searchBudget,maxTestCaseLength) ;
+		configureEvoMBT(algorithm, searchBudget,maxTestCaseLength) ;
 		
 		SearchBasedStrategy sbStrategy = new SearchBasedStrategy<>();
 		SuiteChromosome generatedTests = sbStrategy.generateTests();

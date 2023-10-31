@@ -10,3 +10,12 @@
      shell. You need an executable of Lab Recruits, placed in the right folder,
      but then you can use Windows exe of Mac exe that will actually show the game
      (the linux version has no display/it is headless).
+
+
+===
+
+Packages in src/test/java:
+
+   * eu.iv4xr.ux.pxtesting.study.minidungeon: demo px-mbt with the MiniDungeon game    
+   * eu.iv4xr.ux.pxtestingPipeline: various experiments related to FASE-23 study
+   * eu.iv4xr.ux.pxtesting.mbttest: some test-classes used to try out integration with MBT and LR
