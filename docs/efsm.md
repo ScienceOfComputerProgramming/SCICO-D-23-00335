@@ -16,7 +16,7 @@ Transitions between different game-objects represents physical travel (e.g. the 
 Doors are represented by two states, e.g. the door d0 is represented by d0m and d0p, representing the opposite sides of the door. Transitions between them represent a short travel passing through the door; this is of course is only possible if the door is open.
 
 The model shown above is actually just an FSM, and not an **E**FSM. In particular it does not capture the state of the doors (whether they are open or close). To model this, we add variables, e.g. _door0_ and _door1_ (not shown in the picture above) of type Boolean, which are initially false to represent the initial doors' state, which are closed.
-The transitions between b0m and b0p is guarded a condition that the variable _door0_ must be true. In the game, the buttons can toggle the state of certain doors. E.g. b3 can open door d0 (or close it again). This is represented by an update associated with the transition b3→b3, to do: _door0 := ¬door0_.
+The transitions between b0m and b0p is guarded a condition that the variable _door0_ must be true. In the game, the buttons can toggle the state of certain doors. E.g. b2 can open door d1 (or close it again). This is represented by an update associated with the transition b2→b2, to do: _door1 := ¬door1_.
 
 ##### Constructing a model
 
@@ -32,7 +32,7 @@ Two main algorithms are provided for generating test cases: _search-based algori
 
 The API for generating test cases from a model is in the class [TestSuiteGenerator](../src/main/java/eu/iv4xr/ux/pxtesting/mbt/TestSuiteGenerator.java). The generator can be configured to aim for state or transition (default) coverage. You can also specify if all test-cases are required to end in a certain state. Main methods:
 
-  * `generateWithSBT()`: generate a test suite using a search-based algorithm (currently MOSA is used).
+  * `generateWithSBT()`: generate a test suite using a search-based algorithm. You can specify which SB algorithm to use, there are a number of implementations provided (thanks to EVO-MBT). If none is specified, MOSA is used.
   * `generateWithMC()`: generate a test suite using an LTL model checking algorithm.
   * `applySampling(n)`: randomly select a subset of _n_ test cases from the current test suite. It uses adaptive random sampling to maximize the diversity of the selected subset.
   * `save()`: well... like the name says 😀.

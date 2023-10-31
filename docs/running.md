@@ -43,7 +43,7 @@ var agentConstructor = dummy -> {
 
 It is just one or more goals. This is probably a bit vague 😀. What is meant by a goal here? Aplib also has a concept of 'goal' and 'goal-structure', but that is not what is meant here. Technically a goal here is an instance of JOCC class `Goal`. It can be constructed with a constructor `Goal(name,sig)` where `name` is just a string-name of the goal, to identify it, and `sig` is a value in [0..1] representing the significance of the goal.
 
-Now, the runner (PXTestAgentRunner) expects actually one or more pairs of the form (G,i) where is an instance of JOCC `Goal`, and `i` is the initial preceived likelihood of eventually achieving this goal `G`.
+Now, the runner (PXTestAgentRunner) expects actually one or more pairs of the form (G,i) where is an instance of JOCC `Goal`, and `i` is the initial precieved likelihood of eventually achieving this goal `G`.
 
 An example of creating such a pair:
 

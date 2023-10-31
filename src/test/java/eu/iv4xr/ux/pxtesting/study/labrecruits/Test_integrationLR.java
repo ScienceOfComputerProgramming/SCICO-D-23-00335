@@ -66,10 +66,52 @@ public class Test_integrationLR {
 					GoalLib.entityInteracted("button3"), 
 					GoalLib.entityStateRefreshed("door2"),
 					GoalLib.entityInteracted("button4"),
-					// GoalLib.entityIsInRange("button3").lift(),
-					// GoalLib.entityIsInRange("door1").lift(),
 					GoalLib.entityStateRefreshed("door1"),
 					GoalLib.entityInCloseRange("door3"));
+
+			testAgent.setGoal(testingTask);
+			
+			int i = 0;
+			// keep updating the agent
+			while (testingTask.getStatus().inProgress()) {
+				System.out.println("*** " + i + ", " + testAgent.state().id + " @" + testAgent.state().worldmodel.position);
+				Thread.sleep(50);
+				i++;
+				testAgent.update();
+				if (i > 200) {
+					break;
+				}
+			}
+			// check that we have passed both tests above:
+			// goal status should be success
+			assertTrue(testingTask.getStatus().success());	
+		}
+		finally {
+			environment.close() ;
+		}
+	}
+	
+	@Test
+	public void test_threerooms_level() throws InterruptedException {
+		var config = new LabRecruitsConfig(
+				"threerooms",
+				Paths.get(System.getProperty("user.dir"),"src","test","resources","levels").toString());
+		config.light_intensity = 0.3f;
+		var environment = new LabRecruitsEnvironment(config);
+
+		TestSettings.youCanRepositionWindow();
+   
+		try {
+			// create a test agent
+			var testAgent = new LabRecruitsTestAgent("player") // matches the ID in the CSV file
+					.attachState(new BeliefState()).attachEnvironment(environment);
+
+			// define the testing-task:
+			var testingTask = SEQ(GoalLib.entityInteracted("b0"), 
+					GoalLib.entityStateRefreshed("d0"),
+					GoalLib.entityInteracted("b2"), 
+					GoalLib.entityStateRefreshed("d0"),
+					GoalLib.entityInteracted("b3"));
 
 			testAgent.setGoal(testingTask);
 			
