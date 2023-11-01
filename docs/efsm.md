@@ -32,7 +32,10 @@ Two main algorithms are provided for generating test cases: _search-based algori
 
 The API for generating test cases from a model is in the class [TestSuiteGenerator](../src/main/java/eu/iv4xr/ux/pxtesting/mbt/TestSuiteGenerator.java). The generator can be configured to aim for state or transition (default) coverage. You can also specify if all test-cases are required to end in a certain state. Main methods:
 
-  * `generateWithSBT()`: generate a test suite using a search-based algorithm. You can specify which SB algorithm to use, there are a number of implementations provided (thanks to EVO-MBT). If none is specified, MOSA is used.
+  * `generateWithSBT()`: generate a test suite using a search-based algorithm.
+
+  In the field `sbtAlgorithm` (of the class `TestSuiteGenerator`) you can specify which SB algorithm to use, there are a number of implementations provided (thanks to EVO-MBT). The default is MOSA.
+  
   * `generateWithMC()`: generate a test suite using an LTL model checking algorithm.
   * `applySampling(n)`: randomly select a subset of _n_ test cases from the current test suite. It uses adaptive random sampling to maximize the diversity of the selected subset.
   * `save()`: well... like the name says 😀.

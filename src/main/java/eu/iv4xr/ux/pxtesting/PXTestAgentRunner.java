@@ -185,8 +185,8 @@ public class PXTestAgentRunner {
 		}
 		
 		// Prepare the agent:
-		currentAgent.attachSyntheticEventsProducer(eventsProducer) ;
 		currentAgent.setTestDataCollector(new TestDataCollector()) ;
+		currentAgent.attachSyntheticEventsProducer(eventsProducer) ;
 
 		currentOcc = new Iv4xrOCCEngine(currentAgent.getId()) 
 				 . attachToEmotiveTestAgent(currentAgent) 
@@ -282,6 +282,7 @@ public class PXTestAgentRunner {
 			long time = System.currentTimeMillis() ;
 			int k = 0;
 			while (tcG.getStatus().inProgress()) {
+				System.out.println(">>> " + currentAgent.getId()) ;
 				currentAgent.update();
 				k++ ;
 				if (printRunDebug) {

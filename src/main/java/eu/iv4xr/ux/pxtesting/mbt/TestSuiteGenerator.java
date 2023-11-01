@@ -55,6 +55,13 @@ public class TestSuiteGenerator {
 	 */
 	public String aimedCoverage = TRANSITION_COV ;
 	
+	/**
+	 * Specify here the search-based algorithm that will be used by {@link #generateWithSBT(int, Integer)}.
+	 * 
+	 * <p>For choices of available algorithm, see {@link MBTProperties.Algorithm}.
+	 * The default is MOSA.
+	 */	
+	MBTProperties.Algorithm sbtAlgorithm = MBTProperties.Algorithm.MOSA ;
 	/***
 	 * The current test suite held by this generator.
 	 */
@@ -115,7 +122,7 @@ public class TestSuiteGenerator {
 	}
 	
 	
-	void configureEvoMBT(MBTProperties.Algorithm algorithm, int searchBudget, Integer maxTestCaseLength) {
+	void configureEvoMBT(int searchBudget, Integer maxTestCaseLength) {
 
 		MBTProperties.SEARCH_BUDGET = searchBudget ;
 		
@@ -136,7 +143,7 @@ public class TestSuiteGenerator {
 		
 		
 		// which algorithm to use:
-		MBTProperties.ALGORITHM = algorithm ;
+		MBTProperties.ALGORITHM = sbtAlgorithm ;
 		
 		// This needs a later version of MBT:
 		MBTProperties.MINIMIZE_SUITE = true ;
@@ -159,33 +166,19 @@ public class TestSuiteGenerator {
 		testSuite.clear(); 
 	}
 	
-	/**
-	 * Generate a test suite using a search-based testing algorithm, more
-	 * specifically MOSA (multi-objective search algorithm). The suite is added to
-	 * the current suite held by this generator. You can obtain the resulting test
-	 * suite using {@link #getTestSuite()}.
-	 * 
-	 * @param searchBudget      (in second)
-	 * @param maxTestCaseLength
-	 */
-	public void generateWithSBT(int searchBudget, Integer maxTestCaseLength) {
-		generateWithSBT(MBTProperties.Algorithm.MOSA, searchBudget, maxTestCaseLength) ;
-	}
 	
 	/**
 	 * Generate a test suite using a search-based testing algorithm. The suite
 	 * is added to the current suite held by this generator. You can obtain the
 	 * resulting test suite using {@link #getTestSuite()}.
 	 * 
-	 * @algorithm specify which search algorithm to use. See {@link MBTProperties.Algorithm} for available
-	 * choices.
 	 * @param searchBudget (in second)
 	 * @param maxTestCaseLength
 	 */
 	@SuppressWarnings("rawtypes")
-	public void generateWithSBT(MBTProperties.Algorithm algorithm, int searchBudget, Integer maxTestCaseLength) {
+	public void generateWithSBT(int searchBudget, Integer maxTestCaseLength) {
 		
-		configureEvoMBT(algorithm, searchBudget,maxTestCaseLength) ;
+		configureEvoMBT(searchBudget,maxTestCaseLength) ;
 		
 		SearchBasedStrategy sbStrategy = new SearchBasedStrategy<>();
 		SuiteChromosome generatedTests = sbStrategy.generateTests();

@@ -1,27 +1,17 @@
 package eu.iv4xr.ux.pxtesting.study.minidungeon;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.function.Function;
-
 import org.junit.jupiter.api.Test;
 
 import eu.fbk.iv4xr.mbt.testcase.AbstractTestSequence;
 import eu.iv4xr.framework.extensions.occ.Goal;
 import eu.iv4xr.framework.mainConcepts.EmotiveTestAgent;
-import eu.iv4xr.framework.mainConcepts.SyntheticEventsProducer;
 import eu.iv4xr.ux.pxtesting.PXTestAgentRunner;
 import eu.iv4xr.ux.pxtesting.mbt.TestSuiteGenerator;
-import eu.iv4xr.ux.pxtesting.occ.XUserCharacterization;
 import nl.uu.cs.aplib.exampleUsages.miniDungeon.DungeonApp;
 import nl.uu.cs.aplib.exampleUsages.miniDungeon.MiniDungeon.MiniDungeonConfig;
 import nl.uu.cs.aplib.exampleUsages.miniDungeon.testAgent.MyAgentEnv;
 import nl.uu.cs.aplib.exampleUsages.miniDungeon.testAgent.MyAgentState;
-import nl.uu.cs.aplib.mainConcepts.GoalStructure;
-import nl.uu.cs.aplib.mainConcepts.SimpleState;
 import nl.uu.cs.aplib.utils.Pair;
 
 /**
@@ -77,6 +67,7 @@ public class Test_MD_MBT_Exec {
 	 * An example of generating test cases from a model, and directly
 	 * executing them.
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void test_generate_and_exec() throws Exception {
 		var gen = new TestSuiteGenerator("eu.iv4xr.ux.pxtesting.study.minidungeon.EFSM_MD_L5") ;
@@ -109,6 +100,7 @@ public class Test_MD_MBT_Exec {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void test_load_and_exec() throws Exception {
 		

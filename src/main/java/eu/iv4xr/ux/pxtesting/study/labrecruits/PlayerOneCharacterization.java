@@ -155,6 +155,7 @@ public class PlayerOneCharacterization extends UserCharacterization {
 //			}
 		}		
 	}
+	
 	private void effectOfLevelCompletionInSightEvent(BeliefBase beliefbase) {
 		
 		EmotionBeliefBase bbs = (EmotionBeliefBase) beliefbase ;
