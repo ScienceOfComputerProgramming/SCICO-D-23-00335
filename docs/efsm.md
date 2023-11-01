@@ -4,7 +4,7 @@ We model a game with an _extended finite state machine_ (EFSM). It is a finite s
 
 | a three-rooms level | its model |
 |---|---|
-| ![a three-rooms level](./LRSS3.png) | ![a three-rooms level](./fsmSimple.png) |
+| ![a three-rooms level](./threerooms.png) | ![a three-rooms level](./fsmSimple.png) |
 
 The actual game level consists of three rooms with some game objects populating it, such as in-game buttons (red), doors, flames, walls, and floors.
 The model captures key objects in the game level: three in-game buttons (b0,b1,b2) and two doors (d1,d2).
@@ -35,7 +35,7 @@ The API for generating test cases from a model is in the class [TestSuiteGenerat
   * `generateWithSBT()`: generate a test suite using a search-based algorithm.
 
   In the field `sbtAlgorithm` (of the class `TestSuiteGenerator`) you can specify which SB algorithm to use, there are a number of implementations provided (thanks to EVO-MBT). The default is MOSA.
-  
+
   * `generateWithMC()`: generate a test suite using an LTL model checking algorithm.
   * `applySampling(n)`: randomly select a subset of _n_ test cases from the current test suite. It uses adaptive random sampling to maximize the diversity of the selected subset.
   * `save()`: well... like the name says 😀.

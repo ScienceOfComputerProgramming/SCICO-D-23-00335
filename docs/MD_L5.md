@@ -12,7 +12,11 @@ The game under test is a game called [MiniDungeon](https://github.com/iv4xr-proj
 
 A model of a five-level instance of MiniDungeon is included. A visualization of the model is shown below.
 
-![MD_L5 model](./MD_L5.png)
+| a maze in MiniDungeon | a model of a 5-mazes level |
+|---|---|
+| ![MiniDungeon](./ss1.png) |  ![MD_L5 model](./MD_L5.png) |
+
+
 
 The model of each maze is shown in blue. Each maze is connected to the next one through a shrine that acts as a teleport (brown). The shrines are initially closed. Red lines indicate which in-game object need to brought to a shrine to make it open.
 

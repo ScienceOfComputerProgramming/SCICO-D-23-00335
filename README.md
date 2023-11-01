@@ -41,8 +41,8 @@ PX-MBT is written in Java. It requires Java-11 or higher. The project is Maven-b
 
 #### Examples
 
-  * [A quick example](./docs/MD_L5.md)
-  * [TODO: An LR simple example](blabla)
+  * [A quick example (MiniDungeon)](./docs/MD_L5.md)
+  * [A simple example with Lab Recruits](.docs/LR_3rooms.md)
 
 
 
