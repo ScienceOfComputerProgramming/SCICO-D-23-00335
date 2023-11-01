@@ -35,13 +35,7 @@ public class Test_integrationLR {
 		// TestSettings.USE_SERVER_FOR_TEST = false ;
 		// Uncomment this to make the game's graphic visible:
 		TestSettings.USE_GRAPHICS = true;
-
-		// System.out.println(">>> " + System.getProperty("user.dir")) ;
-		// System.out.println(">>> " +
-		// Paths.get(System.getProperty("user.dir"),"labrecruits")) ;
-
 		String labRecruitesExeRootDir = Paths.get(System.getProperty("user.dir"), "labrecruits").toString();
-
 		labRecruitsTestServer = TestSettings.start_LabRecruitsTestServer(labRecruitesExeRootDir);
 	}
 	
@@ -50,7 +44,7 @@ public class Test_integrationLR {
 		labRecruitsTestServer.close();
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	public void test_integration() throws InterruptedException {
 				
@@ -99,7 +93,7 @@ public class Test_integrationLR {
 		}
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	public void test_threerooms_level() throws InterruptedException {
 		var config = new LabRecruitsConfig(
@@ -118,9 +112,9 @@ public class Test_integrationLR {
 
 			// define the testing-task:
 			var testingTask = SEQ(GoalLib.entityInteracted("b0"), 
-					GoalLib.entityStateRefreshed("d0"),
+					GoalLib.entityStateRefreshed("door0"),
 					GoalLib.entityInteracted("b2"), 
-					GoalLib.entityStateRefreshed("d0"),
+					GoalLib.entityStateRefreshed("door1"),
 					GoalLib.entityInteracted("b3"));
 
 			testAgent.setGoal(testingTask);
@@ -146,7 +140,7 @@ public class Test_integrationLR {
 		
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	public void test_emotiveagent_integration() throws InterruptedException {
 		var config = new LabRecruitsConfig(
@@ -165,9 +159,9 @@ public class Test_integrationLR {
 
 			// define the testing-task:
 			var testingTask = SEQ(GoalLib.entityInteracted("b0"), 
-					GoalLib.entityStateRefreshed("d0"),
+					GoalLib.entityStateRefreshed("door0"),
 					GoalLib.entityInteracted("b2"), 
-					GoalLib.entityStateRefreshed("d0"),
+					GoalLib.entityStateRefreshed("door1"),
 					GoalLib.entityInteracted("b3"));
 			
 			EventsProducer eventsProducer = new EventsProducer() ;

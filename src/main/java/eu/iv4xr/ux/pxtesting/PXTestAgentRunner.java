@@ -282,7 +282,7 @@ public class PXTestAgentRunner {
 			long time = System.currentTimeMillis() ;
 			int k = 0;
 			while (tcG.getStatus().inProgress()) {
-				System.out.println(">>> " + currentAgent.getId()) ;
+				//System.out.println(">>> " + currentAgent.getId()) ;
 				currentAgent.update();
 				k++ ;
 				if (printRunDebug) {
