@@ -42,12 +42,12 @@ PX-MBT is written in Java. It requires Java-11 or higher. The project is Maven-b
 #### Examples
 
   * [A quick example (MiniDungeon)](./docs/MD_L5.md)
-  * [A simple example with Lab Recruits](.docs/LR_3rooms.md)
+  * [A simple example with Lab Recruits](./docs/LR_3rooms.md)
 
 
 
 
-#### Documentation
+#### Documentation <a name="docs"></a>
 
    * [Modelling a game with an EFSM, and model-based testing.](./docs/efsm.md)
    * [Building the 'plugin' to connect PX-MBT to your own computer game](./docs/plugin.md).

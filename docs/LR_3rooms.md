@@ -1,8 +1,3 @@
-# Demos
-
-1. Lab Recruits, see below.
-1. MiniDungeon, [see further below](LR_3rooms.md#demo-md)
-
 ## Demo with Lab Recruits
 
 This demo shows PX-MBT applied on a small level in a game called [Lab Recruits](https://github.com/iv4xr-project/labrecruits). For this demo you need to 'install' the game.
@@ -41,12 +36,12 @@ The code of the [invoked test-method is here](./src/test/java/eu/iv4xr/ux/pxtest
    1. `runner = new PXTestAgentRunner(...)` creates a test-runner. Various parameters are passed to it, including how to connect to the game under test. The runner will create an instance of an emotive agent that will run the test suite and produce emotion traces (in this case, just one trace).
    1. `runner.run_(suite, ...)` This will run the abstract test suite on the game.
 
-As [mentioned in here](./preppx.md), there are several components we need to prepare before we can have PX testing running. These become parameters to the constructor of `PXTestAgentRunner`. These components are:
+##### Components
 
-   1. A class defining events that matter for PX evaluation: `EventsProducer`. The [source code is here](https://github.com/iv4xr-project/iv4xrDemo/blob/master/src/main/java/agents/EventsProducer.java) (in another project).
+If you want to know what were the main components to have PX Testing working on Lab Recruits, you first need to read [the documentations](../README.md#docs), at least up to the section about "running test cases". The section that specifically explains the main components is [here](./preppx.md).
+
+These main components need to be prepared/implemented, before we can have PX testing running. These components are then passed as parameters, in one form or another, to the constructor of `PXTestAgentRunner`. For Lab Recruits, these components are:
+
+   1. A class defining events that matter for PX evaluation: `EventsProducer`. The [source code is here](https://github.com/iv4xr-project/iv4xrDemo/blob/master/src/main/java/agents/EventsProducer.java) (this is borrowed from another project called `iv4xrDemo`).
    1. [A class defining a Player Characterizaiton.](./src/main/java/eu/iv4xr/ux/pxtesting/study/labrecruits/PlayerThreeCharacterization).
-   1. A concretization function. This is supplied by another project. [The most essential part of this concretization in in here](https://github.com/iv4xr-project/iv4xr-mbt/blob/master/src/main/java/eu/fbk/iv4xr/mbt/concretization/impl/LabRecruitsTestConcretizer.java), which provides a translation from an EFSM abstract test case to an aplib-agent goal structure.
-
-## Demo with MiniDungeon <a name="demo-md"></a>
-
-The demo [was explained here](./MD_L5.md).
+   1. A concretization function. [The most essential part of this concretization is here](https://github.com/iv4xr-project/iv4xr-mbt/blob/master/src/main/java/eu/fbk/iv4xr/mbt/concretization/impl/LabRecruitsTestConcretizer.java), which provides a translation from an EFSM abstract test case to an aplib-agent goal structure. This concretization is also borrowed from another project, called `iv4xr-MBT` (aka `EVO-MBT`).

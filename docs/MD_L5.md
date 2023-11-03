@@ -92,3 +92,13 @@ Full source code of the method `test_generate_and_exec()`: [Test_MD_MBT_Exec](..
 #### Emotion traces
 
 In the above runs, the test agent was equipped with an emotion module, so the runs produced emotion traces. Each trace is a sequence of emotion state of the agent, sampled at each update cycle of the agent. The produces traces were put in `./tmp`.
+
+#### Components
+
+If you want to know what were the main components to have PX Testing working on the game MiniDungeon, you first need to read [few other documentations](../README.md#docs), at least up to the section about _"running test cases"_. The section that specifically explains the main components is [here](./preppx.md).
+
+These main components need to be prepared/implemented, before we can have PX testing running. These components are then passed as parameters, in one form or another, to the constructor of `PXTestAgentRunner`. For MiniDungeon, these components are:
+
+   1. A class defining events that matter for PX evaluation: [`MiniDungeonEventsProducer`.](../src/main/java/eu/iv4xr/ux/pxtesting/study/minidungeon/MiniDungeonEventsProducer.java)
+   1. [A class defining a Player Characterizaiton.](../src/main/java/eu/iv4xr/ux/pxtesting/study/minidungeon/MiniDungeonPlayerCharacterization.java)
+   1. A concretization function. [The most essential part of this concretization is here, in the function `convertToGoalStructure()`](https://github.com/iv4xr-project/aplib/blob/master/src/main/java/nl/uu/cs/aplib/exampleUsages/miniDungeon/testAgent/MiniDungeonModel.java), which provides a translation from an EFSM abstract test case to an aplib-agent goal structure. This concretization is borrowed from the project aplib.
