@@ -56,7 +56,7 @@ We recommend to use at least:
   * Intel Core i5
   * 8 GB RAM.
 
-## 3. Setup: steps to take in the FASE 2022 VM
+## 3. Setup: steps to take in the FASE 2023 VM
 
 This assumes you have the VM already installed. Else, you can get it from here: https://zenodo.org/record/7446277#.Y7Q2Z-zMJTY
 

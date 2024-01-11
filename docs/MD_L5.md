@@ -3,7 +3,7 @@
 Run the method `test_generate_and_exec`. This will generate test cases from a model and execute them on a game under test. The generated test cases, and the resulting emotion traces are placen in `./tmp` :
 
 ```
-mvn test -Dtest="eu.iv4xr.ux.pxtesting.study.minidungeon.Test_MD_MBT_Exec#test_generate_and_exec"
+mvn test -Dtest="eu.iv4xr.ux.pxtesting.minidungeon.Test_MD_MBT_Exec#test_generate_and_exec"
 ```
 
 ## So, what did we just do....?
@@ -51,14 +51,14 @@ gen.printStats();
 gen.save("./tmp","tc");
 ```
 
-Full source code of the method `test1()`: [Test_MD_MBT_Gen](../src/test/java/eu/iv4xr/ux/pxtesting/study/minidungeon/Test_MD_MBT_Gen.java)
+Full source code of the method `test1()`: [Test_MD_MBT_Gen](../src/test/java/eu/iv4xr/ux/pxtesting/minidungeon/Test_MD_MBT_Gen.java)
 
 #### Executing test cases
 
 The method `test_generate_and_exec()` will generate some test cases from the model, and immediately execute them:
 
 ```
-mvn test -Dtest="eu.iv4xr.ux.pxtesting.study.minidungeon.Test_MD_MBT_Exec#test_generate_and_exec"
+mvn test -Dtest="eu.iv4xr.ux.pxtesting.minidungeon.Test_MD_MBT_Exec#test_generate_and_exec"
 ```
 
 Code snippet that call the executor/runner:
@@ -87,7 +87,7 @@ run(testsuite) {
 }
 ```
 
-Full source code of the method `test_generate_and_exec()`: [Test_MD_MBT_Exec](../src/test/java/eu/iv4xr/ux/pxtesting/study/minidungeon/Test_MD_MBT_Exec.java). You can also check the method `test_load_and_exec()` that loads a previously generated test cases from files and execute them.
+Full source code of the method `test_generate_and_exec()`: [Test_MD_MBT_Exec](../src/test/java/eu/iv4xr/ux/pxtesting/minidungeon/Test_MD_MBT_Exec.java). You can also check the method `test_load_and_exec()` that loads a previously generated test cases from files and execute them.
 
 #### Emotion traces
 

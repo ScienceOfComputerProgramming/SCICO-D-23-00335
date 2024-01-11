@@ -24,12 +24,12 @@ The demo is setup as a JUnit test-class.
 The easiest way to run it is from Maven. But you can also run the correspond class from an IDE, e.g. Eclipse.
 
 ```
-mvn test -Dtest="eu.iv4xr.ux.pxtesting.study.labrecruits.Test_LR_MBT_Exec#test_generate_and_exec"
+mvn test -Dtest="eu.iv4xr.ux.pxtesting.labrecruits.Test_LR_MBT_Exec#test_generate_and_exec"
 ```
 
 The generated emotion trace is put in `./tmp`.
 
-The code of the [invoked test-method is here](./src/test/java/eu/iv4xr/ux/pxtesting/study/labrecruits/Test_LR_MBT_Exec). The major steps are:
+The code of the [invoked test-method is here](./src/test/java/eu/iv4xr/ux/pxtesting/labrecruits/Test_LR_MBT_Exec.java). The major steps are:
 
    1. `var gen = new TestSuiteGenerator("eu.iv4xr.ux.pxtesting.mbt.EFSMSimple0")` loads the EFSM-model of the level.
    1. `gen.generateWithMC(...)` generates an abstract test suite from the model.

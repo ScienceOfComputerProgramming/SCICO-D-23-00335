@@ -36,10 +36,15 @@ PX-MBT offers the following main functionalities:
 
 PX-MBT is written in Java. It requires Java-11 or higher. The project is Maven-based.
 
+   * Clone or download a zip of this project and unzip it. Then, go to the project root.
    * To build just do `mvn compile` from the project's root. This will automatically download all its dependencies and then compile the project.
-   * If you want to install the project into your local Maven repository, do `mvn install -DskipTests` (skip the tests, as some of them are actually experiments rather than pure-tests).
+   * If you want to install the project into your local Maven repository, do `mvn install -DskipTests`.
 
-#### Examples
+Some of the packages used by PX-MBT are distributed from jitpack. If some fails to download (e.g. maybe jitpack site is down) you can install it manually. [See the instructions here.](./jitpack_packagges.md)
+
+#### Examples/demos
+
+Some examples/demos are provided below. To run them you first need to build PX-MBT (see above "How to build").
 
   * [A quick example (MiniDungeon)](./docs/MD_L5.md)
   * [A simple example with Lab Recruits](./docs/LR_3rooms.md)
@@ -49,9 +54,17 @@ PX-MBT is written in Java. It requires Java-11 or higher. The project is Maven-b
 
 #### Documentation <a name="docs"></a>
 
+The document below explains the general idea of model-based testing of a game, and the main APIs to do it:
+
    * [Modelling a game with an EFSM, and model-based testing.](./docs/efsm.md)
+
+To use PX-MBT, a 'plugin' connecting it to your game under test is needed. The documents below provide guidelines on how to implement such a plugin. This would take some effort; but it is a one-off effort, after which you will be able to use the plugin for further automated testing the game.
+
    * [Building the 'plugin' to connect PX-MBT to your own computer game](./docs/plugin.md).
    * [Concretization layer](./docs/concretization.md)
+
+The documents below explain to generate tests, to run them, and then to perform PX verification on the resulting execution traces.
+
    * [Preparing PX testing](./docs/preppx.md)
    * [Running the test cases (and producing emotion traces)](./docs/running.md)
    * [PX verification and other analyses](./docs/analyses.md)

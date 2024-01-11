@@ -83,6 +83,22 @@ public class PXTestAgentRunner {
 	Iv4xrOCCEngine currentOcc ;
 	
 	
+	/**
+	 * The number of successful test-case run.
+	 */
+	public int numberOfSuccess = 0 ;
+	
+	/**
+	 * The number of test-cases that failed when ran.
+	 */
+	public int numberOfFail = 0 ;
+	
+	/**
+	 * The number of test-cases that timed-out when ran.
+	 */
+	public int numberOfTimeOut = 0 ;
+	
+	
 	
 	/*
 	 * Configure a test-agent to be a PX-test-agent. We need a agent that is already
@@ -311,9 +327,9 @@ public class PXTestAgentRunner {
 			}
 			tcCount++ ;
 		}
-		int numberOfSuccess = 0 ;
-		int numberOfFail = 0 ;
-		int numberOfTimeOut = 0 ;
+		numberOfSuccess = 0 ;
+		numberOfFail = 0 ;
+		numberOfTimeOut = 0 ;
 		long totTime = 0 ;
 		for (var tc : suite) {
 			String tc_name = tc.fst ;
