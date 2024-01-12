@@ -430,7 +430,7 @@ public class Combinedsuite_diversitytest {
 	    
 	    Distance dis=new Distance("jaro-winkler");
 		//int [][] ind= dis.pairs_distance(loadedSolution);
-	    int ind= dis.pairs_distance(loadedSolution);
+	    int ind= dis.furthestTestCase(loadedSolution);
 		System.out.println("total size"+loadedSolution.size());
 		
 		

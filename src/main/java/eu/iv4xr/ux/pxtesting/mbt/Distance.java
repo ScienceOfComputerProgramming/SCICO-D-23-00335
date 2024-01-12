@@ -51,7 +51,7 @@ public class Distance {
 	}
 	
 	/**
-	 * Consruct a minimal string representation of an abstract test case. This is a concatenation
+	 * Construct a minimal string representation of an abstract test case. This is a concatenation
 	 * of all the id of the states passed by the test case, and the id of the transitions that
 	 * connect them. This representation is not meant to be readable, and is mainly used to calculate
 	 * edit "distance" or dissimilarity  between test cases.
@@ -102,7 +102,6 @@ public class Distance {
 	 * <p>The current implementation convert the test cases to strings, and then 
 	 * apply the distance metric on the resulting strings.
 	 */
-	
 	public SummaryStatistics distances(List<AbstractTestSequence> absTestsuite) {
 		
 		var stats = new SummaryStatistics() ;
@@ -140,39 +139,42 @@ public class Distance {
 		
 		return totDistance(S) ;
 	}
-	/*
-	 * I don't know what this compute .... :D 
+	
+	/**
+	 * Return the index of the test-case that is farthest away from the other test-cases.
 	 */
-	public int pairs_distance(List<AbstractTestSequence> absTestsuite) {
-		
-		double distance = 0;
-
-		HashMap<Integer,Double> dist_map=new HashMap<>();
+	public int furthestTestCase(List<AbstractTestSequence> absTestsuite) {
+		if (absTestsuite.size() == 0) throw new IllegalArgumentException() ;
+		int index = 0 ;
+		double maxDistance = Float.MIN_VALUE ;
 		for(int i=0; i<absTestsuite.size();i++ ){
-			for(int j=i+1 ;j<absTestsuite.size();j++ ) {
-				distance+= mtr.distance(
+			// total distance of tc-i to the rest:
+			double totDistance = 0 ;
+			for(int j=0 ;j<absTestsuite.size();j++ ) {
+				if (j==i) continue ;
+				totDistance+= mtr.distance(
 						toMinString(absTestsuite.get(i)),
 						toMinString(absTestsuite.get(j)));
-				/*
-				 * if(distance> max) { max=distance; indexes[0][0]=i; indexes[1][0]=j; }
-				 */
 			}
-			double avg=distance/(absTestsuite.size()-i-1);
-			dist_map.put(i,avg);
+			if (totDistance > maxDistance) {
+				// found new furthest tc
+				index = i ;
+				maxDistance = totDistance ;
+			}
 		}
-		return dist_map.entrySet().stream()
-				.max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1)
-				.get().getKey();
+		return index ;
 	}
 	
-	@Deprecated
-	public int pairs_distance(SuiteChromosome absTestSuite) {
+	/**
+	 * Return the index of the test-case that is farthest away from the other test-cases.
+	 */
+	public int furthestTestCase(SuiteChromosome absTestSuite) {
 		
 		List<AbstractTestSequence> S = absTestSuite.getTestChromosomes().stream()
 				.map(ch -> (AbstractTestSequence) ch.getTestcase())
 				.collect(Collectors.toList()) ;
 		
-		return pairs_distance(S) ;
+		return furthestTestCase(S) ;
 	}
 
 

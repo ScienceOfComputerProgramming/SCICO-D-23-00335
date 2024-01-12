@@ -10,7 +10,7 @@ import eu.fbk.iv4xr.mbt.efsm.exp.integer.*;
 import eu.fbk.iv4xr.mbt.efsm.labRecruits.ButtonDoors1;
 
 /**
- * Experimental :)
+ * Experimental, for future work.
  * 
  * <p>Provide a translator from EFSM models from eu.fbk.iv4xr.mbt.efsm to Prism models. This allows
  * the model to be extended in Prism, to model the probabilities of taking different transitions,
@@ -166,7 +166,7 @@ public class EFSM2Prism {
 	/**
 	 * Translate for the Probabilistic-mode.
 	 * 
-	 * Let s be a source (abstract) state in the EFSM. Let V be all arrows that leave s. For now
+	 * <p>Let s be a source (abstract) state in the EFSM. Let V be all arrows that leave s. For now
 	 * we assume that at most one of the transition in V, say t, is guarded by some g, the rest, V',
 	 * not. We map V to two Prism-transitions: (1) representing t, and (2) representing V/{t}, 
 	 * guarded by ~g. If V' has two or more transitions, the choice is made probabilistic, set with
@@ -235,7 +235,7 @@ public class EFSM2Prism {
 	 * Combine the assignments of a bunch of transitions originating from the same state-node
 	 * to form a combined probabilistic arm of a Prim-transition.
 	 * 
-	 * So e.g. [a1,a2,a3] is combined to 1/3:a1 + 1/3:a2 + 1/3:a3.
+	 * <p>So e.g. [a1,a2,a3] is combined to 1/3:a1 + 1/3:a2 + 1/3:a3.
 	 */
 	private static List<String> combineAndTranslateTheAsssignments(List<EFSMTransition> outgoingTransitions) {
 		List<String> lines = new LinkedList<>() ;
@@ -267,21 +267,23 @@ public class EFSM2Prism {
 	 * Translates an EFSM model from eu.fbk.iv4xr.mbt.efsm to a Prism model. The resulting model
 	 * is returned as a string, which subsequently can be saved e.g. in a file. 
 	 * 
-	 * Two translation modes is provided:
+	 * <p>Two translation modes is provided:
 	 * 
-	 *    (1) TranslationMode.ND (non-deterministic): this translates each transition in the input EFSM to
+	 *    <ol>
+	 *    <li> TranslationMode.ND (non-deterministic): this translates each transition in the input EFSM to
 	 *    a Prism transition. This produces a non-deterministic Prism model, which is also non-probabilistic.
 	 *    
-	 *    (2) TranslationMode.Probabilistic: this groups outgoing transitions in the input EFSM into two 
+	 *    <li> TranslationMode.Probabilistic: this groups outgoing transitions in the input EFSM into two 
 	 *    groups. Let s be an (abstract) state in the EFSM. Let T be the set of all transitions that leaves
 	 *    the state s. For now we assume that at most one of the transitions in T is guarded. We split T
 	 *    in two groups: the single guarded transition {g->a}, if we have one, and T' = T/{g->a}.
 	 *    
-	 *    We translate g->a to a single transition in Prism. We merge the transitions in T' into a group
+	 *    <p>We translate g->a to a single transition in Prism. We merge the transitions in T' into a group
 	 *    of probabilistic transitions, guarded by !g. The probability of each transition u in T' is set
 	 *    to be 1/|T'|. You can always adjust this in the resulting Prism model.1
 	 *    
-	 *    This mode of translation produces a probabilistic model (so called DTMC).
+	 *    <p>This mode of translation produces a probabilistic model (so called DTMC).
+	 *    </ol>
 	 * 
 	 * @param efsm  The EFSM to translate.
 	 * @param moduleName  The EFSM will be translated to a module-structure in Prism. 
@@ -290,8 +292,7 @@ public class EFSM2Prism {
 	 * @param translationMode See above.
 	 * @return
 	 */
-	
-	static String translateEFSM(EFSM efsm,
+	public static String translateEFSM(EFSM efsm,
 			String moduleName, 
 			
 			TranslationMode translationMode) {
@@ -370,7 +371,5 @@ public class EFSM2Prism {
 		
 	}
 		
-		
-
 
 }
