@@ -112,7 +112,6 @@ public class MCtestGenerator {
 		    .collect(Collectors.toList()) ;
 		
 		var starttime = System.currentTimeMillis() ;
-		//System.out.println(">>> ") ;
 		while (!transitions.isEmpty()) {
 				
 			var tr = transitions.remove(0) ;
@@ -171,11 +170,6 @@ public class MCtestGenerator {
 		System.out.println("** #abs-transitions in efsm: " + N) ;
 		System.out.println("** #covered transitions  : " + covered.size()) ;
 		System.out.println("** #uncovered transitions: " + uncovered.size()) ;
-		//if (uncovered.size()>0) {
-		//	for (var tr : uncovered) {
-		//		System.out.println("      " + tr) ;
-		//	}
-		//}
 		System.out.println(">>> runtime(s): " + duration) ;	
 		return abstestsuite;	
 	}
@@ -210,7 +204,6 @@ public class MCtestGenerator {
 			
 		// for every abstract-state in the EFSM:
 		var starttime = System.currentTimeMillis() ;
-		//System.out.println(">>> ") ;
 		while (!states.isEmpty()) {
 				
 			String st = states.remove(0) ;

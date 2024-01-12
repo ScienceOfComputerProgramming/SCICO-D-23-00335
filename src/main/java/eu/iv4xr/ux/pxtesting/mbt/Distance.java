@@ -107,19 +107,11 @@ public class Distance {
 		var stats = new SummaryStatistics() ;
 		
 		for(int i=0; i<absTestsuite.size();i++ ){
-			//String tci = absTestsuite.get(i).toString() ;
-			// Don't just use toString() :)  it is more verbose and has some duplicity, so
-			// the string-diff will appear to be lower
+			// Not using toString() as it is more verbose and has some duplicity. Using minString instead:
 			String tci = toMinString(absTestsuite.get(i)) ;
-			//System.out.println(">>> tcix: " + tci) ;
-			//System.out.println(">>> tciorg: " + absTestsuite.get(i)) ;
-			
 			
 			for(int j=i+1 ;j<absTestsuite.size();j++ ) {			
-				//String tcj = absTestsuite.get(j).toString() ;
-
 				String tcj = toMinString(absTestsuite.get(j)) ;
-				
 				stats.addValue(mtr.distance(tci,tcj));
 			}
 		}

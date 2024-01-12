@@ -76,9 +76,9 @@ import nl.uu.cs.aplib.utils.CSVUtility;
 import static nl.uu.cs.aplib.AplibEDSL.* ;
 import world.BeliefState;
 import static agents.tactics.MyGoalAndTacticLib.* ;
+import static eu.iv4xr.ux.pxtesting.study.labrecruits.CSVExport.exportToCSV;
 import static eu.iv4xr.ux.pxtesting.study.labrecruits.PlayerOneCharacterization.gotAsMuchPointsAsPossible;
 import static eu.iv4xr.ux.pxtesting.study.labrecruits.PlayerOneCharacterization.questIsCompleted;
-import static eu.iv4xr.ux.pxtesting.utils.CSVExport.exportToCSV;
 
 /**
  * This contains an implementation to fix MBT test-cases runs that terminate prematurely

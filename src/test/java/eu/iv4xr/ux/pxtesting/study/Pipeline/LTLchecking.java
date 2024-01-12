@@ -74,9 +74,9 @@ import static eu.iv4xr.framework.extensions.ltl.LTL.always;
 import static eu.iv4xr.framework.extensions.ltl.LTL.eventually;
 import static eu.iv4xr.framework.extensions.ltl.LTL.ltlNot;
 import static eu.iv4xr.framework.extensions.ltl.LTL.now;
+import static eu.iv4xr.ux.pxtesting.study.labrecruits.CSVExport.importFromCSV;
 import static eu.iv4xr.ux.pxtesting.study.labrecruits.PlayerOneCharacterization.gotAsMuchPointsAsPossible;
 import static eu.iv4xr.ux.pxtesting.study.labrecruits.PlayerOneCharacterization.questIsCompleted;
-import static eu.iv4xr.ux.pxtesting.utils.CSVExport.importFromCSV;
 import static nl.uu.cs.aplib.AplibEDSL.* ;
 import world.BeliefState;
 

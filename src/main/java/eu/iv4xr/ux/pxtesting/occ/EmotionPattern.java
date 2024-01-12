@@ -13,6 +13,12 @@ import eu.iv4xr.framework.extensions.occ.Emotion;
 import eu.iv4xr.framework.extensions.occ.Emotion.EmotionType;
 import nl.uu.cs.aplib.utils.Pair;
 
+/**
+ * Implementing emotion patterns. Such a pattern is represented by a string e.g. "H;NJ;S",
+ * which then can be checked on a trace of emotions. Such an pattern is translated to
+ * an LTL formula which is then evaluated on the given trace.
+ *
+ */
 public class EmotionPattern {
 	
 	public static float getEmotionIntensity(EmotionType ty, String goal, Set<OCCEmotion> emo) {
@@ -95,7 +101,6 @@ public class EmotionPattern {
     	LTL<Pair<Set<OCCEmotion>, Set<OCCEmotion>>> ltl = null ;
     	for(int n = pattern_.length-1 ; 0<=n; n--) {
     		String p = pattern_[n] ;
-    		//System.out.println(">>>> " + p) ;
     		if(p.startsWith("N") ) {
     			p = p.substring(1) ;
     			LTL<Pair<Set<OCCEmotion>, Set<OCCEmotion>>> not_p = null ;
@@ -157,7 +162,6 @@ public class EmotionPattern {
     
     public static SATVerdict checkOne(String pattern, Character separator, String fname) throws IOException {
     	var trace = TraceReader.getEmotionTrace(separator,fname) ;
-    	//System.out.println(">>> #tr=" + trace.size()) ;
     	return checkOne(trace,pattern) ;
     }
     

@@ -64,9 +64,9 @@ import nl.uu.cs.aplib.mainConcepts.GoalStructure;
 import nl.uu.cs.aplib.mainConcepts.GoalStructure.PrimitiveGoal;
 import nl.uu.cs.aplib.multiAgentSupport.Message;
 
+import static eu.iv4xr.ux.pxtesting.study.labrecruits.CSVExport.exportToCSV;
 import static eu.iv4xr.ux.pxtesting.study.labrecruits.PlayerOneCharacterization.gotAsMuchPointsAsPossible;
 import static eu.iv4xr.ux.pxtesting.study.labrecruits.PlayerOneCharacterization.questIsCompleted;
-import static eu.iv4xr.ux.pxtesting.utils.CSVExport.exportToCSV;
 import static nl.uu.cs.aplib.AplibEDSL.* ;
 import world.BeliefState;
 

@@ -15,7 +15,6 @@ public class TraceReader {
 	public static List<Map<String,String>> readTraceFile(Character separator, String fname) throws IOException {
 		
 		var rawrows = CSVUtility.readCSV(separator, fname) ;
-		//System.out.println(">>> #raw-raw-rows=" + rawrows.size()) ;
 		
 		List<Map<String,String>> rows = new LinkedList<>() ;
 		
@@ -47,7 +46,6 @@ public class TraceReader {
 			rows.add(Rmap) ;
 		}
 		
-		//System.out.println(">>> #=" + rows.size()) ;		
 		return rows ;
 		
 	}

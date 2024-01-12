@@ -18,8 +18,8 @@ public class EFSM_MD_L5 implements EFSMProvider{
 	String mainplayer = "Frodo" ;
 	
 	public GameWorldModel loadGameWorldModel() throws IOException {
-		// well... L10 is too difficult for the MBT
-		//GameWorldModel gwmodel = GameWorldModel.loadGameWorldModelFromFile( "./assets/MD_L10.json") ;
+		// L10 is too difficult for the MBT
+		// GameWorldModel gwmodel = GameWorldModel.loadGameWorldModelFromFile( "./assets/MD_L10.json") ;
 		GameWorldModel gwmodel = GameWorldModel.loadGameWorldModelFromFile( "./assets/MD_L5.json") ;
 		gwmodel.alpha = (i,affected) -> S -> { MiniDungeonModel.alphaFunction(mainplayer,i,affected,S) ; return null ; } ;
 		gwmodel.additionalInteractionGuard = (i,S) -> MiniDungeonModel.interactionGuard(mainplayer, i, S) ;

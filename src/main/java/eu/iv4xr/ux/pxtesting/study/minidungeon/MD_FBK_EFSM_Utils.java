@@ -111,8 +111,6 @@ public class MD_FBK_EFSM_Utils {
 		Map<String,Var<Boolean>> scrollPickedUpStateVars = new HashMap<>() ;
 		Map<String,Var<Boolean>> shrineStateVars = new HashMap<>() ;
 		
-		// System.out.println(">>> ") ;
-		
 		// creating abstract states, one for every obj in the model, and vars
 		// associated with them:
 		for(GWObject o : init.objects.values()) {
@@ -168,8 +166,6 @@ public class MD_FBK_EFSM_Utils {
 			
 			GWObject o1 = init.objects.get(o1_id) ;
 			
-			//System.out.println(">>> " + o1.id + ", " + o1.type) ;
-			
 			// adding interact-transitions on scrolls:
 			if (o1.type.equals("SCROLL")) {
 				// o1 is a button, create a toggle-transition:
@@ -178,8 +174,7 @@ public class MD_FBK_EFSM_Utils {
 				interact.setId("INTERACT_" + o1.id);
 				
 				Var<Boolean> hasBeenPicked = scrollPickedUpStateVars.get(o1.id) ;
-				
-				//System.out.println(">>> " + (hasBeenPicked != null)) ;
+		
 
 				interact.setGuard(new EFSMGuard(
 						new BoolAnd(
@@ -195,18 +190,14 @@ public class MD_FBK_EFSM_Utils {
 					    ) ;
 					
 				interact.setOp(effect);
-				// System.out.println(">>> xx3") ;
 				
 				// add the transition to the efsm:
 				efsmBuilder.withTransition(
 						efsmStates.get(o1.id), 
 						efsmStates.get(o1.id), 
 						interact) ;		
-				
-				//System.out.println(">>> xx4") ;
+
 			}
-			
-			//System.out.println(">>> xx") ;
 			
 			if (o1.type.equals("SHRINE")
 				&&
@@ -218,7 +209,6 @@ public class MD_FBK_EFSM_Utils {
 				interact.setId("INTERACT_" + o1.id);
 				
 				Var<Boolean> isClean = shrineStateVars.get(o1.id) ;
-				//System.out.println(">>> " + (isClean != null)) ;
 				
 				interact.setGuard(new EFSMGuard(
 						new BoolAnd(
@@ -297,7 +287,6 @@ public class MD_FBK_EFSM_Utils {
 					}
 			}
 		}
-		//System.out.println(">>> here") ;
 		
 		MDParameterGenerator parameterGenerator = new MDParameterGenerator();
 		EFSMState startingAbsState =  efsmStates.get(init.currentAgentLocation) ;
@@ -338,7 +327,6 @@ public class MD_FBK_EFSM_Utils {
 			GWTransition gwTr = new GWTransition(trType,dest) ;
 			gwSeq.add(gwTr) ;
 		}
-		//System.out.println("") ;
 		return gwSeq ;
 	}
 	

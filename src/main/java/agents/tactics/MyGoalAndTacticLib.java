@@ -55,8 +55,6 @@ public class MyGoalAndTacticLib {
                 .lift() ;
         	
        		 return g;
-        	// g.maxbudget(8);
-       		// return FIRSTof(g, SUCCESS()) ;
     }
     
     /**

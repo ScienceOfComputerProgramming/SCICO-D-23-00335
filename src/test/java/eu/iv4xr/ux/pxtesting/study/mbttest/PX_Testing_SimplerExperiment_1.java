@@ -45,8 +45,8 @@ import game.LabRecruitsTestServer;
 import world.BeliefState;
 
 import static eu.iv4xr.ux.pxtesting.study.Pipeline.TestSettings.*;
+import static eu.iv4xr.ux.pxtesting.study.labrecruits.CSVExport.*;
 import static eu.iv4xr.ux.pxtesting.study.labrecruits.PlayerOneCharacterization.*;
-import static eu.iv4xr.ux.pxtesting.utils.CSVExport.*;
 import static nl.uu.cs.aplib.AplibEDSL.*;
 import java.nio.file.Paths;
 import java.util.List;

@@ -222,7 +222,6 @@ public class EmotionCoverage {
             if (!Files.isDirectory(path)) {
             	String fname = path.getFileName().toString() ;
             	if (! fname.toLowerCase().endsWith(".csv")) continue ;
-            	//System.out.println(">> loading " + fname) ;
             	// parsing the content of the file:
             	List<LRState> execution = new LinkedList<>() ;
             	var content = CSVUtility.readCSV(',',path.toString()) ;
@@ -279,7 +278,6 @@ public class EmotionCoverage {
             		r++ ;
             	}
             	data.executionData.put(fname, execution) ;
-            	//System.out.println(">> adding " + fname + " #" + execution.size()) ;
             }
         }
 		System.out.println(">> reading " + data.executionData.size() + " files from: " + Paths.get(dir).toString()) ;
@@ -287,6 +285,7 @@ public class EmotionCoverage {
 		return data ;
 	}
 	
+	// just for testing
 	public static void main(String[] args) throws IOException {
 		System.out.println(translate("S")) ;
 		System.out.println(translate("P")) ;

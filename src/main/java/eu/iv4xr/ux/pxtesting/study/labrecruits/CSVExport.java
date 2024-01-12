@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtesting.utils;
+package eu.iv4xr.ux.pxtesting.study.labrecruits;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,7 +12,6 @@ import java.util.Set;
 
 import eu.iv4xr.framework.extensions.occ.Emotion;
 import eu.iv4xr.framework.extensions.occ.Emotion.EmotionType;
-import eu.iv4xr.ux.pxtesting.study.labrecruits.Datapoint;
 
 public class CSVExport {
 	
@@ -47,9 +46,7 @@ public class CSVExport {
 			line = br.readLine();
 			while ((line = br.readLine()) != null) {
 				tempArr = line.split(",");
-				// for(String tempStr : tempArr) {
 				data.add(creatDatapoint(tempArr));
-				// }
 				System.out.println();
 			}
 		} catch (IOException e) {
