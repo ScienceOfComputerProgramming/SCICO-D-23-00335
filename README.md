@@ -31,10 +31,48 @@ PX-MBT offers the following main functionalities:
 
    * **Data Export.** The framework exports a range of artifacts. Test cases are exported in various forms: as text, graphically through dot syntax, in serialized binary format, and in custom CSV formats. Emotion trace files are exported in CSV format, while heat-maps and timeline graphs are saved in PNG format.
 
+#### Examples/demos
+
+Some examples/demos are provided below. To run them you first need to build PX-MBT (see above **How to build** below).
+
+* [A quick example (with a small 2D game MiniDungeon)](./docs/MD_L5.md)
+* [A simple example with a game called Lab Recruits](./docs/LR_3rooms.md)
+
+#### How to import PX-MBT into your project
+
+PX-MBT is distributed as a software package. In particular, it is not an end application. The typical use case is to import PX-MBT into your own Java project, which would then give you access to functionalities/APIs of PX-MBT.
+
+As PX-MBT is organized as a **[Maven project](https://maven.apache.org/index.html)**, the expected use case is to import it from another Maven project (or a project that uses a build system that can import a Maven project, such as Gradle).
+
+To import PX-MBT into your Maven project:
+
+1. First, add this [Jitpack repository](https://jitpack.io/) in your `pom.xml`. PX-MBT is distributed from Jitpack. Adding Jitpack repository will make your project to automatically download and install PX-MBT in your own Maven local repository, which is convenient.
+
+   ```xml
+    <repositories>
+      <repository>
+          <id>jitpack.io</id>
+          <url>https://jitpack.io</url>
+      </repository>
+    </repositories>
+   ```
+
+1. Add the dependency to PX-MBT in your `pom.xml`, with the right version. In the snippet below the version is 2.0.2.
+
+   ```xml
+    <dependency>
+        <groupId>com.github.iv4xr-project</groupId>
+        <artifactId>eplaytesting-pipeline</artifactId>
+        <version>2.0.2</version>
+    </dependency>
+   ```
+
+The version number must be a git-tag in PX-MBT Github repository.
+
 
 #### How to build
 
-PX-MBT is written in Java. It requires Java-11 or higher. The project is Maven-based.
+Building is needed if you want to run the demos, or if you clone PX-MBT to extend it for your own purpose. PX-MBT is written in Java. It requires Java-11 or higher. The project is Maven-based.
 
    * Clone or download a zip of this project and unzip it. Then, go to the project root.
    * To build just do `mvn compile` from the project's root. This will automatically download all its dependencies and then compile the project.
@@ -42,14 +80,16 @@ PX-MBT is written in Java. It requires Java-11 or higher. The project is Maven-b
 
 Some of the packages used by PX-MBT are distributed from jitpack. If some fails to download (e.g. maybe jitpack site is down) you can install it manually. [See the instructions here.](./jitpack_packagges.md)
 
-#### Examples/demos
 
-Some examples/demos are provided below. To run them you first need to build PX-MBT (see above "How to build").
+#### What is system requirement of PX-MBT?
 
-  * [A quick example (MiniDungeon)](./docs/MD_L5.md)
-  * [A simple example with Lab Recruits](./docs/LR_3rooms.md)
+PX-MBT classes and methods would run on any OS (Linux, Windows, Mac, etc) that runs Java-11 or higher. To run PX-MBT demos: the Lab Recruits demo needs either Windows or Mac. The MiniDungeon demo can run on any OS.
 
+The target game (the game on which you want to use PX-MBT for your own project) will have its own system requirement to run, but this is not related to the requirement of PX-MBT itself. 
 
+#### What game-architectures can be targeted?
+
+Games written in Java would be easiest to target, as PX-MBT is also written in Java. Other architectures can be targeted through a socket connection. This can be achieved by adding server-side program at the game-side that accepts command from a PX-MBT test agent and translates the command to e.g. player's keyboard command. The server-side program should also able to send back observation on the game state back to the agent. More on this is explained in the **Documentation** section below, on the topic _Building the 'plugin' to connect PX-MBT to your own computer game_.
 
 
 #### Documentation <a name="docs"></a>

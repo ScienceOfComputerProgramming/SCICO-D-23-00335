@@ -25,7 +25,7 @@ The model of each maze is shown in blue. Each maze is connected to the next one 
 You can invoke the method `test1()` using Maven as shown below, from the project's root. It will generate abstract test cases from the model shown above
 
 ```
-mvn test -Dtest="eu.iv4xr.ux.pxtesting.study.minidungeon.Test_MD_MBT_Gen#test1"
+mvn test -Dtest="eu.iv4xr.ux.pxtesting.minidungeon.Test_MD_MBT_Gen#test1"
 ```
 The generated test cases are put in `./tmp`:
 
@@ -36,7 +36,7 @@ The generated test cases are put in `./tmp`:
 Code snippet that call the generator:
 
 ```java
-var gen = new TestSuiteGenerator("eu.iv4xr.ux.pxtesting.study.minidungeon.EFSM_MD_L5") ;
+var gen = new TestSuiteGenerator("eu.iv4xr.ux.pxtesting.minidungeon.EFSM_MD_L5") ;
 gen.idFinalState = "SI4" ;
 // generate using MOSA:
 gen.generateWithSBT(120,null) ;
