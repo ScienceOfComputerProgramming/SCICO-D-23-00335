@@ -6,7 +6,7 @@
 
   <groupId>com.github.iv4xr-project</groupId>
   <artifactId>eplaytesting-pipeline</artifactId>
-  <version>2.0.1b-SNAPSHOT</version>
+  <version>2.0.1c-SNAPSHOT</version>
 
   <name>eplaytesting-pipeline</name>
   <url>https://iv4xr-project.eu/</url>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>com.github.iv4xr-project</groupId>
             <artifactId>jocc</artifactId>
-            <version>1.1.0</version>
+            <version>1.1.1</version>
         </dependency>
         <dependency>
          	<groupId>com.github.iv4xr-project</groupId>
