@@ -85,7 +85,7 @@ Some of the packages used by PX-MBT are distributed from jitpack. If some fails 
 
 PX-MBT classes and methods would run on any OS (Linux, Windows, Mac, etc) that runs Java-11 or higher. To run PX-MBT demos: the Lab Recruits demo needs either Windows or Mac. The MiniDungeon demo can run on any OS.
 
-The target game (the game on which you want to use PX-MBT for your own project) will have its own system requirement to run, but this is not related to the requirement of PX-MBT itself. 
+The target game (the game on which you want to use PX-MBT for your own project) will have its own system requirement to run, but this is not related to the requirement of PX-MBT itself.
 
 #### What game-architectures can be targeted?
 
@@ -116,6 +116,21 @@ This is a study conducted to assess the feasibility and performance of PX-MBT ap
    * [PX-MBT FASE-23 experiment replication-package and dataset](https://zenodo.org/records/7506758). A copy of the  dataset is provided in this project as well, in `./FASE23Dataset`.
    * [Instructions](./FASE23Dataset/FASE23-README.md)
    * [The paper describing the experiments: _Model-based Player Experience Testing with Emotion Pattern Verification_](https://link-springer-com.proxy.library.uu.nl/chapter/10.1007/978-3-031-30826-0_9)
+
+#### Components
+
+PX-MBT makes use of a number of components from other projects; these projects are imported into PX-MBT.
+
+* The _PX Testing Tool_ component, for generating test cases from a model, for reducing the test suite through sampling, for running the test cases on the game under test, and for performing PX evaluation on the generated traces is in PX-MBT.
+
+* The _Model of Emotions_ is provided by the project [`jocc`](https://github.com/iv4xr-project/jocc). More information on how this model works can be found in [`jocc site`](https://github.com/iv4xr-project/jocc).
+
+* [_Emotion Pattern_](./docs/analyses.md) is implemented in PX-MBT. It is implemented over LTL (Linear Temporal Logic). The implementation of LTL and LTL model checking in put in the [`aplib`](https://github.com/iv4xr-project/aplib) project, as these are useful for other purposes beyond PX-testing. [More information about LTL and LTL model checking can be found here](https://github.com/iv4xr-project/aplib/blob/master/docs/manual/LTL.md).
+
+* [_EFSM_](./docs/efsm.md) is provided by the project [`iv4xr-mbt`](https://github.com/iv4xr-project/iv4xr-mbt). It also provides the search-based testing (_SBT_) algorithms used by PX-MBT for its model-based test generation.
+
+* The _Basic Agent_ for executing test cases is providing by the project [`aplib`](https://github.com/iv4xr-project/aplib).
+
 
 #### Papers
 
