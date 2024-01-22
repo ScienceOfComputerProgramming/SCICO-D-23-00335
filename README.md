@@ -16,7 +16,7 @@ PX-MBT requires some inputs that the game designers/developers need to provide i
 
 | px-mbt architecture |
 |---|
-| ![px-mbt architecture](./docs/ArchV2.png) |
+| ![px-mbt architecture](./docs/ArchV3.png) |
 
 PX-MBT offers the following main functionalities:
 
@@ -25,7 +25,7 @@ PX-MBT offers the following main functionalities:
    * **Agent-based execution**. To execute an abstract test case that comes from a model, it needs to be interpreted to concrete interactions with the GUT. This step is also called _concretization_. PX-MBT uses _aplib_ agents as the executor: the test case is first coverted to goals and tactics for an agent, which in turn converts tactics into primitive interactions with the GUT.
    Aplib is an agent programming framework specifically for testing computer games, e.g. it comes with a programming model which is suitable for that purpose. Using aplib eases the effort in implementing the concretization layer.
 
-   * **Emotion trace generation.** Attaching the Model of Emotions component to  an aplib basic test agent creates an _emotional test agent_ ③, which is able to simulate emotions based on incoming events. Via a 'plugin' (also called `Environment`) the emotional test agent is connected to the GUT. Each (abstract) test case of the test suite is then given to the agent for execution. The agent computes its emotional state upon observing events and records it in a _trace_ file.
+   * **Emotion trace generation.** Attaching the Model of Emotions component to  an aplib basic test agent creates an _emotional test agent_ ③, which is able to simulate emotions based on incoming events. Via an 'interface' (also called `Environment`) the emotional test agent is connected to the GUT. Each (abstract) test case of the test suite is then given to the agent for execution. The agent computes its emotional state upon observing events and records it in a _trace_ file.
 
    * **Emotion pattern verification.** After a whole test suite is executed on the GUT, functions from the PX Testing Tool can be used to analyze the produced emotion traces, e.g. to verify emotional requirements and to make heat-maps and  timeline graphs of the dynamic of the emotions that occur during the tests.
 
@@ -33,7 +33,7 @@ PX-MBT offers the following main functionalities:
 
 #### Examples/demos
 
-Some examples/demos are provided below. To run them you first need to build PX-MBT (see above **How to build** below).
+Some examples/demos are provided below. To run them you first need to build PX-MBT (see  **How to build** below).
 
 * [A quick example (with a small 2D game MiniDungeon)](./docs/MD_L5.md)
 * [A simple example with a game called Lab Recruits](./docs/LR_3rooms.md)
@@ -89,7 +89,7 @@ The target game (the game on which you want to use PX-MBT for your own project) 
 
 #### What game-architectures can be targeted?
 
-Games written in Java would be easiest to target, as PX-MBT is also written in Java. Other architectures can be targeted through a socket connection. This can be achieved by adding server-side program at the game-side that accepts command from a PX-MBT test agent and translates the command to e.g. player's keyboard command. The server-side program should also able to send back observation on the game state back to the agent. More on this is explained in the **Documentation** section below, on the topic _Building the 'plugin' to connect PX-MBT to your own computer game_.
+Games written in Java would be easiest to target, as PX-MBT is also written in Java. Other architectures can be targeted through a socket connection. This can be achieved by adding server-side program at the game-side that accepts command from a PX-MBT test agent and translates the command to e.g. player's keyboard command. The server-side program should also able to send back observation on the game state back to the agent. More on this is explained in the **Documentation** section below, on the topic _Building the interface to connect PX-MBT to your own computer game_.
 
 
 #### Documentation <a name="docs"></a>
@@ -98,9 +98,9 @@ The document below explains the general idea of model-based testing of a game, a
 
    * [Modelling a game with an EFSM, and model-based testing.](./docs/efsm.md)
 
-To use PX-MBT, a 'plugin' connecting it to your game under test is needed. The documents below provide guidelines on how to implement such a plugin. This would take some effort; but it is a one-off effort, after which you will be able to use the plugin for further automated testing the game.
+To use PX-MBT, an 'interface' connecting it to your game under test is needed. The documents below provide guidelines on how to implement such an interface. This would take some effort; but it is a one-off effort, after which you will be able to use the interface for further automated testing the game.
 
-   * [Building the 'plugin' to connect PX-MBT to your own computer game](./docs/plugin.md).
+   * [Building the interface to connect PX-MBT to your own computer game](./docs/interface.md).
    * [Concretization layer](./docs/concretization.md)
 
 The documents below explain to generate tests, to run them, and then to perform PX verification on the resulting execution traces.
@@ -119,13 +119,15 @@ This is a study conducted to assess the feasibility and performance of PX-MBT ap
 
 #### Components
 
-PX-MBT makes use of a number of components from other projects; these projects are imported into PX-MBT.
+PX-MBT makes use of a number of main components. Some of them are provided by other open source projects which are included in PX-MBT as dependencies (this means that you also have access to these projects classes and methods from PX-MBT).
 
-* The _PX Testing Tool_ component, for generating test cases from a model, for reducing the test suite through sampling, for running the test cases on the game under test, and for performing PX evaluation on the generated traces is in PX-MBT.
+* The _PX Testing Tool_ component: for generating test cases from a model, for reducing the test suite through sampling, for running the test cases on the game under test, and for performing PX evaluation on the generated traces. This component is implemented in PX-MBT.
 
-* The _Model of Emotions_ is provided by the project [`jocc`](https://github.com/iv4xr-project/jocc). More information on how this model works can be found in [`jocc site`](https://github.com/iv4xr-project/jocc).
+* The _Model of Emotions_ component is implemented in the project [`jocc`](https://github.com/iv4xr-project/jocc). More information on how this model works can be found in [`jocc site`](https://github.com/iv4xr-project/jocc).
 
-* [_Emotion Pattern_](./docs/analyses.md) is implemented in PX-MBT. It is implemented over LTL (Linear Temporal Logic). The implementation of LTL and LTL model checking in put in the [`aplib`](https://github.com/iv4xr-project/aplib) project, as these are useful for other purposes beyond PX-testing. [More information about LTL and LTL model checking can be found here](https://github.com/iv4xr-project/aplib/blob/master/docs/manual/LTL.md).
+* [_Emotion Pattern_](./docs/analyses.md) is implemented in PX-MBT. It is implemented over LTL (Linear Temporal Logic). The implementation of LTL and LTL model checking in put in the [`aplib`](https://github.com/iv4xr-project/aplib) project, as these are useful for other purposes beyond PX-testing.
+`aplib` in included in PX-MBT as dependency.
+ [More information about LTL and LTL model checking can be found here](https://github.com/iv4xr-project/aplib/blob/master/docs/manual/LTL.md).
 
 * [_EFSM_](./docs/efsm.md) is provided by the project [`iv4xr-mbt`](https://github.com/iv4xr-project/iv4xr-mbt). It also provides the search-based testing (_SBT_) algorithms used by PX-MBT for its model-based test generation.
 
