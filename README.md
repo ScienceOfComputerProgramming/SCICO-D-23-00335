@@ -2,19 +2,21 @@
 
 **PX-MBT** is a framework for automated player experience testing with emotion pattern verification.
 * PX-MBT utilizes a model-based testing approach for test suite generation
-* It employs a computational model of emotions developed based on a psychological theory of emotions to model players' emotions during game-plays (more specifically, Ortony, Clore, and Collins' theory/OCC). More on the computational model used by PX-MBT can be found: [in this paper](https://link-springer-com.proxy.library.uu.nl/chapter/10.1007/978-3-030-97457-2_9).
+* It employs a computational model of emotions developed based on a psychological theory of emotions to model players' emotions during game-plays (more specifically, Ortony, Clore, and Collins' theory/OCC). The theory behind this computational model can be found: [in this paper](https://link-springer-com.proxy.library.uu.nl/chapter/10.1007/978-3-030-97457-2_9).
 * It verifies emotion patterns given by game designers.
 
 #### Architecture
 
 The picture below shows the general architecture of PX-MBT. There are four main components:
-the **Model-based Testing** component for generating tests using [EvoMBT](https://github.com/iv4xr-project/iv4xr-mbt),  the **Model of Emotions** component implements the [computational model of emotions](https://github.com/iv4xr-project/jocc),
+the **Model-Based Testing (MBT)** component for generating tests using e.g. [EvoMBT](https://github.com/iv4xr-project/iv4xr-mbt),  the **Model of Emotions** component implements the aforementioned [computational model of emotions](https://github.com/iv4xr-project/jocc),
 an  [aplib](https://github.com/iv4xr-project/aplib)
-**basic test agent** for controlling the in-game player-character, and a set of APIs and scripts labelled as the **PX Testing Tool** as an interface for a game designer towards the framework.
+**Basic (test) Agent** for controlling the in-game player-character, and a set of APIs and scripts labelled as the **PX Testing Tool** as an interface for a game designer towards the framework.
+
+More information on these components can be found [here](#components).
 
 PX-MBT requires some inputs that the game designers/developers need to provide inputs; these are ① in the picture.
 
-| px-mbt architecture |
+| px-mbt architecture <a name=architecture></a> |
 |---|
 | ![px-mbt architecture](./docs/ArchV3.png) |
 
@@ -117,19 +119,24 @@ This is a study conducted to assess the feasibility and performance of PX-MBT ap
    * [Instructions](./FASE23Dataset/FASE23-README.md)
    * [The paper describing the experiments: _Model-based Player Experience Testing with Emotion Pattern Verification_](https://link-springer-com.proxy.library.uu.nl/chapter/10.1007/978-3-031-30826-0_9)
 
-#### Components
+#### Components <a name="components"></a>
 
 PX-MBT makes use of a number of main components. Some of them are provided by other open source projects which are included in PX-MBT as dependencies (this means that you also have access to these projects classes and methods from PX-MBT).
+Components marked with 💡 correspond to the <span style="color:green">GREEN</span>  components in the above picture of [PX-MBT architecture](#architecture).
 
-* The _PX Testing Tool_ component: for generating test cases from a model, for reducing the test suite through sampling, for running the test cases on the game under test, and for performing PX evaluation on the generated traces. This component is implemented in PX-MBT.
+* 💡 The _PX Testing Tool_ component. More precisely it is a package, containing classes for generating test cases from a model, for reducing the test suite through sampling, for running the test cases on the game under test, and for performing PX evaluation on the generated traces. This component is implemented in PX-MBT itself, in the package [eu.iv4xr.ux.pxtesting](https://github.com/iv4xr-project/eplaytesting-pipeline/tree/main/src/main/java/eu/iv4xr/ux/pxtesting).
+The key classes in these package are:
+[`TestSuiteGenerator`](https://github.com/iv4xr-project/eplaytesting-pipeline/blob/main/src/main/java/eu/iv4xr/ux/pxtesting/mbt/TestSuiteGenerator.java),  [`PXTestAgentRunner`](https://github.com/iv4xr-project/eplaytesting-pipeline/blob/main/src/main/java/eu/iv4xr/ux/pxtesting/PXTestAgentRunner.java),
+and [EmotionPattern](https://github.com/iv4xr-project/eplaytesting-pipeline/blob/main/src/main/java/eu/iv4xr/ux/pxtesting/occ/EmotionPattern.java).
 
-* The _Model of Emotions_ component is implemented in the project [`jocc`](https://github.com/iv4xr-project/jocc). More information on how this model works can be found in [`jocc site`](https://github.com/iv4xr-project/jocc).
+* 💡 The _Model of Emotions_ component is implemented in the project [`jocc`](https://github.com/iv4xr-project/jocc). More information on how this model works can be found in [`jocc Github site`](https://github.com/iv4xr-project/jocc).
 
-* [_Emotion Pattern_](./docs/analyses.md) is implemented in PX-MBT. It is implemented over LTL (Linear Temporal Logic). The implementation of LTL and LTL model checking in put in the [`aplib`](https://github.com/iv4xr-project/aplib) project, as these are useful for other purposes beyond PX-testing.
+* 💡 [_Emotion Pattern_](./docs/analyses.md) is implemented in PX-MBT. It is implemented over LTL (Linear Temporal Logic). The implementation of LTL and 💡 LTL model checking in put in the [`aplib`](https://github.com/iv4xr-project/aplib) project, as these are useful for other purposes beyond PX-testing.
 `aplib` in included in PX-MBT as dependency.
  [More information about LTL and LTL model checking can be found here](https://github.com/iv4xr-project/aplib/blob/master/docs/manual/LTL.md).
 
-* [_EFSM_](./docs/efsm.md) is provided by the project [`iv4xr-mbt`](https://github.com/iv4xr-project/iv4xr-mbt). It also provides the search-based testing (_SBT_) algorithms used by PX-MBT for its model-based test generation.
+* [_EFSM_](./docs/efsm.md) is provided by the project [`iv4xr-mbt`](https://github.com/iv4xr-project/iv4xr-mbt) aka Evo-MBT. It also provides the search-based testing (_SBT_) algorithms used by PX-MBT for its model-based test generation.
+Test generation using LTL model checking is also supported, using the afore mentioned LTL model checker.
 
 * The _Basic Agent_ for executing test cases is providing by the project [`aplib`](https://github.com/iv4xr-project/aplib).
 
