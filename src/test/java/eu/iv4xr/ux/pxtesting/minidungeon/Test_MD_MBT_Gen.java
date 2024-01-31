@@ -2,28 +2,10 @@ package eu.iv4xr.ux.pxtesting.minidungeon;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.function.Function;
-
 import org.junit.jupiter.api.Test;
 
-import eu.fbk.iv4xr.mbt.testcase.AbstractTestSequence;
-import eu.iv4xr.framework.extensions.occ.Goal;
-import eu.iv4xr.framework.mainConcepts.EmotiveTestAgent;
-import eu.iv4xr.framework.mainConcepts.SyntheticEventsProducer;
-import eu.iv4xr.ux.pxtesting.PXTestAgentRunner;
+import eu.iv4xr.ux.pxtesting.Utils;
 import eu.iv4xr.ux.pxtesting.mbt.TestSuiteGenerator;
-import eu.iv4xr.ux.pxtesting.occ.XUserCharacterization;
-import nl.uu.cs.aplib.exampleUsages.miniDungeon.DungeonApp;
-import nl.uu.cs.aplib.exampleUsages.miniDungeon.MiniDungeon.MiniDungeonConfig;
-import nl.uu.cs.aplib.exampleUsages.miniDungeon.testAgent.MyAgentEnv;
-import nl.uu.cs.aplib.exampleUsages.miniDungeon.testAgent.MyAgentState;
-import nl.uu.cs.aplib.mainConcepts.GoalStructure;
-import nl.uu.cs.aplib.mainConcepts.SimpleState;
-import nl.uu.cs.aplib.utils.Pair;
-
 
 /**
  * An example of generating test cases from a model. The model is 
@@ -74,6 +56,7 @@ public class Test_MD_MBT_Gen {
 		int N_min = gen.getTestSuite().size() ;
 		assertTrue(N_min > 0 && N_min < N_MC) ;
 		// save the resulting test cases in files:
+		Utils.cleanTestCasesAndTraces("./tmp","tc") ;
 		gen.save("./tmp","tc");
 	}
 }

@@ -36,6 +36,30 @@ The code of the [invoked test-method is here](./src/test/java/eu/iv4xr/ux/pxtest
    1. `runner = new PXTestAgentRunner(...)` creates a test-runner. Various parameters are passed to it, including how to connect to the game under test. The runner will create an instance of an emotive agent that will run the test suite and produce emotion traces (in this case, just one trace).
    1. `runner.run_(suite, ...)` This will run the abstract test suite on the game.
 
+#### Verifying PX properties
+
+We can verify PX properties on the produced emotion traces (though in this example, the model only produces one test case, so we will only have one trace).
+In PX-MBT we can express a PX property using a pattern. For example the pattern `H;nF;H` specifies an execution/trace where eventually the intensity of the emotion hope rises, and then after some time the we have the second rise in hope, while between the first and the second rises in hope, the intensity of fear never rises. This can be verified using the method  `checkAll`(_pattern_,_separator_,_dir_,_prefix_), where _separator_ is the used separator in the trace-files (comma), _dir_ is the directory where the traces are located, and _prefix_ is a prefix of their names, as a means to filter them.
+
+As a demo you can run this:
+
+```
+mvn test -Dtest="eu.iv4xr.ux.pxtesting.labrecruits.Test_LR_MBT_Exec#test_verify_pattern"
+```
+
+which performs the following test:
+
+```Java
+@Test
+public void test_verify_pattern() throws IOException {
+		var result = EmotionPattern.checkAll("H;nF;H", ',', "./tmp","tc") ;
+		System.out.println(">>> " + result);
+		assertTrue(! result.valid() && result.sat()) ;
+	}
+```
+
+For more documentation about emotion patterns and other means of PX analyses (e.g by producing time graphs), see [here](analyses.md).   
+
 ##### Components
 
 If you want to know what were the main components to have PX Testing working on Lab Recruits, you first need to read [the documentations](../README.md#docs), at least up to the section about "running test cases". The section that specifically explains the main components is [here](./preppx.md).

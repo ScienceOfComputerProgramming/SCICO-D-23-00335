@@ -3,11 +3,13 @@ package eu.iv4xr.ux.pxtesting.labrecruits;
 import static nl.uu.cs.aplib.AplibEDSL.SEQ;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import agents.EventsProducer;
@@ -19,7 +21,9 @@ import eu.fbk.iv4xr.mbt.execution.labrecruits.LabRecruitsTestSuiteExecutor;
 import eu.iv4xr.framework.extensions.occ.Goal;
 import eu.iv4xr.framework.mainConcepts.EmotiveTestAgent;
 import eu.iv4xr.ux.pxtesting.PXTestAgentRunner;
+import eu.iv4xr.ux.pxtesting.Utils;
 import eu.iv4xr.ux.pxtesting.mbt.TestSuiteGenerator;
+import eu.iv4xr.ux.pxtesting.occ.EmotionPattern;
 import eu.iv4xr.ux.pxtesting.study.labrecruits.PlayerThreeCharacterization;
 import game.LabRecruitsTestServer;
 import nl.uu.cs.aplib.mainConcepts.GoalStructure;
@@ -75,9 +79,18 @@ public class Test_LR_MBT_Exec {
 		return SEQ(gs_) ;
 	}
 	
+
+	/**
+	 * An example of generating test cases from a model, and directly
+	 * executing them. In this case, because the model is very simple, only one test case
+	 * will be generated.
+	 */
 	@SuppressWarnings("unchecked")
+	@Order(1)
 	@Test
 	public void test_generate_and_exec() throws Exception {
+		
+		
 		
 		var gen = new TestSuiteGenerator("eu.iv4xr.ux.pxtesting.mbt.EFSMSimple0") ;
 		gen.aimedCoverage = TestSuiteGenerator.STATE_COV ;
@@ -109,12 +122,25 @@ public class Test_LR_MBT_Exec {
 		
 		try {
 			// run the suite using the runner:
+			Utils.cleanTestCasesAndTraces("./tmp","tc") ;
 			runner.run_(suite, "./tmp", 500, 50);
 		}
 		finally {
 			System.out.println(">>>> closing...") ;
 			environment.close() ;	
 		}
+	}
+	
+	/**
+	 * An example of checking a PX property, expressed as a pattern, on the emotion traces
+	 * that were produced when test cases were executed.
+	 */
+	@Order(2)
+	@Test
+	public void test_verify_pattern() throws IOException {
+		var result = EmotionPattern.checkAll("H;nF;H", ',', "./tmp","tc") ;
+		System.out.println(">>> " + result);
+		assertTrue(result.sat()) ;
 	}
 	
 }

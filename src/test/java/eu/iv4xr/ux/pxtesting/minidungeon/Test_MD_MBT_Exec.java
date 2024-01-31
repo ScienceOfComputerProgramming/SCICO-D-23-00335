@@ -2,6 +2,8 @@ package eu.iv4xr.ux.pxtesting.minidungeon;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +11,9 @@ import eu.fbk.iv4xr.mbt.testcase.AbstractTestSequence;
 import eu.iv4xr.framework.extensions.occ.Goal;
 import eu.iv4xr.framework.mainConcepts.EmotiveTestAgent;
 import eu.iv4xr.ux.pxtesting.PXTestAgentRunner;
+import eu.iv4xr.ux.pxtesting.Utils;
 import eu.iv4xr.ux.pxtesting.mbt.TestSuiteGenerator;
+import eu.iv4xr.ux.pxtesting.occ.EmotionPattern;
 import eu.iv4xr.ux.pxtesting.study.minidungeon.EFSM_MD_L5;
 import eu.iv4xr.ux.pxtesting.study.minidungeon.MD_FBK_EFSM_Utils;
 import eu.iv4xr.ux.pxtesting.study.minidungeon.MiniDungeonEventsProducer;
@@ -104,11 +108,15 @@ public class Test_MD_MBT_Exec {
 				) ;
 		
 		// run the suite using the runner:
+		Utils.cleanTestCasesAndTraces("./tmp","tc") ;
 		runner.run_(suite, "./tmp", 8000, 0);
 		assertTrue(runner.numberOfFail == 0) ;
 	}
 	
-	
+	/**
+	 * An example of loading a bunch of previously generated (and saved) tests, and then
+	 * executing them.
+	 */
 	@SuppressWarnings("unchecked")
 	@Order(2)    
 	@Test
@@ -126,6 +134,18 @@ public class Test_MD_MBT_Exec {
 		runner.run("./tmp/suite", "./tmp", 8000, 0);
 		assertTrue(runner.numberOfFail == 0) ;
 
+	}
+	
+	/**
+	 * An example of checking a PX property, expressed as a pattern, on the emotion traces
+	 * that were produced when test cases were executed.
+	 */
+	@Order(3)
+	@Test
+	public void test_verify_pattern() throws IOException {
+		var result = EmotionPattern.checkAll("H;nF;H", ',', "./tmp","tc") ;
+		System.out.println(">>> " + result);
+		assertTrue(! result.valid() && result.sat()) ;
 	}
 
 }
