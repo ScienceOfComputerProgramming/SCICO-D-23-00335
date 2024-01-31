@@ -72,6 +72,8 @@ public class AbstractTestUtils {
 		for (File file : files) {
 			
 			String fname = file.getName() ;
+			if (fname.startsWith("EFSM"))
+				continue ;
 			// dropping the extension .ser
 			fname = fname.substring(0, fname.length() - 4) ;
 			

@@ -22,10 +22,10 @@ The model of each maze is shown in blue. Each maze is connected to the next one 
 
 #### Generating test cases from a model
 
-You can invoke the method `test1()` using Maven as shown below, from the project's root. It will generate abstract test cases from the model shown above
+You can invoke the method `test_generate_only()` using Maven as shown below, from the project's root. It will generate abstract test cases from the model shown above
 
 ```
-mvn test -Dtest="eu.iv4xr.ux.pxtesting.minidungeon.Test_MD_MBT_Gen#test1"
+mvn test -Dtest="eu.iv4xr.ux.pxtesting.minidungeon.Test_MD_MBT_Gen#test_generate_only"
 ```
 The generated test cases are put in `./tmp`:
 

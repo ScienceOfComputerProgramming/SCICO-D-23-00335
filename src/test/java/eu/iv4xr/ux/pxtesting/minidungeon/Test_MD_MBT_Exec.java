@@ -42,7 +42,7 @@ public class Test_MD_MBT_Exec {
 	/**
 	 * A helper method to launch the game MiniDungeon.
 	 */
-	DungeonApp deployApp() throws Exception {
+	static DungeonApp deployApp() throws Exception {
 		MiniDungeonConfig config = new EFSM_MD_L5().getConfig_MD_L5() ;
 		System.out.println(">>> Configuration:\n" + config);
 		DungeonApp app = new DungeonApp(config);
@@ -55,7 +55,7 @@ public class Test_MD_MBT_Exec {
 	 * A helper method to create a test agent, and to connect it to
 	 * a running instance of MiniDungeon.
 	 */
-	EmotiveTestAgent deployTestAgent() {
+	static EmotiveTestAgent deployTestAgent() {
 		try {
 			DungeonApp app = deployApp() ;
 			var agent = new EmotiveTestAgent("Frodo","Frodo") ;
@@ -112,35 +112,12 @@ public class Test_MD_MBT_Exec {
 		runner.run_(suite, "./tmp", 8000, 0);
 		assertTrue(runner.numberOfFail == 0) ;
 	}
-	
-	/**
-	 * An example of loading a bunch of previously generated (and saved) tests, and then
-	 * executing them.
-	 */
-	@SuppressWarnings("unchecked")
-	@Order(2)    
-	@Test
-	public void test_load_and_exec() throws Exception {
 		
-		var gwmodel = (new EFSM_MD_L5()).loadGameWorldModel();
-
-		Pair<Goal, Integer> mentalGoal_clanseShrine = new Pair<>(MiniDungeonPlayerCharacterization.shrineCleansed, 50);
-
-		PXTestAgentRunner runner = new PXTestAgentRunner(dummy -> deployTestAgent(),
-				new MiniDungeonPlayerCharacterization(), new MiniDungeonEventsProducer(),
-				agent -> tc -> MD_FBK_EFSM_Utils.abstractTestSeqToGoalStructure(agent, tc, gwmodel), null,
-				mentalGoal_clanseShrine);
-
-		runner.run("./tmp/suite", "./tmp", 8000, 0);
-		assertTrue(runner.numberOfFail == 0) ;
-
-	}
-	
 	/**
 	 * An example of checking a PX property, expressed as a pattern, on the emotion traces
 	 * that were produced when test cases were executed.
 	 */
-	@Order(3)
+	@Order(2)
 	@Test
 	public void test_verify_pattern() throws IOException {
 		var result = EmotionPattern.checkAll("H;nF;H", ',', "./tmp","tc") ;

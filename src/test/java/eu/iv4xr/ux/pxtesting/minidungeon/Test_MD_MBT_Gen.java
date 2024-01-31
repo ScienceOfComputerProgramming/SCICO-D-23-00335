@@ -2,10 +2,18 @@ package eu.iv4xr.ux.pxtesting.minidungeon;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
+import eu.iv4xr.framework.extensions.occ.Goal;
+import eu.iv4xr.ux.pxtesting.PXTestAgentRunner;
 import eu.iv4xr.ux.pxtesting.Utils;
 import eu.iv4xr.ux.pxtesting.mbt.TestSuiteGenerator;
+import eu.iv4xr.ux.pxtesting.study.minidungeon.EFSM_MD_L5;
+import eu.iv4xr.ux.pxtesting.study.minidungeon.MD_FBK_EFSM_Utils;
+import eu.iv4xr.ux.pxtesting.study.minidungeon.MiniDungeonEventsProducer;
+import eu.iv4xr.ux.pxtesting.study.minidungeon.MiniDungeonPlayerCharacterization;
+import nl.uu.cs.aplib.utils.Pair;
 
 /**
  * An example of generating test cases from a model. The model is 
@@ -32,8 +40,9 @@ public class Test_MD_MBT_Gen {
 	 * <p>Some statistics will be printed, and the final set of test
 	 * cases will be saved in the directory ./tmp
 	 */
+	@Order(1)
 	@Test
-	public void test1() throws Exception {
+	public void test_generate_only() throws Exception {
 		var gen = new TestSuiteGenerator("eu.iv4xr.ux.pxtesting.study.minidungeon.EFSM_MD_L5") ;
 		//gen.aimedCoverage = TestSuiteGenerator.STATE_COV ;
 		//gen.idFinalState = "SI9" ;
@@ -59,4 +68,28 @@ public class Test_MD_MBT_Gen {
 		Utils.cleanTestCasesAndTraces("./tmp","tc") ;
 		gen.save("./tmp","tc");
 	}
+	
+	/**
+	 * An example of loading a bunch of previously generated (and saved) tests, and then
+	 * executing them.
+	 */
+	@SuppressWarnings("unchecked")
+	@Order(2)    
+	@Test
+	public void test_load_and_exec() throws Exception {
+		
+		var gwmodel = (new EFSM_MD_L5()).loadGameWorldModel();
+
+		Pair<Goal, Integer> mentalGoal_clanseShrine = new Pair<>(MiniDungeonPlayerCharacterization.shrineCleansed, 50);
+
+		PXTestAgentRunner runner = new PXTestAgentRunner(dummy -> Test_MD_MBT_Exec.deployTestAgent(),
+				new MiniDungeonPlayerCharacterization(), new MiniDungeonEventsProducer(),
+				agent -> tc -> MD_FBK_EFSM_Utils.abstractTestSeqToGoalStructure(agent, tc, gwmodel), null,
+				mentalGoal_clanseShrine);
+
+		runner.run("./tmp", "./tmp", 8000, 0);
+		assertTrue(runner.numberOfFail == 0) ;
+
+	}
+
 }
